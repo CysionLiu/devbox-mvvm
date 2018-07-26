@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.ywc.recycler.adapter.CustomAdapter;
-import com.ywc.recycler.io.OnScollCall;
+import com.ywc.recycler.io.OnScrollCall;
 import com.ywc.recycler.mode.ScrollMode;
 import com.ywc.recycler.scroll.CustomScroll;
 
@@ -32,8 +32,9 @@ public class CustomRecycler extends RecyclerView{
     }
 
     //滑动监听
-    public void addOnScoll(Adapter adapter, ScrollMode scrollMode, OnScollCall onScollCall)
+    public void addOnScroll(LayoutManager layout, Adapter adapter, ScrollMode scrollMode, OnScrollCall onScollCall)
     {
+        setLayoutManager(layout);
         if (adapter instanceof CustomAdapter)
         {
             customAdapter=((CustomAdapter) adapter);
@@ -58,7 +59,7 @@ public class CustomRecycler extends RecyclerView{
     }
 
     //删除没有更多
-    public void removeLoad()
+    public void onScrollFinish()
     {
         if (customAdapter!=null)
             customAdapter.setLoadLayout(false);

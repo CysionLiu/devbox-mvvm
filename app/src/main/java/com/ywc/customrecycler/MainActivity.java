@@ -7,11 +7,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.ywc.recycler.CustomRecycler;
 import com.ywc.recycler.RecyclerLayout;
 import com.ywc.recycler.adapter.CustomAdapter;
 import com.ywc.recycler.holder.BaseViewHold;
-import com.ywc.recycler.io.OnScollCall;
+import com.ywc.recycler.io.OnScrollCall;
 import com.ywc.recycler.mode.ScrollMode;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         reycler = ((RecyclerLayout) findViewById(R.id.reycler));
         head = LayoutInflater.from(this).inflate(R.layout.head,reycler,false);
         adapter = new Adapter(new ArrayList<String>(),R.layout.adapter,this);
-        reycler.with(ScrollMode.BOTH, new LinearLayoutManager(this), adapter, new OnScollCall() {
+        reycler.with(ScrollMode.BOTH, new LinearLayoutManager(this), adapter, new OnScrollCall() {
             @Override
             public void callback(ScrollMode scrollMode) {
 
@@ -48,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         reycler.setScrollMode(ScrollMode.BOTH);
         reycler.addFoot(R.layout.head);
         reycler.addHead(head);
+        reycler.onScrollFinish();
     }
 
 

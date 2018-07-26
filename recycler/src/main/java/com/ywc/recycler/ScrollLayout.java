@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.ywc.recycler.io.OnScollCall;
+import com.ywc.recycler.io.OnScrollCall;
 import com.ywc.recycler.mode.ScrollMode;
 
 import in.srain.cube.views.ptr.PtrDefaultHandler;
@@ -58,12 +58,12 @@ public class ScrollLayout extends PtrFrameLayout {
     }
 
 
-    public void setScroll(final OnScollCall onScollCall)
+    public void setScroll(final OnScrollCall onScollCall)
     {
         setScroll(onScollCall,null);
     }
 
-    public void setScroll(final OnScollCall onScollCall, final CustomRecycler customRecycler)
+    public void setScroll(final OnScrollCall onScollCall, final CustomRecycler customRecycler)
     {
         is_flush=true;
         setPtrHandler(new PtrHandler() {

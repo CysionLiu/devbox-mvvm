@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.ywc.recycler.io.OnScollCall;
+import com.ywc.recycler.io.OnScrollCall;
 import com.ywc.recycler.mode.ScrollMode;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -56,19 +56,19 @@ public class RecyclerLayout extends ScrollLayout {
 
 
     //初始化
-    public void with(ScrollMode scrollMode, RecyclerView.LayoutManager layou, RecyclerView.Adapter adaptert, final OnScollCall onScollCall)
+    public void with(ScrollMode scrollMode, RecyclerView.LayoutManager layout, RecyclerView.Adapter adaptert, final OnScrollCall onScollCall)
     {
-        customRecycler.setLayoutManager(layou);
         if ((scrollMode==ScrollMode.BOTH||scrollMode==ScrollMode.PULL_DOWN)&&onScollCall!=null)
         {
             setScroll(onScollCall,customRecycler);
         }
         if ((scrollMode==ScrollMode.BOTH||scrollMode==ScrollMode.PULL_UP)&&onScollCall!=null)
         {
-            customRecycler.addOnScoll(adaptert,scrollMode,onScollCall);
+            customRecycler.addOnScroll(layout,adaptert,scrollMode,onScollCall);
         }
         else
         {
+            customRecycler.setLayoutManager(layout);
             customRecycler.setAdapter(adaptert);
         }
         //第一加载不允许下拉
@@ -106,7 +106,7 @@ public class RecyclerLayout extends ScrollLayout {
         if (ScrollMode.BOTH == scrollMode || ScrollMode.PULL_DOWN == scrollMode)
             super.onScrollFinish();
         if (ScrollMode.BOTH == scrollMode || ScrollMode.PULL_UP == scrollMode)
-            customRecycler.removeLoad();
+            customRecycler.onScrollFinish();
     }
 
 

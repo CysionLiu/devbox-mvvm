@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.ywc.recycler.adapter.CustomAdapter;
-import com.ywc.recycler.io.OnScollCall;
+import com.ywc.recycler.io.OnScrollCall;
 import com.ywc.recycler.mode.ScrollMode;
 
 import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_FLING;
@@ -45,10 +45,10 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
 
     //用于延迟
     private Handler handler=new Handler();
-    private OnScollCall onScollCall;
+    private OnScrollCall onScollCall;
     private CustomAdapter customAdapter;
 
-    public CustomScroll(OnScollCall onScollCall,CustomAdapter adapter) {
+    public CustomScroll(OnScrollCall onScollCall, CustomAdapter adapter) {
         this.onScollCall = onScollCall;
         this.customAdapter=adapter;
     }
