@@ -1,6 +1,9 @@
 # CustomRecycler
 
+
  ###   **V1.0.1** 
+
+com.gitee.YwcSillyWhite:CustomRecycler:V1.0.1
 
 ###  一.自定义滑动布局ScrollLayout 
 
