@@ -41,11 +41,17 @@ public class ScrollHead extends FrameLayout implements PtrUIHandler {
         scrollHead_text = ((TextView) scroll_head.findViewById(R.id.scrollHead_text));
         addView(scroll_head);
         //高度
-        scroll_headDimen = getResources().getDimension(R.dimen.scroll_head);
+        scroll_headDimen = dip2px(ConfigUtils.imageSize);
         scrollHead_image.setImageResource(ConfigUtils.anim_id);
         animationDrawable = ((AnimationDrawable) scrollHead_image.getDrawable());
     }
 
+
+    //设置刷新动画的大小
+    private  int dip2px(int dipValue) {
+        float scale = getContext().getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
+    }
 
 
     //重置

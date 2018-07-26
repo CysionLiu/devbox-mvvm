@@ -12,8 +12,8 @@ import java.util.List;
 /**
  * Created by Administrator on 2018/7/18.
  */
-
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
+
 
     protected List<T> listData;
     private int itemLayout;
@@ -23,6 +23,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
         this.listData = listData;
         this.itemLayout = itemLayout;
         this.context = context;
+    }
+
+    public int getHeadCount()
+    {
+        return 0;
     }
 
     //默认值是0，head和foot和加载数据 都采用
@@ -38,19 +43,21 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
 
     @Override
     public void onBindViewHolder(BaseViewHold holder, int position) {
-        T t = listData.get(position);
-        findbyid(holder,position,t);
-        setData(listData.get(position));
-        itemListener(holder,position,t);
+        T t = listData.get(position-getHeadCount());
+        fdById(holder,position-getHeadCount(),t);
+        fillData(holder,position-getHeadCount(),t);
+        itemListener(holder,position-getHeadCount(),t);
     }
 
-    protected abstract void findbyid(BaseViewHold holder,int position, T t);
-    protected abstract void setData(T t);
-
+    protected abstract void fdById(BaseViewHold holder,int position, T t);
+    protected abstract void fillData(BaseViewHold holder,int position, T t);
     protected void itemListener(BaseViewHold hold,int position,T t)
     {
 
     }
+
+    //设置动画
+    private boolean is_Anima;
 
     public void flush(List<T> list)
     {
@@ -60,13 +67,29 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
         notifyDataSetChanged();
     }
 
-    //设置动画
-    private boolean is_Anima;
-
+    public void flushT(int position)
+    {
+        if (position>getItemCount())
+            notifyItemChanged(position+getHeadCount());
+    }
 
     public void removeT(int position)
     {
         listData.remove(position);
-        notifyItemRemoved(position);
+        notifyItemRemoved(position+getHeadCount());
+    }
+
+    public void addAll(List<T> list)
+    {
+        int startPosition = listData.size();
+        listData.addAll(list);
+        notifyItemRangeChanged(startPosition+getHeadCount(),getItemCount());
+    }
+
+    public void addT(T t)
+    {
+        int startPosition = listData.size();
+        listData.add(t);
+        notifyItemRangeChanged(startPosition+getHeadCount(),getItemCount());
     }
 }

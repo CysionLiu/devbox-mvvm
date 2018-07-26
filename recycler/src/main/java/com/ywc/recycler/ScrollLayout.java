@@ -17,6 +17,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 
 public class ScrollLayout extends PtrFrameLayout {
 
+    private boolean is_flush;
     public ScrollLayout(Context context) {
         super(context);
         initScroll();
@@ -52,10 +53,19 @@ public class ScrollLayout extends PtrFrameLayout {
         ScrollHead scrollHead = new ScrollHead(getContext());
         addPtrUIHandler(scrollHead);
         setHeaderView(scrollHead);
+        //初始化不能刷新
+        setEnabled(false);
     }
+
 
     public void setScroll(final OnScollCall onScollCall)
     {
+        setScroll(onScollCall,null);
+    }
+
+    public void setScroll(final OnScollCall onScollCall, final CustomRecycler customRecycler)
+    {
+        is_flush=true;
         setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -65,10 +75,24 @@ public class ScrollLayout extends PtrFrameLayout {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 //下拉刷新，关闭没有更多
+                if (customRecycler!=null)
+                    customRecycler.removeNull();
                 onScollCall.callback(ScrollMode.PULL_DOWN);
             }
         });
         //初始时候是不能刷新的，避免和第一网络加载产生冲突
-        setEnabled(false);
     }
+
+    public void setScrollMode(ScrollMode scrollMode) {
+        if ((scrollMode==ScrollMode.BOTH||scrollMode==ScrollMode.PULL_DOWN)&&is_flush)
+            setEnabled(true);
+        else
+            setEnabled(false);
+    }
+
+    public void onScrollFinish()
+    {
+        refreshComplete();
+    }
+
 }

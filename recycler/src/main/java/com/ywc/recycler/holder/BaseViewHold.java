@@ -3,6 +3,8 @@ package com.ywc.recycler.holder;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * Created by Administrator on 2018/7/18.
@@ -28,6 +30,15 @@ public class BaseViewHold extends RecyclerView.ViewHolder{
         return (T) view;
     }
 
+    public TextView fdTextView(int id)
+    {
+        return (TextView)fdView(id);
+    }
+
+    public ImageView fdImageView(int id)
+    {
+        return (ImageView)fdView(id);
+    }
 
 
 }

@@ -13,4 +13,11 @@ public class ConfigUtils {
     public static String head_prepare="松开刷新...";
     public static String head_start="更新中...";
     public static String head_finish="加载完成...";
+
+    //加载更多
+    public static int load_layoutId=R.layout.scroll_load;
+    //暂无更多
+    public static int null_layoutId=R.layout.scroll_null;
+    //图片大小
+    public static int imageSize=50;
 }

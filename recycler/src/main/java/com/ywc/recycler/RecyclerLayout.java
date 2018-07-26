@@ -18,11 +18,12 @@ public class RecyclerLayout extends ScrollLayout {
 
     private CustomRecycler customRecycler;
     //是否允许刷新数据
-    private boolean is_flush;
     private ScrollMode scrollMode;
 
     public void setScrollMode(ScrollMode scrollMode) {
-        this.scrollMode = scrollMode;
+        this.scrollMode=scrollMode;
+        super.setScrollMode(scrollMode);
+        customRecycler.setScollMode(scrollMode);
     }
 
     public CustomRecycler getCustomRecycler() {
@@ -46,7 +47,6 @@ public class RecyclerLayout extends ScrollLayout {
 
     private void init() {
 
-
         //创建Recycler对象,并且赋值空间,范围都是上下充满
         customRecycler = new CustomRecycler(getContext());
         addView(customRecycler,new PtrFrameLayout.LayoutParams(PtrFrameLayout.LayoutParams.MATCH_PARENT, PtrFrameLayout.LayoutParams.MATCH_PARENT));
@@ -59,7 +59,7 @@ public class RecyclerLayout extends ScrollLayout {
         customRecycler.setLayoutManager(layou);
         if ((scrollMode==ScrollMode.BOTH||scrollMode==ScrollMode.PULL_DOWN)&&onScollCall!=null)
         {
-            setScroll(onScollCall);
+            setScroll(onScollCall,customRecycler);
         }
         if ((scrollMode==ScrollMode.BOTH||scrollMode==ScrollMode.PULL_UP)&&onScollCall!=null)
         {
@@ -85,7 +85,6 @@ public class RecyclerLayout extends ScrollLayout {
                     actionDown_Y = e.getY();
                     break;
                 case MotionEvent.ACTION_UP:
-                    float actionUp_Y = e.getY();
                     customRecycler.setSlideUp((e.getY()-actionDown_Y)>0);
                     break;
             }
@@ -101,13 +100,9 @@ public class RecyclerLayout extends ScrollLayout {
     public void onScrollFinish()
     {
         if (ScrollMode.BOTH == scrollMode || ScrollMode.PULL_DOWN == scrollMode)
-        {
-            refreshComplete();
-        }
+            super.onScrollFinish();
         if (ScrollMode.BOTH == scrollMode || ScrollMode.PULL_UP == scrollMode)
-        {
             customRecycler.removeLoad();
-        }
     }
 
 }

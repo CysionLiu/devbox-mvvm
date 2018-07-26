@@ -101,7 +101,7 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
             if (look_sum>0&& this.lastPosition >=sumItem-1)
             {
                 is_load=true;
-                customAdapter.setIs_showLoad(true);
+                customAdapter.setLoadLayout(true);
                 //使得recycley调到最后
                 recyclerView.smoothScrollToPosition(customAdapter.getItemCount() - 1);
                 //加载中和刷新布局
