@@ -1,37 +1,37 @@
 # CustomRecycler
+V1.0.1
+一.自定义滑动布局ScrollLayout
+默认初始值是不存在下拉刷新布局，只有设置setScrollMode（）
+这个模式存在4种模式 全部，下拉，上拉，和没有，下拉只有全部和下拉才可以用，上拉只有上拉和全部可以使用
 
-#### 项目介绍
-封装下拉布局，自定义上拉加载下拉舒心recycler，可以添加头部为尾部
+初始化
+setScroll（onScollCall），设置刷新监听
 
-#### 软件架构
-软件架构说明
+结束刷新 
+onScrollFinish（）；
 
+二.自定义CustomRecycler
+存在功能添加头部，尾部，删除头部和尾部
+addHead（view）；addFoot（layoutId）；removeHead（view）；removerFoot（layout）；
+存在上拉加载，和暂无更多
+默认初始值是不存在上拉刷新布局，只有设置setScrollMode（）
+初始化
+addOnScroll（layout，adapter，scrollmode，onscollcall）
 
-#### 安装教程
+结束删除
+onScrollFinish（）；
 
-1. xxxx
-2. xxxx
-3. xxxx
+三，自定义上拉刷新下拉加载布局 RecyclerLayout
+功能是和一和二的合集
+默认初始值是不存在下拉刷新和上拉布局，只有设置setScrollMode（）
 
-#### 使用说明
+初始化
+with(ScrollMode.BOTH, new LinearLayoutManager(this), adapter, new OnScrollCall() {
+            @Override
+            public void callback(ScrollMode scrollMode) {
 
-1. xxxx
-2. xxxx
-3. xxxx
+            }
+        });
 
-#### 参与贡献
-
-1. Fork 本项目
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
-
-
-#### 码云特技
-
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [http://git.mydoc.io/](http://git.mydoc.io/)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+结束刷新
+onScrollFinish（）；
