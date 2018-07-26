@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.ywc.recycler.CustomRecycler;
 import com.ywc.recycler.RecyclerLayout;
@@ -19,13 +21,17 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerLayout reycler;
     private Adapter adapter;
+    private View head;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         reycler = ((RecyclerLayout) findViewById(R.id.reycler));
+        head = LayoutInflater.from(this).inflate(R.layout.head,reycler,false);
         adapter = new Adapter(new ArrayList<String>(),R.layout.adapter,this);
         reycler.with(ScrollMode.BOTH, new LinearLayoutManager(this), adapter, new OnScollCall() {
             @Override
@@ -40,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         }
         adapter.addAll(listData);
         reycler.setScrollMode(ScrollMode.BOTH);
+        reycler.addFoot(R.layout.head);
+        reycler.addHead(head);
     }
 
 

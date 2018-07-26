@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.ywc.recycler.io.OnScollCall;
 import com.ywc.recycler.mode.ScrollMode;
@@ -106,6 +107,34 @@ public class RecyclerLayout extends ScrollLayout {
             super.onScrollFinish();
         if (ScrollMode.BOTH == scrollMode || ScrollMode.PULL_UP == scrollMode)
             customRecycler.removeLoad();
+    }
+
+
+
+    public void addHead(View view)
+    {
+        customRecycler.addHead(view);
+    }
+
+    public void addFoot(int layoutId)
+    {
+        customRecycler.addFoot(layoutId);
+    }
+
+    public void removeHead(View view)
+    {
+        customRecycler.removeHead(view);
+    }
+
+    public void removeFoot(int layoutId)
+    {
+        customRecycler.removeFoot(layoutId);
+
+    }
+
+    public void addItemDecoration(RecyclerView.ItemDecoration decor)
+    {
+        customRecycler.addItemDecoration(decor);
     }
 
 }

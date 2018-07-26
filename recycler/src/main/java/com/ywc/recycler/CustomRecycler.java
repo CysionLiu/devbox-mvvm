@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.ywc.recycler.adapter.CustomAdapter;
 import com.ywc.recycler.io.OnScollCall;
@@ -75,4 +76,28 @@ public class CustomRecycler extends RecyclerView{
             customAdapter.setNullLayout(true);
     }
 
+
+    public void addHead(View view)
+    {
+        if (customAdapter!=null)
+            customAdapter.addHead(view);
+    }
+
+    public void addFoot(int layoutId)
+    {
+        if (customAdapter!=null)
+            customAdapter.addFoot(layoutId);
+    }
+
+    public void removeHead(View view)
+    {
+        if (customAdapter!=null)
+            customAdapter.removeHead(view);
+    }
+
+    public void removeFoot(int layoutId)
+    {
+        if (customAdapter!=null)
+            customAdapter.removeFoot(layoutId);
+    }
 }
