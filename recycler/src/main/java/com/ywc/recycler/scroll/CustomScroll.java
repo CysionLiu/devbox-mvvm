@@ -87,7 +87,7 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
 
     private void initStop(RecyclerView recyclerView) {
 
-        if (scrollMode==ScrollMode.NULL||scrollMode==ScrollMode.PULL_DOWN||is_load||slideUp)
+        if (scrollMode==ScrollMode.NULL||scrollMode==ScrollMode.PULL_DOWN||is_load||!slideUp)
             return;
         //之前是否移动，如果前面不移动则返回，如果移动则继续,确保这段代码只执行一次
         if (is_scroll)

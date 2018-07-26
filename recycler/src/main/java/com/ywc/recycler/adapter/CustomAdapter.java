@@ -3,6 +3,7 @@ package com.ywc.recycler.adapter;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,7 +91,7 @@ public abstract class CustomAdapter<T> extends BaseAdapter<T>{
         if (position<getHeadCount())
             return min+position;
         else if (position<getHeadCount()+getListCount())
-            getListType(position-getHeadCount());
+            return getListType(position-getHeadCount());
         else if (position<getItemCount()-getLastCount())
             return min/2+position-listData.size()-headList.size();
         return nullLayout?-2:-1;
@@ -99,7 +100,7 @@ public abstract class CustomAdapter<T> extends BaseAdapter<T>{
     //为了利于后面的扩张
     public int getListType(int position)
     {
-        return super.getItemViewType(position+getHeadCount());
+        return super.getItemViewType(position)+getHeadCount();
     }
 
     @Override

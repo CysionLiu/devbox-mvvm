@@ -3,6 +3,7 @@ package com.ywc.recycler;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.ywc.recycler.io.OnScollCall;
@@ -85,7 +86,9 @@ public class RecyclerLayout extends ScrollLayout {
                     actionDown_Y = e.getY();
                     break;
                 case MotionEvent.ACTION_UP:
-                    customRecycler.setSlideUp((e.getY()-actionDown_Y)>0);
+                    Log.d("h","不错"+(e.getY()-actionDown_Y));
+                    //负数是向上
+                    customRecycler.setSlideUp((actionDown_Y-e.getY())>0);
                     break;
             }
         }

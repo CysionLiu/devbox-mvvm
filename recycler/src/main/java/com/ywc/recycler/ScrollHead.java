@@ -70,6 +70,7 @@ public class ScrollHead extends FrameLayout implements PtrUIHandler {
     @Override
     public void onUIRefreshBegin(PtrFrameLayout frame) {
         new_statue=statue_start;
+        setImageSize(1);
         if (!animationDrawable.isRunning())
             animationDrawable.start();
     }
@@ -82,17 +83,21 @@ public class ScrollHead extends FrameLayout implements PtrUIHandler {
             animationDrawable.stop();
     }
 
+    private void setImageSize(float proportion)
+    {
+        Integer size = (int) (scroll_headDimen * proportion);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size,size);
+        scrollHead_image.setLayoutParams(layoutParams);
+    }
+
     //头部布局滑动变化
     @Override
     public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
         switch (new_statue) {
             case statue_prepare:
                 //logo设置
-                if (ptrIndicator.getCurrentPercent() <= 1) {
-                    Integer size = (int) (scroll_headDimen * ptrIndicator.getCurrentPercent());
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size,size);
-                    scrollHead_image.setLayoutParams(layoutParams);
-                }
+                if (ptrIndicator.getCurrentPercent() <= 1)
+                    setImageSize(ptrIndicator.getCurrentPercent());
                 if (ptrIndicator.getCurrentPercent() < 1.2)
                     scrollHead_text.setText(ConfigUtils.head_init);
                 else
