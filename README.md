@@ -18,7 +18,7 @@ Step 2. Add the dependency
 	}
 
 
-可以在app打开进行对头尾布局进行修改
+可以在app打开进行对头尾布局进行修改ConfigUtis这个类里
 ![可以在app打开进行对头尾布局进行修改](https://images.gitee.com/uploads/images/2018/0726/161502_26d3f3e3_1561695.png "屏幕截图.png")
 
 ###  一.自定义滑动布局ScrollLayout 
