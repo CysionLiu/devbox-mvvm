@@ -3,6 +3,7 @@ package com.ywc.recycler.adapter;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -185,6 +186,20 @@ public abstract class CustomAdapter<T> extends BaseAdapter<T>{
                     return getItemViewType(position) >=0 ?  1: gridManager.getSpanCount();
                 }
             });
+        }
+    }
+
+    //使得瀑布流头尾填充布局
+    @Override
+    public void onViewAttachedToWindow(BaseViewHold holder) {
+        super.onViewAttachedToWindow(holder);
+        ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+        if(layoutParams != null ) {
+            if (layoutParams instanceof StaggeredGridLayoutManager.LayoutParams)
+            {
+                StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) layoutParams;
+                params.setFullSpan(holder.getItemViewType()<0);
+            }
         }
     }
 }
