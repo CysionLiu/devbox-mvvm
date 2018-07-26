@@ -3,7 +3,20 @@
 
  ###   **V1.0.1** 
 
-com.gitee.YwcSillyWhite:CustomRecycler:V1.0.1
+Add it in your root build.gradle at the end of repositories:
+
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}Copy
+Step 2. Add the dependency
+
+	dependencies {
+	        implementation 'com.gitee.YwcSillyWhite:CustomRecycler:V1.0.1'
+	}
+
 
 ###  一.自定义滑动布局ScrollLayout 
 
