@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.ywc.recycler.adapter.CustomAdapter;
@@ -51,11 +53,11 @@ public class CustomRecycler extends RecyclerView{
             customScroll.setScrollMode(scrollMode);
     }
 
-    //是否向上滑动
-    public void setSlideUp(boolean slideUp)
+    //是否在刷新
+    public void setIs_run(boolean is_run)
     {
         if (customScroll!=null)
-            customScroll.setSlideUp(slideUp);
+            customScroll.setIs_run(is_run);
     }
 
     //删除没有更多
@@ -101,4 +103,5 @@ public class CustomRecycler extends RecyclerView{
         if (customAdapter!=null)
             customAdapter.removeFoot(layoutId);
     }
+
 }

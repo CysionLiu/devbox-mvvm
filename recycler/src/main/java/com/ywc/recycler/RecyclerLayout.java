@@ -76,27 +76,24 @@ public class RecyclerLayout extends ScrollLayout {
     }
 
 
-    private float actionDown_Y;
+    private float actionDownY;
     @Override
     public boolean dispatchTouchEvent(MotionEvent e) {
         //下拉的时候不允许上啦 ,是否正在刷新
         if (!isRefreshing())
         {
-            switch (e.getAction()){
+            switch (e.getAction())
+            {
                 case MotionEvent.ACTION_DOWN:
-                    actionDown_Y = e.getY();
+                    actionDownY = e.getY();
                     break;
                 case MotionEvent.ACTION_UP:
-                    Log.d("h","不错"+(e.getY()-actionDown_Y));
-                    //负数是向上
-                    customRecycler.setSlideUp((actionDown_Y-e.getY())>0);
+                    customRecycler.setIs_run((actionDownY-e.getY())>0);
                     break;
             }
         }
         else
-        {
-            customRecycler.setSlideUp(false);
-        }
+            customRecycler.setIs_run(false);
         return super.dispatchTouchEvent(e);
     }
 

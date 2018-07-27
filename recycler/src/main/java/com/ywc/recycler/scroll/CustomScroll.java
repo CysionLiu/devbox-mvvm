@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.ywc.recycler.adapter.CustomAdapter;
 import com.ywc.recycler.io.OnScrollCall;
@@ -21,17 +22,13 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
 
     //是否在加载中
     private boolean is_load;
-    //是否向上滑动
-    private boolean slideUp=true;
+    //是否可以运行，没有加载和向下滑动
+    private boolean is_run=true;
 
-    public void setSlideUp(boolean slideUp) {
-        this.slideUp = slideUp;
+    public void setIs_run(boolean is_run) {
+        this.is_run = is_run;
     }
 
-    //是否在滚动
-    private boolean is_scroll;
-    //最后一个item的position
-    private int lastPosition;
     //滑动允许状态
     private ScrollMode scrollMode;
 
@@ -53,68 +50,34 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
         this.customAdapter=adapter;
     }
 
-    //滑动移动位置
-    @Override
-    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        super.onScrolled(recyclerView, dx, dy);
-        is_scroll=true;
-        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-        if (layoutManager instanceof GridLayoutManager)
-            lastPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
-        else if(layoutManager instanceof LinearLayoutManager)
-            lastPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
-    }
 
     //滑动状态
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
-        switch (newState)
-        {
-            //停止滚动
-            case SCROLL_STATE_IDLE:
-                if (customAdapter!=null)
-                    initStop(recyclerView);
-                break;
-            //正在滚动
-            case SCROLL_STATE_TOUCH_SCROLL:
-                break;
-            //惯性运动
-            case SCROLL_STATE_FLING:
-                break;
-        }
+        if (newState==SCROLL_STATE_IDLE&&customAdapter!=null)
+            initStop(recyclerView);
     }
 
     private void initStop(RecyclerView recyclerView) {
-
-        if (scrollMode==ScrollMode.NULL||scrollMode==ScrollMode.PULL_DOWN||is_load||!slideUp)
+        //可见的数量
+        int lookCount = recyclerView.getLayoutManager().getChildCount();
+        if (scrollMode==ScrollMode.NULL||scrollMode==ScrollMode.PULL_DOWN||is_load||!is_run||lookCount==0)
             return;
         //之前是否移动，如果前面不移动则返回，如果移动则继续,确保这段代码只执行一次
-        if (is_scroll)
+        if (!recyclerView.canScrollVertically(1))
         {
-            RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-            //可见数量
-            int look_sum = layoutManager.getChildCount();
-            //总数量
-            int sumItem = layoutManager.getItemCount();
-
-            if (look_sum>0&& this.lastPosition >=sumItem-1)
-            {
-                is_load=true;
-                customAdapter.setLoadLayout(true);
-                //使得recycley调到最后
-                recyclerView.smoothScrollToPosition(customAdapter.getItemCount() - 1);
-                //加载中和刷新布局
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        onScollCall.callback(ScrollMode.PULL_UP);
-                    }
-                },100);
-            }
+            is_load=true;
+            customAdapter.setLoadLayout(true);
+            //使得recycley调到最后
+            recyclerView.smoothScrollToPosition(customAdapter.getItemCount() - 1);
+            //加载中和刷新布局
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    onScollCall.callback(ScrollMode.PULL_UP);
+                }
+            },100);
         }
-        else
-            is_scroll=false;
-
     }
 }
