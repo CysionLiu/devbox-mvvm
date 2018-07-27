@@ -72,7 +72,7 @@ public class RecyclerLayout extends ScrollLayout {
             customRecycler.setAdapter(adaptert);
         }
         //第一加载不允许下拉
-        setScrollMode(ScrollMode.NULL);
+        super.setScrollMode(ScrollMode.NULL);
     }
 
 

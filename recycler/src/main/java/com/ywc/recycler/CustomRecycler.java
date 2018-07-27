@@ -45,6 +45,7 @@ public class CustomRecycler extends RecyclerView{
             setScollMode(scrollMode);
         }
         setAdapter(adapter);
+        setScollMode(ScrollMode.NULL);
     }
 
     public void setScollMode(ScrollMode scrollMode)

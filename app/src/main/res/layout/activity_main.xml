@@ -7,5 +7,10 @@
     android:id="@+id/customScrollLayout"
     tools:context="com.ywc.customrecycler.MainActivity"
     android:orientation="horizontal">
+    <com.ywc.recycler.CustomRecycler
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler">
+    </com.ywc.recycler.CustomRecycler>
 </LinearLayout>
 
