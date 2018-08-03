@@ -42,7 +42,6 @@ public class ScrollHead extends FrameLayout implements PtrUIHandler {
         addView(scroll_head);
         //高度
         scroll_headDimen = dip2px(ConfigUtils.imageSize);
-        scrollHead_image.setImageResource(ConfigUtils.anim_id);
         animationDrawable = ((AnimationDrawable) scrollHead_image.getDrawable());
     }
 

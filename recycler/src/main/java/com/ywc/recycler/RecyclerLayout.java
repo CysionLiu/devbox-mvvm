@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.ywc.recycler.io.OnScrollCall;
+import com.ywc.recycler.mode.LoadMode;
 import com.ywc.recycler.mode.ScrollMode;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -134,4 +135,63 @@ public class RecyclerLayout extends ScrollLayout {
         customRecycler.addItemDecoration(decor);
     }
 
+    //这个成功是参数大于0 ,size >0 表示成功，大于datasize表示还有数据
+    public void finishHandle(int size,LoadMode mode)
+    {
+        if (size==0)
+        {
+            if (mode==LoadMode.PULL_UP)
+            {
+                customRecycler.addNull();
+                setScrollMode(ScrollMode.PULL_DOWN);
+            }
+            else
+            {
+                setScrollMode(ScrollMode.PULL_UP);
+            }
+        }
+        else if (size<ConfigUtils.dataSize)
+        {
+            setScrollMode(ScrollMode.PULL_DOWN);
+            if (mode==LoadMode.PULL_UP)
+            {
+                customRecycler.addNull();
+            }
+        }
+        else
+        {
+            setScrollMode(ScrollMode.BOTH);
+        }
+    }
+
+
+    public void finishHandle(int size,LoadMode mode,View view)
+    {
+        customRecycler.removeHead(view);
+        if (size==0)
+        {
+            if (mode==LoadMode.PULL_UP)
+            {
+                customRecycler.addNull();
+                setScrollMode(ScrollMode.PULL_DOWN);
+            }
+            else
+            {
+                customRecycler.addHead(view);
+                setScrollMode(ScrollMode.PULL_UP);
+            }
+        }
+        else if (size<ConfigUtils.dataSize)
+        {
+            setScrollMode(ScrollMode.PULL_DOWN);
+            if (mode==LoadMode.PULL_UP)
+            {
+                customRecycler.addNull();
+            }
+        }
+        else
+        {
+            setScrollMode(ScrollMode.BOTH);
+        }
+    }
 }

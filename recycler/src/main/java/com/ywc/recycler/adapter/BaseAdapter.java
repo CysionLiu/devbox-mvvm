@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.ywc.recycler.holder.BaseViewHold;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,15 +17,36 @@ import java.util.List;
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
 
 
-    protected List<T> listData;
+    private List<T> listData;
     private int itemLayout;
-    protected Context context;
+    private Context context;
 
-    public BaseAdapter(List<T> listData, int itemLayout, Context context) {
-        this.listData = listData;
-        this.itemLayout = itemLayout;
-        this.context = context;
+    public List<T> getListData() {
+        return listData;
     }
+
+    public Context getContext() {
+
+        return context;
+    }
+
+
+    public BaseAdapter(Context context, int itemLayout, List<T> listData) {
+        this(context,itemLayout);
+        this.listData.addAll(listData);
+    }
+
+    public BaseAdapter( Context context,int itemLayout) {
+        this(context);
+        this.itemLayout = itemLayout;
+    }
+
+    public BaseAdapter(Context context)
+    {
+        this.context = context;
+        this.listData=new ArrayList<>();
+    }
+
 
     public int getHeadCount()
     {
@@ -92,5 +114,14 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
         int startPosition = listData.size();
         listData.add(t);
         notifyItemRangeChanged(startPosition+getHeadCount(),getItemCount());
+    }
+
+    public void clear()
+    {
+        if (listData.size()>0)
+        {
+            listData.clear();
+            notifyDataSetChanged();
+        }
     }
 }

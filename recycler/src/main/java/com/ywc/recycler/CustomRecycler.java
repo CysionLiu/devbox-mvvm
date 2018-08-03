@@ -105,4 +105,11 @@ public class CustomRecycler extends RecyclerView{
             customAdapter.removeFoot(layoutId);
     }
 
+
+    //
+    public void finishHandle(boolean is_Success,int size,int mode)
+    {
+
+    }
+
 }

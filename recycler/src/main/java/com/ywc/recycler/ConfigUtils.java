@@ -6,9 +6,6 @@ package com.ywc.recycler;
 
 public class ConfigUtils {
 
-    //动画id
-    public static int anim_id=R.drawable.anim_flush;
-
     public static String head_init="下拉刷新...";
     public static String head_prepare="松开刷新...";
     public static String head_start="更新中...";
@@ -20,4 +17,6 @@ public class ConfigUtils {
     public static int null_layoutId=R.layout.scroll_null;
     //图片大小
     public static int imageSize=50;
+
+    public static int dataSize=10;
 }

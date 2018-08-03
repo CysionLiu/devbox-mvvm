@@ -25,40 +25,23 @@ public abstract class CustomAdapter<T> extends BaseAdapter<T>{
     protected List<View> headList=new ArrayList<>();
     protected List<Integer> footList=new ArrayList<>();
     private int min=Integer.MIN_VALUE;
-
     private boolean loadLayout;
     //如果存在占无更多那么就不会存在加载
     private boolean nullLayout;
 
-    public boolean isLoadLayout() {
-        return loadLayout;
+
+
+    public CustomAdapter(Context context, int itemLayout, List<T> listData) {
+        super(context, itemLayout, listData);
     }
 
-    public boolean isNullLayout() {
-        return nullLayout;
+    public CustomAdapter(Context context, int itemLayout) {
+        super(context, itemLayout);
     }
 
-    public void setLoadLayout(boolean loadLayout) {
-        if (!nullLayout&&this.loadLayout !=loadLayout)
-        {
-            this.loadLayout=loadLayout;
-            notifyItemRangeChanged(getItemCount()-getLastCount(),getItemCount());
-        }
+    public CustomAdapter(Context context) {
+        super(context);
     }
-
-    public void setNullLayout(boolean nullLayout) {
-        if ( this.nullLayout !=nullLayout)
-        {
-            this.nullLayout=nullLayout;
-            notifyItemRangeChanged(getItemCount()-getLastCount(),getItemCount());
-        }
-    }
-
-
-    public CustomAdapter(List<T> listData, int itemLayout, Context context) {
-        super(listData, itemLayout, context);
-    }
-
 
     public int getLastCount()
     {
@@ -77,7 +60,7 @@ public abstract class CustomAdapter<T> extends BaseAdapter<T>{
 
     public int getListCount()
     {
-        return listData.size();
+        return getListData().size();
     }
 
     @Override
@@ -94,29 +77,34 @@ public abstract class CustomAdapter<T> extends BaseAdapter<T>{
         else if (position<getHeadCount()+getListCount())
             return getListType(position-getHeadCount());
         else if (position<getItemCount()-getLastCount())
-            return min/2+position-listData.size()-headList.size();
+            return min/2+position-getListCount()-headList.size();
         return nullLayout?-2:-1;
     }
 
     //为了利于后面的扩张
     public int getListType(int position)
     {
-        return super.getItemViewType(position)+getHeadCount();
+        return 0;
     }
 
     @Override
     public BaseViewHold onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType>=0)
-            return super.onCreateViewHolder(parent, viewType);
+            return onCreateListHolder(parent, viewType);
         else if (viewType==-1)
-            return new BaseViewHold(LayoutInflater.from(context).inflate(ConfigUtils.load_layoutId,parent, false));
+            return new BaseViewHold(LayoutInflater.from(getContext()).inflate(ConfigUtils.load_layoutId,parent, false));
         else if (viewType==-2)
-            return new BaseViewHold(LayoutInflater.from(context).inflate(ConfigUtils.null_layoutId,parent, false));
+            return new BaseViewHold(LayoutInflater.from(getContext()).inflate(ConfigUtils.null_layoutId,parent, false));
         //头部
         else if (viewType<min/2)
             return  new BaseViewHold(headList.get(viewType-min));
         else
-            return new BaseViewHold(LayoutInflater.from(context).inflate(footList.get(viewType-min/2),parent, false));
+            return new BaseViewHold(LayoutInflater.from(getContext()).inflate(footList.get(viewType-min/2),parent, false));
+    }
+
+    public BaseViewHold onCreateListHolder(ViewGroup parent, int viewType)
+    {
+        return new BaseViewHold(LayoutInflater.from(getContext()).inflate(ConfigUtils.load_layoutId,parent, false));
     }
 
     @Override
@@ -127,11 +115,49 @@ public abstract class CustomAdapter<T> extends BaseAdapter<T>{
             onBindFoot(holder,position-getHeadCount()-getListCount());
     }
 
+    //尾部布局绑定
     protected void onBindFoot(BaseViewHold holder, int position)
     {
 
     }
 
+
+    //解决grid 添加头尾不占全部得问题
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if(layoutManager instanceof GridLayoutManager)
+        {
+            final GridLayoutManager gridManager = ((GridLayoutManager) layoutManager);
+            gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return getItemViewType(position) >=0 ?  1: gridManager.getSpanCount();
+                }
+            });
+        }
+    }
+
+    //使得瀑布流头尾填充布局
+    @Override
+    public void onViewAttachedToWindow(BaseViewHold holder) {
+        super.onViewAttachedToWindow(holder);
+        ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+        if(layoutParams != null ) {
+            if (layoutParams instanceof StaggeredGridLayoutManager.LayoutParams)
+            {
+                StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) layoutParams;
+                params.setFullSpan(holder.getItemViewType()<0);
+            }
+        }
+    }
+
+
+    /**
+     *
+     * 添加头尾之类的布局
+     */
     //添加头部
     public void addHead(View view)
     {
@@ -172,34 +198,21 @@ public abstract class CustomAdapter<T> extends BaseAdapter<T>{
     }
 
 
-    //解决grid 添加头尾不占全部得问题
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-        if(layoutManager instanceof GridLayoutManager)
+    public void setLoadLayout(boolean loadLayout) {
+        if (!nullLayout&&this.loadLayout !=loadLayout)
         {
-            final GridLayoutManager gridManager = ((GridLayoutManager) layoutManager);
-            gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    return getItemViewType(position) >=0 ?  1: gridManager.getSpanCount();
-                }
-            });
+            this.loadLayout=loadLayout;
+            notifyItemRangeChanged(getItemCount()-getLastCount(),getItemCount());
         }
     }
 
-    //使得瀑布流头尾填充布局
-    @Override
-    public void onViewAttachedToWindow(BaseViewHold holder) {
-        super.onViewAttachedToWindow(holder);
-        ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
-        if(layoutParams != null ) {
-            if (layoutParams instanceof StaggeredGridLayoutManager.LayoutParams)
-            {
-                StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) layoutParams;
-                params.setFullSpan(holder.getItemViewType()<0);
-            }
+    public void setNullLayout(boolean nullLayout) {
+        if ( this.nullLayout !=nullLayout)
+        {
+            this.nullLayout=nullLayout;
+            notifyItemRangeChanged(getItemCount()-getLastCount(),getItemCount());
         }
     }
+
+
 }
