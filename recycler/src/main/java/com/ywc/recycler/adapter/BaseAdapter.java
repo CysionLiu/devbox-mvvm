@@ -131,4 +131,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
         else
             flush(list);
     }
+
+    public void flush()
+    {
+        notifyDataSetChanged();
+    }
 }
