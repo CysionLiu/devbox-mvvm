@@ -6,8 +6,6 @@ import android.view.ViewGroup;
 
 import com.ywc.recycler.holder.BaseViewHold;
 
-import java.util.List;
-
 /**
  * Created by Administrator on 2018/8/3.
  * 多种布局

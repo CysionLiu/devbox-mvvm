@@ -3,7 +3,6 @@ package com.ywc.recycler;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -52,7 +51,7 @@ public class RecyclerLayout extends ScrollLayout {
 
         //创建Recycler对象,并且赋值空间,范围都是上下充满
         customRecycler = new CustomRecycler(getContext());
-        addView(customRecycler,new PtrFrameLayout.LayoutParams(PtrFrameLayout.LayoutParams.MATCH_PARENT, PtrFrameLayout.LayoutParams.MATCH_PARENT));
+        addView(customRecycler,new LayoutParams(PtrFrameLayout.LayoutParams.MATCH_PARENT, PtrFrameLayout.LayoutParams.MATCH_PARENT));
     }
 
 

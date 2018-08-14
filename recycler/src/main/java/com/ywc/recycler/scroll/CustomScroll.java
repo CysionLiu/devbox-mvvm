@@ -1,19 +1,14 @@
 package com.ywc.recycler.scroll;
 
 import android.os.Handler;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.ywc.recycler.adapter.CustomAdapter;
 import com.ywc.recycler.io.OnScrollCall;
 import com.ywc.recycler.mode.LoadMode;
 import com.ywc.recycler.mode.ScrollMode;
 
-import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_FLING;
 import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
-import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL;
 
 /**
  * Created by Administrator on 2018/7/18.
