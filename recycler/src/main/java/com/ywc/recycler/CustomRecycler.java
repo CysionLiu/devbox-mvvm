@@ -104,13 +104,6 @@ public class CustomRecycler extends RecyclerView{
     }
 
 
-    //
-    public void finishHandle(boolean is_Success,int size,int mode)
-    {
-
-    }
-
-
     public int initRecycler()
     {
         getLayoutManager().scrollToPosition(0);

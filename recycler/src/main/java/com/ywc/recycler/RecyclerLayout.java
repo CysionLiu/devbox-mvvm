@@ -146,7 +146,7 @@ public class RecyclerLayout extends ScrollLayout {
             }
             else
             {
-                setScrollMode(ScrollMode.PULL_UP);
+                setScrollMode(ScrollMode.NULL);
             }
         }
         else if (size<ConfigUtils.dataSize)
@@ -176,8 +176,8 @@ public class RecyclerLayout extends ScrollLayout {
             }
             else
             {
-                customRecycler.addHead(view);
-                setScrollMode(ScrollMode.PULL_UP);
+                setScrollMode(ScrollMode.NULL);
+                customRecycler.addView(view);
             }
         }
         else if (size<ConfigUtils.dataSize)
