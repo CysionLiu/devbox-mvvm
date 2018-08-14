@@ -40,13 +40,13 @@ public class CustomRecycler extends RecyclerView{
             customAdapter=((CustomAdapter) adapter);
             customScroll=new CustomScroll(onScollCall,customAdapter );
             addOnScrollListener(customScroll);
-            setScollMode(scrollMode);
+            setScrollMode(scrollMode);
         }
         setAdapter(adapter);
-        setScollMode(ScrollMode.NULL);
+        setScrollMode(ScrollMode.NULL);
     }
 
-    public void setScollMode(ScrollMode scrollMode)
+    public void setScrollMode(ScrollMode scrollMode)
     {
         if (customScroll!=null)
             customScroll.setScrollMode(scrollMode);
@@ -59,11 +59,14 @@ public class CustomRecycler extends RecyclerView{
             customScroll.setIs_run(is_run);
     }
 
-    //删除没有更多
+    //刷新截图
     public void onScrollFinish()
     {
         if (customAdapter!=null)
+        {
             customAdapter.setLoadLayout(false);
+            customScroll.setIs_load(false);
+        }
     }
 
     public void removeNull()
@@ -107,7 +110,7 @@ public class CustomRecycler extends RecyclerView{
     public int initRecycler()
     {
         getLayoutManager().scrollToPosition(0);
-        setScollMode(ScrollMode.NULL);
+        setScrollMode(ScrollMode.NULL);
         return 1;
     }
 

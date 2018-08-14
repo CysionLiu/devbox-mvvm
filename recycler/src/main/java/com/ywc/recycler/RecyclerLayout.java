@@ -25,7 +25,7 @@ public class RecyclerLayout extends ScrollLayout {
     public void setScrollMode(ScrollMode scrollMode) {
         this.scrollMode=scrollMode;
         super.setScrollMode(scrollMode);
-        customRecycler.setScollMode(scrollMode);
+        customRecycler.setScrollMode(scrollMode);
     }
 
     public CustomRecycler getCustomRecycler() {

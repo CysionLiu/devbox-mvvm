@@ -18,6 +18,11 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
 
     //是否在加载中
     private boolean is_load;
+
+    public void setIs_load(boolean is_load) {
+        this.is_load = is_load;
+    }
+
     //是否可以运行，没有加载和向下滑动
     private boolean is_run=true;
 
