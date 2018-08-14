@@ -26,4 +26,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation project(':recycler')
     implementation 'com.android.support:design:28.0.0-rc01'
+    implementation 'in.srain.cube:ultra-ptr:1.0.11'
 }
