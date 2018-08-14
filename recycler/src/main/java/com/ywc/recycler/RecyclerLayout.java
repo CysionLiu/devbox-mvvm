@@ -137,6 +137,7 @@ public class RecyclerLayout extends ScrollLayout {
     //这个成功是参数大于0 ,size >0 表示成功，大于datasize表示还有数据
     public void onEndHandler(int size,LoadMode mode)
     {
+        onScrollFinish();
         if (size==0)
         {
             if (mode==LoadMode.PULL_UP)
@@ -166,6 +167,7 @@ public class RecyclerLayout extends ScrollLayout {
 
     public void onEndHandler(int size,LoadMode mode,View view)
     {
+        onScrollFinish();
         customRecycler.removeHead(view);
         if (size==0)
         {
