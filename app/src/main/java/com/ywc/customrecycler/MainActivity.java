@@ -10,6 +10,7 @@ import com.ywc.recycler.CustomRecycler;
 import com.ywc.recycler.adapter.CustomAdapter;
 import com.ywc.recycler.holder.BaseViewHold;
 import com.ywc.recycler.io.OnScrollCall;
+import com.ywc.recycler.mode.LoadMode;
 import com.ywc.recycler.mode.ScrollMode;
 
 import java.util.ArrayList;
@@ -30,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
         recycler = ((CustomRecycler) findViewById(R.id.recycler));
 
         adapter = new Adapter(this,R.layout.adapter,new ArrayList<String>());
-        recycler.with(new LinearLayoutManager(this), adapter, ScrollMode.BOTH, new OnScrollCall() {
+        recycler.with( ScrollMode.BOTH,new LinearLayoutManager(this), adapter, new OnScrollCall() {
             @Override
-            public void callback(ScrollMode scrollMode) {
+            public void callback(LoadMode loadMode) {
 
             }
         });

@@ -65,7 +65,7 @@ public class RecyclerLayout extends ScrollLayout {
         }
         if ((scrollMode==ScrollMode.BOTH||scrollMode==ScrollMode.PULL_UP)&&onScollCall!=null)
         {
-            customRecycler.with(layout,adaptert,scrollMode,onScollCall);
+            customRecycler.with(scrollMode,layout,adaptert,onScollCall);
         }
         else
         {

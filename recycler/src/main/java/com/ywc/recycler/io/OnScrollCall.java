@@ -1,5 +1,6 @@
 package com.ywc.recycler.io;
 
+import com.ywc.recycler.mode.LoadMode;
 import com.ywc.recycler.mode.ScrollMode;
 
 /**
@@ -7,5 +8,5 @@ import com.ywc.recycler.mode.ScrollMode;
  */
 
 public interface OnScrollCall {
-    void callback(ScrollMode scrollMode);
+    void callback(LoadMode loadMode);
 }

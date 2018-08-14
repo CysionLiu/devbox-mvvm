@@ -34,7 +34,7 @@ public class CustomRecycler extends RecyclerView{
     }
 
     //滑动监听
-    public void with(LayoutManager layout, Adapter adapter, ScrollMode scrollMode, OnScrollCall onScollCall)
+    public void with(ScrollMode scrollMode,LayoutManager layout, Adapter adapter,  OnScrollCall onScollCall)
     {
         setLayoutManager(layout);
         if (adapter instanceof CustomAdapter)

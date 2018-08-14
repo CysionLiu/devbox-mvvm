@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.ywc.recycler.adapter.CustomAdapter;
 import com.ywc.recycler.io.OnScrollCall;
+import com.ywc.recycler.mode.LoadMode;
 import com.ywc.recycler.mode.ScrollMode;
 
 import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_FLING;
@@ -80,7 +81,7 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    onScollCall.callback(ScrollMode.PULL_UP);
+                    onScollCall.callback(LoadMode.PULL_UP);
                 }
             },100);
         }

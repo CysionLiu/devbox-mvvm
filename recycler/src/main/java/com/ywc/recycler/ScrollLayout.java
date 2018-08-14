@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.ywc.recycler.io.OnScrollCall;
+import com.ywc.recycler.mode.LoadMode;
 import com.ywc.recycler.mode.ScrollMode;
 
 import in.srain.cube.views.ptr.PtrDefaultHandler;
@@ -77,7 +78,7 @@ public class ScrollLayout extends PtrFrameLayout {
                 //下拉刷新，关闭没有更多
                 if (customRecycler!=null)
                     customRecycler.removeNull();
-                onScollCall.callback(ScrollMode.PULL_DOWN);
+                onScollCall.callback(LoadMode.PULL_DOWN);
             }
         });
         //初始时候是不能刷新的，避免和第一网络加载产生冲突

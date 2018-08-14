@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.ywc.recycler.holder.BaseViewHold;
+import com.ywc.recycler.mode.LoadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,5 +122,14 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
             listData.clear();
             notifyDataSetChanged();
         }
+    }
+
+
+    public void flushOrAdd(List<T> list, LoadMode loadMode)
+    {
+        if (loadMode==LoadMode.PULL_UP)
+            addAll(list);
+        else
+            flush(list);
     }
 }
