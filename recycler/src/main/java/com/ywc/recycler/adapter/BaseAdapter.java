@@ -67,13 +67,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
     @Override
     public void onBindViewHolder(BaseViewHold holder, int position) {
         T t = listData.get(position-getHeadCount());
-        fdById(holder,position-getHeadCount(),t);
-        fillData(holder,position-getHeadCount(),t);
+        onCustomHolder(holder,position-getHeadCount(),t);
         itemListener(holder,position-getHeadCount(),t);
     }
 
-    protected abstract void fdById(BaseViewHold holder,int position, T t);
-    protected abstract void fillData(BaseViewHold holder,int position, T t);
+    protected abstract void onCustomHolder(BaseViewHold holder,int position, T t);
     protected void itemListener(BaseViewHold hold,int position,T t)
     {
 

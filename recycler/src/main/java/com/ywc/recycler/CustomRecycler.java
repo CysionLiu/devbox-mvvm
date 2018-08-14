@@ -34,7 +34,7 @@ public class CustomRecycler extends RecyclerView{
     }
 
     //滑动监听
-    public void addOnScroll(LayoutManager layout, Adapter adapter, ScrollMode scrollMode, OnScrollCall onScollCall)
+    public void with(LayoutManager layout, Adapter adapter, ScrollMode scrollMode, OnScrollCall onScollCall)
     {
         setLayoutManager(layout);
         if (adapter instanceof CustomAdapter)
@@ -110,6 +110,14 @@ public class CustomRecycler extends RecyclerView{
     public void finishHandle(boolean is_Success,int size,int mode)
     {
 
+    }
+
+
+    public int initRecycler()
+    {
+        getLayoutManager().scrollToPosition(0);
+        setScollMode(ScrollMode.NULL);
+        return 1;
     }
 
 }

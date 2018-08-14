@@ -7,11 +7,13 @@
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:padding="5dp" />
+        style="?android:attr/progressBarStyleSmallTitle"
+        android:indeterminateDrawable="@drawable/flush_back"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="加载中..."
+        android:text="加载更多..."
         android:textColor="#666"
-        android:textSize="15sp"/>
+        android:layout_marginLeft="10dp"
+        android:textSize="14sp"/>
 </LinearLayout>

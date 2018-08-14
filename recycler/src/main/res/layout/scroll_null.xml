@@ -9,5 +9,5 @@
         android:layout_height="wrap_content"
         android:text="暂无更多信息"
         android:textColor="#666"
-        android:textSize="15sp"/>
+        android:textSize="14sp"/>
 </LinearLayout>

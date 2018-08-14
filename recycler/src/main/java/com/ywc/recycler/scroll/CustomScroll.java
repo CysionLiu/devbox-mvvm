@@ -54,7 +54,6 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
-        Log.d("H",dy+"");
     }
 
     //滑动状态

@@ -8,7 +8,7 @@ public class ConfigUtils {
 
     public static String head_init="下拉刷新...";
     public static String head_prepare="松开刷新...";
-    public static String head_start="更新中...";
+    public static String head_start="刷新数据...";
     public static String head_finish="加载完成...";
 
     //加载更多

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 
+
 import com.ywc.recycler.CustomRecycler;
 import com.ywc.recycler.adapter.CustomAdapter;
 import com.ywc.recycler.holder.BaseViewHold;
@@ -28,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
         recycler = ((CustomRecycler) findViewById(R.id.recycler));
 
-        adapter = new Adapter(new ArrayList<String>(),R.layout.adapter,this);
-        recycler.addOnScroll(new LinearLayoutManager(this), adapter, ScrollMode.BOTH, new OnScrollCall() {
+        adapter = new Adapter(this,R.layout.adapter,new ArrayList<String>());
+        recycler.with(new LinearLayoutManager(this), adapter, ScrollMode.BOTH, new OnScrollCall() {
             @Override
             public void callback(ScrollMode scrollMode) {
 
@@ -40,24 +41,22 @@ public class MainActivity extends AppCompatActivity {
             list.add("不错呀");
         }
         adapter.addAll(list);
-
+        recycler.setScollMode(ScrollMode.BOTH);
     }
 
     class Adapter extends CustomAdapter<String>
     {
 
-        public Adapter(List<String> listData, int itemLayout, Context context) {
-            super(listData, itemLayout, context);
+
+        public Adapter(Context context, int itemLayout, List<String> listData) {
+            super(context, itemLayout, listData);
         }
 
         @Override
-        protected void fdById(BaseViewHold holder, int position, String s) {
+        protected void onCustomHolder(BaseViewHold holder, int position, String s) {
 
         }
 
-        @Override
-        protected void fillData(BaseViewHold holder, int position, String s) {
 
-        }
     }
 }

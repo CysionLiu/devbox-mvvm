@@ -29,8 +29,6 @@ public abstract class CustomAdapter<T> extends BaseAdapter<T>{
     //如果存在占无更多那么就不会存在加载
     private boolean nullLayout;
 
-
-
     public CustomAdapter(Context context, int itemLayout, List<T> listData) {
         super(context, itemLayout, listData);
     }
@@ -77,7 +75,7 @@ public abstract class CustomAdapter<T> extends BaseAdapter<T>{
         else if (position<getHeadCount()+getListCount())
             return getListType(position-getHeadCount());
         else if (position<getItemCount()-getLastCount())
-            return min/2+position-getListCount()-headList.size();
+            return min/2+position-getListCount()-getHeadCount();
         return nullLayout?-2:-1;
     }
 
@@ -104,7 +102,7 @@ public abstract class CustomAdapter<T> extends BaseAdapter<T>{
 
     public BaseViewHold onCreateListHolder(ViewGroup parent, int viewType)
     {
-        return new BaseViewHold(LayoutInflater.from(getContext()).inflate(ConfigUtils.load_layoutId,parent, false));
+        return super.onCreateViewHolder(parent,viewType);
     }
 
     @Override

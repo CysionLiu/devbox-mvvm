@@ -65,7 +65,7 @@ public class RecyclerLayout extends ScrollLayout {
         }
         if ((scrollMode==ScrollMode.BOTH||scrollMode==ScrollMode.PULL_UP)&&onScollCall!=null)
         {
-            customRecycler.addOnScroll(layout,adaptert,scrollMode,onScollCall);
+            customRecycler.with(layout,adaptert,scrollMode,onScollCall);
         }
         else
         {
@@ -136,7 +136,7 @@ public class RecyclerLayout extends ScrollLayout {
     }
 
     //这个成功是参数大于0 ,size >0 表示成功，大于datasize表示还有数据
-    public void finishHandle(int size,LoadMode mode)
+    public void onEndHandler(int size,LoadMode mode)
     {
         if (size==0)
         {
@@ -165,7 +165,7 @@ public class RecyclerLayout extends ScrollLayout {
     }
 
 
-    public void finishHandle(int size,LoadMode mode,View view)
+    public void onEndHandler(int size,LoadMode mode,View view)
     {
         customRecycler.removeHead(view);
         if (size==0)
@@ -193,5 +193,12 @@ public class RecyclerLayout extends ScrollLayout {
         {
             setScrollMode(ScrollMode.BOTH);
         }
+    }
+
+    //初始化
+    public int initRecycler()
+    {
+        super.setScrollMode(scrollMode);
+        return  customRecycler.initRecycler();
     }
 }
