@@ -20,19 +20,14 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-
-
     private RecyclerLayout recycler;
     private Adapter adapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         recycler = findViewById(R.id.recycler);
-
         recycler.setScrollMode(ScrollMode.BOTH);
     }
 

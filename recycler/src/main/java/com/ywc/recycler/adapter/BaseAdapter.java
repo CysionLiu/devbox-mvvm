@@ -136,4 +136,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
     {
         notifyDataSetChanged();
     }
+
+    public T obtainT(int position)
+    {
+        return getListData().get(position);
+    }
 }
