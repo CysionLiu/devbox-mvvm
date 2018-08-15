@@ -101,6 +101,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
     {
         listData.remove(position);
         notifyItemRemoved(position+getHeadCount());
+        notifyItemRangeChanged(position+getHeadCount(),getItemCount());
     }
 
     public void addAll(List<T> list)
