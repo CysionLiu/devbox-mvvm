@@ -93,7 +93,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
 
     public void flushT(int position)
     {
-        if (position>getItemCount())
+        if (position<getItemCount())
             notifyItemChanged(position+getHeadCount());
     }
 
