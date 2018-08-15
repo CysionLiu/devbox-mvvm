@@ -1,5 +1,6 @@
 package com.ywc.recycler.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,11 +16,13 @@ import java.util.List;
  * Created by Administrator on 2018/7/18.
  */
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
-
-
     private List<T> listData;
     private int itemLayout;
     private Context context;
+    private Activity activity;
+    public Activity getActivity() {
+        return activity;
+    }
 
     public List<T> getListData() {
         return listData;
@@ -29,7 +32,6 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
 
         return context;
     }
-
 
     public BaseAdapter(Context context, int itemLayout, List<T> listData) {
         this(context,itemLayout);
@@ -45,6 +47,8 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
     {
         this.context = context;
         this.listData=new ArrayList<>();
+        if (context instanceof Activity)
+            activity = ((Activity) context);
     }
 
 
