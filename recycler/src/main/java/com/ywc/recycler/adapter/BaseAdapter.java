@@ -149,7 +149,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
     //字符串存在数据
     protected boolean is_String(String content)
     {
-        if (content==null&&content.equals(""))
+        if (content==null||content.equals(""))
             return false;
         return true;
     }
