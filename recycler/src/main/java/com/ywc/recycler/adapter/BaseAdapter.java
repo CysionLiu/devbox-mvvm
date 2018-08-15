@@ -146,17 +146,45 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
     }
 
     //字符串存在数据
-    public boolean is_String(String content)
+    protected boolean is_String(String content)
     {
         if (content==null&&content.equals(""))
             return false;
         return true;
     }
 
-    public String inputString(String content)
+    protected String inputString(String content)
     {
         if (content==null)
             return "";
         return content;
     }
+
+    protected String inputNum(String content)
+    {
+        if (content==null||content.equals(""))
+            return "0";
+        return content;
+    }
+
+    private String type_content[]={"分享","回复","赞"};
+    protected String inputNum(int num,int type)
+    {
+        if (num<=0)
+        {
+            if (type<=2)
+            {
+                return type_content[type];
+            }
+        }
+        return num+"";
+    }
+
+    protected String inputImage(String content)
+    {
+        if (is_String(content))
+            return content;
+        return "【分享图片】";
+    }
+
 }
