@@ -29,7 +29,6 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
     }
 
     public Context getContext() {
-
         return context;
     }
 
@@ -144,5 +143,20 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
     public T obtainT(int position)
     {
         return getListData().get(position);
+    }
+
+    //字符串存在数据
+    public boolean is_String(String content)
+    {
+        if (content==null&&content.equals(""))
+            return false;
+        return true;
+    }
+
+    public String inputString(String content)
+    {
+        if (content==null)
+            return "";
+        return content;
     }
 }
