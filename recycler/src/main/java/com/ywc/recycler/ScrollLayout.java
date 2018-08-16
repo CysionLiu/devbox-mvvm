@@ -75,9 +75,6 @@ public class ScrollLayout extends PtrFrameLayout {
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                //下拉刷新，关闭没有更多
-                if (customRecycler!=null)
-                    customRecycler.removeNull();
                 onScollCall.callback(LoadMode.PULL_DOWN);
             }
         });

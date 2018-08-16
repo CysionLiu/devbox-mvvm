@@ -64,17 +64,16 @@ public class CustomRecycler extends RecyclerView{
     {
         if (customAdapter!=null)
         {
+            //删除没有更多
+            customAdapter.setNullLayout(false);
+            //删除加载更多
             customAdapter.setLoadLayout(false);
+            //接触加载中
             customScroll.setIs_load(false);
         }
     }
 
-    public void removeNull()
-    {
-        if (customAdapter!=null)
-            customAdapter.setNullLayout(false);
-    }
-
+    //添加没有更多
     public void addNull()
     {
         if (customAdapter!=null)

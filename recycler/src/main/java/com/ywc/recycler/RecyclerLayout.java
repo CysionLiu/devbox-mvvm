@@ -199,7 +199,7 @@ public class RecyclerLayout extends ScrollLayout {
     //初始化
     public int initRecycler()
     {
-        super.setScrollMode(scrollMode);
+        super.setScrollMode(ScrollMode.NULL);
         return  customRecycler.initRecycler();
     }
 }
