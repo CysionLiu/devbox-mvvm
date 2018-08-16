@@ -20,10 +20,7 @@ public class RecyclerLayout extends ScrollLayout {
 
     private CustomRecycler customRecycler;
     //是否允许刷新数据
-    private ScrollMode scrollMode;
-
     public void setScrollMode(ScrollMode scrollMode) {
-        this.scrollMode=scrollMode;
         super.setScrollMode(scrollMode);
         customRecycler.setScrollMode(scrollMode);
     }
@@ -100,10 +97,8 @@ public class RecyclerLayout extends ScrollLayout {
 
     public void onScrollFinish()
     {
-        if (ScrollMode.BOTH == scrollMode || ScrollMode.PULL_DOWN == scrollMode)
-            super.onScrollFinish();
-        if (ScrollMode.BOTH == scrollMode || ScrollMode.PULL_UP == scrollMode)
-            customRecycler.onScrollFinish();
+        super.onScrollFinish();
+        customRecycler.onScrollFinish();
     }
 
 
