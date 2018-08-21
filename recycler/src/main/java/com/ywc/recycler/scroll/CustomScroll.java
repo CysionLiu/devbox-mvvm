@@ -2,6 +2,7 @@ package com.ywc.recycler.scroll;
 
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.ywc.recycler.adapter.CustomAdapter;
 import com.ywc.recycler.io.OnScrollCall;
@@ -71,8 +72,10 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
         if (scrollMode==ScrollMode.NULL||scrollMode==ScrollMode.PULL_DOWN||is_load||!is_run||lookCount==0)
             return;
         //之前是否移动，如果前面不移动则返回，如果移动则继续,确保这段代码只执行一次
+        Log.d("H","判断前面");
         if (!recyclerView.canScrollVertically(1))
         {
+            Log.d("H","判断后面");
             is_load=true;
             customAdapter.setLoadLayout(true);
             //使得recycley调到最后
