@@ -19,25 +19,25 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
 
     //是否在加载中
     private boolean is_load;
+    //是否可以运行，没有加载和向下滑动
+    private boolean is_run=true;
+    //滑动允许状态
+    private ScrollMode scrollMode;
+    //能力变大
+    private boolean ability;
+    public void setAbility(boolean ability) {
+        this.ability = ability;
+    }
 
     public void setIs_load(boolean is_load) {
         this.is_load = is_load;
     }
-
-    //是否可以运行，没有加载和向下滑动
-    private boolean is_run=true;
-
     public void setIs_run(boolean is_run) {
         this.is_run = is_run;
     }
-
-    //滑动允许状态
-    private ScrollMode scrollMode;
-
     public ScrollMode getScrollMode() {
         return scrollMode;
     }
-
     public void setScrollMode(ScrollMode scrollMode) {
         this.scrollMode = scrollMode;
     }
@@ -62,8 +62,7 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
-        Log.d("H","滚动状态"+newState+"判断");
-        if (newState==SCROLL_STATE_IDLE&&customAdapter!=null)
+        if ((ability||newState==SCROLL_STATE_IDLE)&&customAdapter!=null)
             initStop(recyclerView);
     }
 
@@ -73,10 +72,8 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
         if (scrollMode==ScrollMode.NULL||scrollMode==ScrollMode.PULL_DOWN||is_load||!is_run||lookCount==0)
             return;
         //之前是否移动，如果前面不移动则返回，如果移动则继续,确保这段代码只执行一次
-        Log.d("H","判断前面");
         if (!recyclerView.canScrollVertically(1))
         {
-            Log.d("H","判断后面");
             is_load=true;
             customAdapter.setLoadLayout(true);
             //使得recycley调到最后

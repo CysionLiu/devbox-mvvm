@@ -113,4 +113,10 @@ public class CustomRecycler extends RecyclerView{
         return 1;
     }
 
+    //一般时候不用，是滑动监听不给力使用
+    public void setAbility(boolean ability) {
+        if (customScroll!=null)
+            customScroll.setAbility(ability);
+    }
+
 }
