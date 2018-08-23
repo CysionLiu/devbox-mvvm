@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
 
 
@@ -29,14 +30,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         recycler = findViewById(R.id.recycler);
         recycler.setScrollMode(ScrollMode.BOTH);
+        adapter=new Adapter(this,R.layout.adapter);
+        recycler.with(ScrollMode.NULL, new LinearLayoutManager(this), adapter, new OnScrollCall() {
+            @Override
+            public void callback(LoadMode loadMode) {
+
+            }
+        });
+        View inflate = LayoutInflater.from(this).inflate(R.layout.adapter, recycler,false);
+        recycler.onEndHandler(0,LoadMode.PULL_DOWN,inflate);
     }
 
     class Adapter extends CustomAdapter<String>
     {
 
 
-        public Adapter(Context context, int itemLayout, List<String> listData) {
-            super(context, itemLayout, listData);
+        public Adapter(Context context, int itemLayout) {
+            super(context, itemLayout);
         }
 
         @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +87,7 @@ public abstract class CustomAdapter<T> extends BaseAdapter<T>{
 
     @Override
     public BaseViewHold onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.d("H",viewType+"标记");
         if (viewType>=0)
             return onCreateListHolder(parent, viewType);
         else if (viewType==-1)
@@ -94,7 +96,10 @@ public abstract class CustomAdapter<T> extends BaseAdapter<T>{
             return new BaseViewHold(LayoutInflater.from(getContext()).inflate(ConfigUtils.null_layoutId,parent, false));
         //头部
         else if (viewType<min/2)
+        {
             return  new BaseViewHold(headList.get(viewType-min));
+        }
+
         else
             return new BaseViewHold(LayoutInflater.from(getContext()).inflate(footList.get(viewType-min/2),parent, false));
     }

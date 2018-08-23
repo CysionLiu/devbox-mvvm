@@ -59,15 +59,7 @@ public class RecyclerLayout extends ScrollLayout {
         {
             setScroll(onScollCall,customRecycler);
         }
-        if ((scrollMode==ScrollMode.BOTH||scrollMode==ScrollMode.PULL_UP)&&onScollCall!=null)
-        {
-            customRecycler.with(scrollMode,layout,adaptert,onScollCall);
-        }
-        else
-        {
-            customRecycler.setLayoutManager(layout);
-            customRecycler.setAdapter(adaptert);
-        }
+        customRecycler.with(scrollMode,layout,adaptert,onScollCall);
         //第一加载不允许下拉
         super.setScrollMode(ScrollMode.NULL);
     }
@@ -174,7 +166,7 @@ public class RecyclerLayout extends ScrollLayout {
             else
             {
                 setScrollMode(ScrollMode.NULL);
-                customRecycler.addView(view);
+                customRecycler.addHead(view);
             }
         }
         else if (size<ConfigUtils.dataSize)

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.ywc.recycler.adapter.CustomAdapter;
@@ -38,13 +39,17 @@ public class CustomRecycler extends RecyclerView{
         if (adapter instanceof CustomAdapter)
         {
             customAdapter=((CustomAdapter) adapter);
-            customScroll=new CustomScroll(onScollCall,customAdapter );
-            addOnScrollListener(customScroll);
-            setScrollMode(scrollMode);
+            if (scrollMode==ScrollMode.BOTH||scrollMode==ScrollMode.PULL_UP)
+            {
+                customScroll=new CustomScroll(onScollCall,customAdapter );
+                addOnScrollListener(customScroll);
+                setScrollMode(scrollMode);
+            }
         }
         setAdapter(adapter);
         setScrollMode(ScrollMode.NULL);
     }
+
 
     public void setScrollMode(ScrollMode scrollMode)
     {
@@ -68,8 +73,9 @@ public class CustomRecycler extends RecyclerView{
             customAdapter.setNullLayout(false);
             //删除加载更多
             customAdapter.setLoadLayout(false);
-            //接触加载中
-            customScroll.setIs_load(false);
+            if (customScroll!=null)
+                //接触加载中
+                customScroll.setIs_load(false);
         }
     }
 
@@ -84,7 +90,10 @@ public class CustomRecycler extends RecyclerView{
     public void addHead(View view)
     {
         if (customAdapter!=null)
+        {
             customAdapter.addHead(view);
+        }
+
     }
 
     public void addFoot(int layoutId)
