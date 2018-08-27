@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.ywc.recycler.adapter.CustomAdapter;
 import com.ywc.recycler.io.OnScrollCall;
+import com.ywc.recycler.mode.LoadMode;
 import com.ywc.recycler.mode.ScrollMode;
 import com.ywc.recycler.scroll.CustomScroll;
 
@@ -126,6 +127,48 @@ public class CustomRecycler extends RecyclerView{
     public void setAbility(boolean ability) {
         if (customScroll!=null)
             customScroll.setAbility(ability);
+    }
+
+
+    //这个成功是参数大于0 ,size >0 表示成功，大于datasize表示还有数据
+    public void onEndHandler(int size,LoadMode mode)
+    {
+        onScrollFinish();
+        if (size<ConfigUtils.dataSize)
+        {
+            setScrollMode(ScrollMode.NULL);
+            if (mode==LoadMode.PULL_UP)
+                addNull();
+        }
+        else
+        {
+            setScrollMode(ScrollMode.PULL_UP);
+        }
+    }
+
+
+    public void onEndHandler(int size,LoadMode mode,View view)
+    {
+        onScrollFinish();
+        removeHead(view);
+        if (size==0)
+        {
+            setScrollMode(ScrollMode.NULL);
+            if (mode==LoadMode.PULL_UP)
+                addNull();
+            else
+                addHead(view);
+        }
+        else if (size<ConfigUtils.dataSize)
+        {
+            setScrollMode(ScrollMode.NULL);
+            if (mode==LoadMode.PULL_UP)
+                addNull();
+        }
+        else
+        {
+            setScrollMode(ScrollMode.PULL_UP);
+        }
     }
 
 }
