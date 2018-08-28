@@ -205,15 +205,15 @@ public class RecyclerLayout extends ScrollLayout {
         {
             setScrollMode(ScrollMode.PULL_DOWN);
             if (mode==LoadMode.PULL_UP)
-            {
                 customRecycler.addNull();
-            }
         }
         else
         {
             setScrollMode(ScrollMode.BOTH);
         }
     }
+
+
 
 
     //初始化
