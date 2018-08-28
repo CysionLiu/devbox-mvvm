@@ -171,4 +171,29 @@ public class CustomRecycler extends RecyclerView{
         }
     }
 
+
+
+    public void onEndHandler1(int size,LoadMode mode,View view)
+    {
+        onScrollFinish();
+        addHead(view);
+        if (size==0)
+        {
+            setScrollMode(ScrollMode.NULL);
+            if (mode==LoadMode.PULL_UP)
+                addNull();
+            else
+                removeHead(view);
+        }
+        else if (size<ConfigUtils.dataSize)
+        {
+            setScrollMode(ScrollMode.NULL);
+            if (mode==LoadMode.PULL_UP)
+                addNull();
+        }
+        else
+        {
+            setScrollMode(ScrollMode.PULL_UP);
+        }
+    }
 }

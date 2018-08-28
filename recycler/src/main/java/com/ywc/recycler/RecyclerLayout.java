@@ -183,6 +183,39 @@ public class RecyclerLayout extends ScrollLayout {
         }
     }
 
+
+    public void onEndHandler1(int size,LoadMode mode,View view)
+    {
+        onScrollFinish();
+        customRecycler.addHead(view);
+        if (size==0)
+        {
+            if (mode==LoadMode.PULL_UP)
+            {
+                customRecycler.addNull();
+                setScrollMode(ScrollMode.PULL_DOWN);
+            }
+            else
+            {
+                setScrollMode(ScrollMode.NULL);
+                customRecycler.removeHead(view);
+            }
+        }
+        else if (size<ConfigUtils.dataSize)
+        {
+            setScrollMode(ScrollMode.PULL_DOWN);
+            if (mode==LoadMode.PULL_UP)
+            {
+                customRecycler.addNull();
+            }
+        }
+        else
+        {
+            setScrollMode(ScrollMode.BOTH);
+        }
+    }
+
+
     //初始化
     public int initRecycler()
     {
