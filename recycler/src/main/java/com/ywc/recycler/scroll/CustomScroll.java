@@ -63,6 +63,11 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
         Log.d("H",newState+"暂停");
+        switch (newState)
+        {
+            case SCROLL_STATE_IDLE:
+                break;
+        }
         if ((ability||newState==SCROLL_STATE_IDLE)&&customAdapter!=null)
             initStop(recyclerView);
     }
