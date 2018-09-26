@@ -223,9 +223,4 @@ public class RecyclerLayout extends ScrollLayout {
         return  customRecycler.initRecycler();
     }
 
-    //一般时候不用，是滑动监听不给力使用
-    public void setAbility(boolean ability) {
-        if (customRecycler!=null)
-            customRecycler.setAbility(ability);
-    }
 }

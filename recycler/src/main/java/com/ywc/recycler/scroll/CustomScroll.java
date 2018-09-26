@@ -24,11 +24,6 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
     private boolean is_run=true;
     //滑动允许状态
     private ScrollMode scrollMode;
-    //能力变大
-    private boolean ability;
-    public void setAbility(boolean ability) {
-        this.ability = ability;
-    }
 
     public void setIs_load(boolean is_load) {
         this.is_load = is_load;
@@ -63,7 +58,6 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
-        Log.d("H",newState+"暂停");
         switch (newState)
         {
             case SCROLL_STATE_IDLE:
@@ -72,8 +66,6 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
                     initStop(recyclerView);
                 break;
         }
-//        if ((ability||newState==SCROLL_STATE_IDLE)&&customAdapter!=null)
-//            initStop(recyclerView);
     }
 
     private void initStop(RecyclerView recyclerView) {
