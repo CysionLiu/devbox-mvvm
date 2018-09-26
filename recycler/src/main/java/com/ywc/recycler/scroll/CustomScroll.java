@@ -9,6 +9,7 @@ import com.ywc.recycler.io.OnScrollCall;
 import com.ywc.recycler.mode.LoadMode;
 import com.ywc.recycler.mode.ScrollMode;
 
+import static android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING;
 import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 
 /**
@@ -66,10 +67,13 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
         switch (newState)
         {
             case SCROLL_STATE_IDLE:
+            case SCROLL_STATE_SETTLING:
+                if (customAdapter!=null)
+                    initStop(recyclerView);
                 break;
         }
-        if ((ability||newState==SCROLL_STATE_IDLE)&&customAdapter!=null)
-            initStop(recyclerView);
+//        if ((ability||newState==SCROLL_STATE_IDLE)&&customAdapter!=null)
+//            initStop(recyclerView);
     }
 
     private void initStop(RecyclerView recyclerView) {
