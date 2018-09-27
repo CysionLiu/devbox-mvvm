@@ -238,6 +238,8 @@ public class CustomRecycler extends RecyclerView{
                 addNull();
             else
             {
+                if (customAdapter!=null)
+                    customAdapter.clear();
                 showView.setVisibility(GONE);
                 addHead(nullView);
             }
