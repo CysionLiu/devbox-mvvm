@@ -90,12 +90,18 @@ public class CustomRecycler extends RecyclerView{
 
     public void addHead(View view)
     {
-        if (customAdapter!=null)
+        if (view!=null&&customAdapter!=null)
         {
             customAdapter.addHead(view);
         }
-
     }
+
+    public void removeHead(View view)
+    {
+        if (view!=null&&customAdapter!=null)
+            customAdapter.removeHead(view);
+    }
+
 
     public void addFoot(int layoutId)
     {
@@ -103,11 +109,6 @@ public class CustomRecycler extends RecyclerView{
             customAdapter.addFoot(layoutId);
     }
 
-    public void removeHead(View view)
-    {
-        if (customAdapter!=null)
-            customAdapter.removeHead(view);
-    }
 
     public void removeFoot(int layoutId)
     {
@@ -125,46 +126,9 @@ public class CustomRecycler extends RecyclerView{
 
 
 
-    //这个成功是参数大于0 ,size >0 表示成功，大于datasize表示还有数据
-    public void onEndHandler(int size,LoadMode mode)
-    {
-        onScrollFinish();
-        if (size<ConfigUtils.dataSize)
-        {
-            setScrollMode(ScrollMode.NULL);
-            if (mode==LoadMode.PULL_UP)
-                addNull();
-        }
-        else
-        {
-            setScrollMode(ScrollMode.PULL_UP);
-        }
-    }
 
 
-    public void onEndHandler(int size,LoadMode mode,View view)
-    {
-        onScrollFinish();
-        removeHead(view);
-        if (size==0)
-        {
-            setScrollMode(ScrollMode.NULL);
-            if (mode==LoadMode.PULL_UP)
-                addNull();
-            else
-                addHead(view);
-        }
-        else if (size<ConfigUtils.dataSize)
-        {
-            setScrollMode(ScrollMode.NULL);
-            if (mode==LoadMode.PULL_UP)
-                addNull();
-        }
-        else
-        {
-            setScrollMode(ScrollMode.PULL_UP);
-        }
-    }
+
 
 
 
@@ -226,22 +190,37 @@ public class CustomRecycler extends RecyclerView{
     }
 
 
-    public void onEndHandler(int size,LoadMode mode,View nullView,View showView)
+
+
+    private void clear()
+    {
+        if (customAdapter!=null)
+            customAdapter.clear();
+    }
+
+
+    //这个成功是参数大于0 ,size >0 表示成功，大于datasize表示还有数据
+    public void onEndHandler(int size,LoadMode mode)
+    {
+        onEndHandler(size,mode,null);
+    }
+
+    public void onEndHandler(int size,LoadMode mode,View view)
     {
         onScrollFinish();
-        removeHead(nullView);
-        showView.setVisibility(VISIBLE);
+        removeHead(view);
         if (size==0)
         {
             setScrollMode(ScrollMode.NULL);
+            //如果上滑
             if (mode==LoadMode.PULL_UP)
+            {
                 addNull();
+            }
             else
             {
-                if (customAdapter!=null)
-                    customAdapter.clear();
-                showView.setVisibility(GONE);
-                addHead(nullView);
+                addHead(view);
+                clear();
             }
         }
         else if (size<ConfigUtils.dataSize)
@@ -255,4 +234,14 @@ public class CustomRecycler extends RecyclerView{
             setScrollMode(ScrollMode.PULL_UP);
         }
     }
+
+    public void onEndHandler(int size,LoadMode mode,View nullView,View showView)
+    {
+        onEndHandler(size,mode,nullView);
+        if (size==0&&mode!=LoadMode.PULL_UP)
+            showView.setVisibility(VISIBLE);
+        else
+            showView.setVisibility(GONE);
+    }
+
 }
