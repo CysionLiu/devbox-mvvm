@@ -239,9 +239,9 @@ public class CustomRecycler extends RecyclerView{
     {
         onEndHandler(size,mode,nullView);
         if (size==0&&mode!=LoadMode.PULL_UP)
-            showView.setVisibility(VISIBLE);
-        else
             showView.setVisibility(GONE);
+        else
+            showView.setVisibility(VISIBLE);
     }
 
 }
