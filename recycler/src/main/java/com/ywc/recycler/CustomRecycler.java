@@ -130,6 +130,7 @@ public class CustomRecycler extends RecyclerView{
 
     public void onEndHandler1(int size,LoadMode mode,View view)
     {
+        Log.d("H","纯白梦");
         onScrollFinish();
         addHead(view);
         if (size==0)
