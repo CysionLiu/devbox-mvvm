@@ -122,6 +122,9 @@ public class RecyclerLayout extends ScrollLayout {
     }
 
     //这个成功是参数大于0 ,size >0 表示成功，大于datasize表示还有数据
+
+
+
     public void onEndHandler(int size,LoadMode mode)
     {
         onScrollFinish();
@@ -135,6 +138,7 @@ public class RecyclerLayout extends ScrollLayout {
             else
             {
                 setScrollMode(ScrollMode.NULL);
+                customRecycler.clear();
             }
         }
         else if (size<ConfigUtils.dataSize)
@@ -152,75 +156,31 @@ public class RecyclerLayout extends ScrollLayout {
     }
 
 
-    public void onEndHandler(int size,LoadMode mode,View view)
+    public void onEndHandler(int size,LoadMode mode,View nullView)
     {
-        onScrollFinish();
-        customRecycler.removeHead(view);
-        if (size==0)
-        {
-            if (mode==LoadMode.PULL_UP)
-            {
-                customRecycler.addNull();
-                setScrollMode(ScrollMode.PULL_DOWN);
-            }
-            else
-            {
-                setScrollMode(ScrollMode.NULL);
-                customRecycler.addHead(view);
-            }
-        }
-        else if (size<ConfigUtils.dataSize)
-        {
-            setScrollMode(ScrollMode.PULL_DOWN);
-            if (mode==LoadMode.PULL_UP)
-            {
-                customRecycler.addNull();
-            }
-        }
+        onEndHandler(size,mode);
+        if (mode!=LoadMode.PULL_UP&&size==0)
+            customRecycler.addHead(nullView);
         else
-        {
-            setScrollMode(ScrollMode.BOTH);
-        }
+            customRecycler.removeHead(nullView);
+
     }
 
 
-    public void onEndHandler1(int size,LoadMode mode,View view)
+    public void onEndHandler1(int size,LoadMode mode,View dataView)
     {
-        onScrollFinish();
-        customRecycler.addHead(view);
-        if (size==0)
-        {
-            if (mode==LoadMode.PULL_UP)
-            {
-                customRecycler.addNull();
-                setScrollMode(ScrollMode.PULL_DOWN);
-            }
-            else
-            {
-                setScrollMode(ScrollMode.NULL);
-                customRecycler.removeHead(view);
-            }
-        }
-        else if (size<ConfigUtils.dataSize)
-        {
-            setScrollMode(ScrollMode.PULL_DOWN);
-            if (mode==LoadMode.PULL_UP)
-                customRecycler.addNull();
-        }
+        onEndHandler(size,mode);
+        if (mode!=LoadMode.PULL_UP&&size==0)
+            customRecycler.removeHead(dataView);
         else
-        {
-            setScrollMode(ScrollMode.BOTH);
-        }
+            customRecycler.addHead(dataView);
     }
-
-
-
 
     //初始化
-    public int initRecycler()
+    public int initRecycler(int page)
     {
         super.setScrollMode(ScrollMode.NULL);
-        return  customRecycler.initRecycler();
+        return  customRecycler.initRecycler(page);
     }
 
 }

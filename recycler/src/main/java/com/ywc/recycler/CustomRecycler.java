@@ -117,8 +117,9 @@ public class CustomRecycler extends RecyclerView{
     }
 
 
-    public int initRecycler()
+    public int initRecycler(int page)
     {
+        page=1;
         getLayoutManager().scrollToPosition(0);
         setScrollMode(ScrollMode.NULL);
         return 1;
@@ -134,7 +135,7 @@ public class CustomRecycler extends RecyclerView{
 
 
 
-    private void clear()
+    public void clear()
     {
         if (customAdapter!=null)
             customAdapter.clear();
