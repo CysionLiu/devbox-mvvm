@@ -128,10 +128,6 @@ public class CustomRecycler extends RecyclerView{
 
 
 
-
-
-
-
     public void onEndHandler1(int size,LoadMode mode,View view)
     {
         onScrollFinish();
@@ -190,8 +186,6 @@ public class CustomRecycler extends RecyclerView{
     }
 
 
-
-
     private void clear()
     {
         if (customAdapter!=null)
@@ -203,6 +197,15 @@ public class CustomRecycler extends RecyclerView{
     public void onEndHandler(int size,LoadMode mode)
     {
         onEndHandler(size,mode,null);
+    }
+
+    public void onEndHandler(int size,LoadMode mode,View nullView,View showView)
+    {
+        onEndHandler(size,mode,nullView);
+        if (size==0&&mode!=LoadMode.PULL_UP)
+            showView.setVisibility(GONE);
+        else
+            showView.setVisibility(VISIBLE);
     }
 
     public void onEndHandler(int size,LoadMode mode,View view)
@@ -235,13 +238,5 @@ public class CustomRecycler extends RecyclerView{
         }
     }
 
-    public void onEndHandler(int size,LoadMode mode,View nullView,View showView)
-    {
-        onEndHandler(size,mode,nullView);
-        if (size==0&&mode!=LoadMode.PULL_UP)
-            showView.setVisibility(GONE);
-        else
-            showView.setVisibility(VISIBLE);
-    }
 
 }
