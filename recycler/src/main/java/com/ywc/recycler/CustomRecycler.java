@@ -128,63 +128,10 @@ public class CustomRecycler extends RecyclerView{
 
 
 
-    public void onEndHandler1(int size,LoadMode mode,View view)
-    {
-        Log.d("H","纯白梦");
-        onScrollFinish();
-        addHead(view);
-        if (size==0)
-        {
-            setScrollMode(ScrollMode.NULL);
-            if (mode==LoadMode.PULL_UP)
-                addNull();
-            else
-                removeHead(view);
-        }
-        else if (size<ConfigUtils.dataSize)
-        {
-            setScrollMode(ScrollMode.NULL);
-            if (mode==LoadMode.PULL_UP)
-                addNull();
-        }
-        else
-        {
-            setScrollMode(ScrollMode.PULL_UP);
-        }
-    }
 
 
 
 
-    public void onEndHandler2(int size,LoadMode mode,View nullView)
-    {
-        onScrollFinish();
-        if (size==0&&mode!=LoadMode.PULL_UP)
-        {
-            this.setVisibility(GONE);
-            nullView.setVisibility(VISIBLE);
-        }
-        else
-        {
-            this.setVisibility(VISIBLE);
-            nullView.setVisibility(GONE);
-            if (size==0)
-            {
-                setScrollMode(ScrollMode.NULL);
-                addNull();
-            }
-            else if (size<ConfigUtils.dataSize)
-            {
-                setScrollMode(ScrollMode.NULL);
-                if (mode==LoadMode.PULL_UP)
-                    addNull();
-            }
-            else
-            {
-                setScrollMode(ScrollMode.PULL_UP);
-            }
-        }
-    }
 
 
     private void clear()
@@ -197,7 +144,37 @@ public class CustomRecycler extends RecyclerView{
     //这个成功是参数大于0 ,size >0 表示成功，大于datasize表示还有数据
     public void onEndHandler(int size,LoadMode mode)
     {
-        onEndHandler(size,mode,null);
+        onScrollFinish();
+        if (size<ConfigUtils.dataSize)
+        {
+            setScrollMode(ScrollMode.NULL);
+            if (size==0&&mode!=LoadMode.PULL_UP)
+                clear();
+            else if (mode==LoadMode.PULL_UP)
+                addNull();
+        }
+        else
+        {
+            setScrollMode(ScrollMode.PULL_UP);
+        }
+    }
+
+    public void onEndHandler1(int size,LoadMode mode,View dataView)
+    {
+        onEndHandler(size,mode);
+        if (size==0&&mode!=LoadMode.PULL_UP)
+            removeHead(dataView);
+        else
+            addHead(dataView);
+    }
+
+    public void onEndHandler(int size,LoadMode mode,View nullView)
+    {
+        onEndHandler(size,mode);
+        if (size==0&&mode!=LoadMode.PULL_UP)
+            addHead(nullView);
+        else
+            removeHead(nullView);
     }
 
     public void onEndHandler(int size,LoadMode mode,View nullView,View showView)
@@ -209,35 +186,6 @@ public class CustomRecycler extends RecyclerView{
             showView.setVisibility(VISIBLE);
     }
 
-    public void onEndHandler(int size,LoadMode mode,View view)
-    {
-        onScrollFinish();
-        removeHead(view);
-        if (size==0)
-        {
-            setScrollMode(ScrollMode.NULL);
-            //如果上滑
-            if (mode==LoadMode.PULL_UP)
-            {
-                addNull();
-            }
-            else
-            {
-                addHead(view);
-                clear();
-            }
-        }
-        else if (size<ConfigUtils.dataSize)
-        {
-            setScrollMode(ScrollMode.NULL);
-            if (mode==LoadMode.PULL_UP)
-                addNull();
-        }
-        else
-        {
-            setScrollMode(ScrollMode.PULL_UP);
-        }
-    }
 
 
 }
