@@ -128,7 +128,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHold>{
     }
 
 
-    public void flushOrAdd(List<T> list, LoadMode loadMode)
+    public void flushOrAdd(List<T> list, int loadMode)
     {
         if (loadMode==LoadMode.PULL_UP)
             addAll(list);

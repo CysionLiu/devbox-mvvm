@@ -81,7 +81,7 @@ public class ScrollLayout extends PtrFrameLayout {
         //初始时候是不能刷新的，避免和第一网络加载产生冲突
     }
 
-    public void setScrollMode(ScrollMode scrollMode) {
+    public void setScrollMode(int scrollMode) {
         if ((scrollMode==ScrollMode.BOTH||scrollMode==ScrollMode.PULL_DOWN)&&is_flush)
             setEnabled(true);
         else

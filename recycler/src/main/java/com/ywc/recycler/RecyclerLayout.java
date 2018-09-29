@@ -20,7 +20,7 @@ public class RecyclerLayout extends ScrollLayout {
 
     private CustomRecycler customRecycler;
     //是否允许刷新数据
-    public void setScrollMode(ScrollMode scrollMode) {
+    public void setScrollMode(int scrollMode) {
         super.setScrollMode(scrollMode);
         customRecycler.setScrollMode(scrollMode);
     }
@@ -53,7 +53,7 @@ public class RecyclerLayout extends ScrollLayout {
 
 
     //初始化
-    public void with(ScrollMode scrollMode, RecyclerView.LayoutManager layout, RecyclerView.Adapter adaptert, final OnScrollCall onScollCall)
+    public void with(int scrollMode, RecyclerView.LayoutManager layout, RecyclerView.Adapter adaptert, final OnScrollCall onScollCall)
     {
         if ((scrollMode==ScrollMode.BOTH||scrollMode==ScrollMode.PULL_DOWN)&&onScollCall!=null)
         {
@@ -125,7 +125,7 @@ public class RecyclerLayout extends ScrollLayout {
 
 
 
-    public void onEndHandler(int size,LoadMode mode)
+    public void onEndHandler(int size,int mode)
     {
         onScrollFinish();
         if (size==0)
@@ -156,7 +156,7 @@ public class RecyclerLayout extends ScrollLayout {
     }
 
 
-    public void onEndHandler(int size,LoadMode mode,View nullView)
+    public void onEndHandler(int size,int mode,View nullView)
     {
         onEndHandler(size,mode);
         if (mode!=LoadMode.PULL_UP&&size==0)
@@ -167,7 +167,7 @@ public class RecyclerLayout extends ScrollLayout {
     }
 
 
-    public void onEndHandler1(int size,LoadMode mode,View dataView)
+    public void onEndHandler1(int size,int mode,View dataView)
     {
         onEndHandler(size,mode);
         if (mode!=LoadMode.PULL_UP&&size==0)

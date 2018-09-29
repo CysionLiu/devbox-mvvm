@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         adapter=new Adapter(this,R.layout.adapter);
         recycler.with(ScrollMode.NULL, new LinearLayoutManager(this), adapter, new OnScrollCall() {
             @Override
-            public void callback(LoadMode loadMode) {
+            public void callback(int loadMode) {
 
             }
         });

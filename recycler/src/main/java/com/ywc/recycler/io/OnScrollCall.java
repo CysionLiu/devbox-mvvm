@@ -7,5 +7,5 @@ import com.ywc.recycler.mode.LoadMode;
  */
 
 public interface OnScrollCall {
-    void callback(LoadMode loadMode);
+    void callback(int loadMode);
 }

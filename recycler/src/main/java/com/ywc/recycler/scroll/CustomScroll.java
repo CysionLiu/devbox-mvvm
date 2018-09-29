@@ -23,7 +23,7 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
     //是否可以运行，没有加载和向下滑动
     private boolean is_run=true;
     //滑动允许状态
-    private ScrollMode scrollMode;
+    private int scrollMode;
 
     public void setIs_load(boolean is_load) {
         this.is_load = is_load;
@@ -31,7 +31,7 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
     public void setIs_run(boolean is_run) {
         this.is_run = is_run;
     }
-    public void setScrollMode(ScrollMode scrollMode) {
+    public void setScrollMode(int scrollMode) {
         this.scrollMode = scrollMode;
     }
 

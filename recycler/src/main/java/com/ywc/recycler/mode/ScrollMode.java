@@ -5,6 +5,13 @@ package com.ywc.recycler.mode;
  * 可以执行的滑动状态
  */
 
-public enum  ScrollMode {
-    BOTH,PULL_UP,PULL_DOWN,NULL
+public class ScrollMode {
+    //全部
+    public final static int BOTH=10001;
+    //只能上拉
+    public final static int PULL_UP=10002;
+    //只能下拉
+    public final static int PULL_DOWN=10003;
+    //没有滑动
+    public final static int NULL=10004;
 }

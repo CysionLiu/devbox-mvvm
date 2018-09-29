@@ -34,7 +34,7 @@ public class CustomRecycler extends RecyclerView{
     }
 
     //滑动监听
-    public void with(ScrollMode scrollMode,LayoutManager layout, Adapter adapter,  OnScrollCall onScollCall)
+    public void with(int scrollMode,LayoutManager layout, Adapter adapter,  OnScrollCall onScollCall)
     {
         setLayoutManager(layout);
         if (adapter instanceof CustomAdapter)
@@ -52,7 +52,7 @@ public class CustomRecycler extends RecyclerView{
     }
 
 
-    public void setScrollMode(ScrollMode scrollMode)
+    public void setScrollMode(int scrollMode)
     {
         if (customScroll!=null)
             customScroll.setScrollMode(scrollMode);
@@ -143,7 +143,7 @@ public class CustomRecycler extends RecyclerView{
 
 
     //这个成功是参数大于0 ,size >0 表示成功，大于datasize表示还有数据
-    public void onEndHandler(int size,LoadMode mode)
+    public void onEndHandler(int size,int mode)
     {
         onScrollFinish();
         if (size<ConfigUtils.dataSize)
@@ -160,7 +160,7 @@ public class CustomRecycler extends RecyclerView{
         }
     }
 
-    public void onEndHandler1(int size,LoadMode mode,View dataView)
+    public void onEndHandler1(int size,int mode,View dataView)
     {
         onEndHandler(size,mode);
         if (size==0&&mode!=LoadMode.PULL_UP)
@@ -169,7 +169,7 @@ public class CustomRecycler extends RecyclerView{
             addHead(dataView);
     }
 
-    public void onEndHandler(int size,LoadMode mode,View nullView)
+    public void onEndHandler(int size,int mode,View nullView)
     {
         onEndHandler(size,mode);
         if (size==0&&mode!=LoadMode.PULL_UP)
@@ -178,7 +178,7 @@ public class CustomRecycler extends RecyclerView{
             removeHead(nullView);
     }
 
-    public void onEndHandler(int size,LoadMode mode,View nullView,View showView)
+    public void onEndHandler(int size,int mode,View nullView,View showView)
     {
         onEndHandler(size,mode,nullView);
         if (size==0&&mode!=LoadMode.PULL_UP)
