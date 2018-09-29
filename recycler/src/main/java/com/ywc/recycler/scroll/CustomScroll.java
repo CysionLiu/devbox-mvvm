@@ -31,9 +31,6 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
     public void setIs_run(boolean is_run) {
         this.is_run = is_run;
     }
-    public ScrollMode getScrollMode() {
-        return scrollMode;
-    }
     public void setScrollMode(ScrollMode scrollMode) {
         this.scrollMode = scrollMode;
     }
@@ -86,7 +83,7 @@ public class CustomScroll extends RecyclerView.OnScrollListener{
                 public void run() {
                     onScollCall.callback(LoadMode.PULL_UP);
                 }
-            },100);
+            },200);
         }
     }
 }
