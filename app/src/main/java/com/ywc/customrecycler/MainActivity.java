@@ -34,7 +34,12 @@ public class MainActivity extends AppCompatActivity {
         recycler.with(ScrollMode.NULL, new LinearLayoutManager(this), adapter, new OnScrollCall() {
             @Override
             public void callback(int loadMode) {
-
+                switch (loadMode)
+                {
+                    case LoadMode.PULL_UP:
+                        break;
+                        case LoadMode.FRIST:
+                }
             }
         });
         View inflate = LayoutInflater.from(this).inflate(R.layout.adapter, recycler,false);
