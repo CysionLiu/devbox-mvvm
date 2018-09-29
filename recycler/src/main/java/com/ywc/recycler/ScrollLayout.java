@@ -2,6 +2,7 @@ package com.ywc.recycler;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.ywc.recycler.io.OnScrollCall;
@@ -75,6 +76,7 @@ public class ScrollLayout extends PtrFrameLayout {
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
+                Log.d("H","下拉刷新");
                 onScollCall.callback(LoadMode.PULL_DOWN);
             }
         });

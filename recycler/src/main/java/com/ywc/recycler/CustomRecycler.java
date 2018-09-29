@@ -132,9 +132,6 @@ public class CustomRecycler extends RecyclerView{
 
 
 
-
-
-
     public void clear()
     {
         if (customAdapter!=null)
