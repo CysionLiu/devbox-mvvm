@@ -1,7 +1,7 @@
 # CustomRecycler
 
 
- ###   **V1.0.1** 
+ ###   **记得使用稳定版本** 
 
 Add it in your root build.gradle at the end of repositories:
 
