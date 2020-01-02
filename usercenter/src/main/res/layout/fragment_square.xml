@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.scwang.smartrefresh.layout.SmartRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/smartLayout"
+        app:srlEnableNestedScrolling="false"
+        app:srlFooterHeight="30dp"
+        app:srlDisableContentWhenLoading="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <com.classic.common.MultipleStatusView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:id="@+id/multiView"
+            android:layout_height="match_parent">
+
+
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/scrollView"
+                android:background="@color/gray_"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.tmall.ultraviewpager.UltraViewPager
+                        android:id="@+id/ultraViewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp"
+                        />
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="0dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvBloglist"
+                            android:layout_marginBottom="20dp"
+                            android:padding="4dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+                </RelativeLayout>
+
+                <FrameLayout
+                        android:visibility="gone"
+                        android:id="@+id/fl_load_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp">
+
+                    <TextView
+                            android:id="@+id/tvLoadFail"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:text="加载失败"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"/>
+                    <TextView
+                            android:id="@+id/tvLoadFinish"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:text="没有更多数据了"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"/>
+                </FrameLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="30dp"
+                app:fabSize="mini"
+                android:id="@+id/fabBtn"
+                app:backgroundTint="@color/colorAccent"
+                android:src="@mipmap/add_blog"
+                android:layout_marginRight="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </com.classic.common.MultipleStatusView>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

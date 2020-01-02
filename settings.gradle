@@ -1,1 +1,1 @@
-include ':app', ':recycler'
+include ':ktbox', ':uibox', ':shell', ':media', ':usercenter', ':router'
