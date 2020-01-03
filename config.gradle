@@ -13,7 +13,10 @@ ext {
     //依赖库版本
     dependVersion = [
             AppCompat: "1.1.0",
-            retrofitSdkVersion      : "2.3.0",
+            lifeCycle: "2.1.0",
+            coroutine: "1.3.0",
+            ktx: "2.1.0",
+            retrofitSdkVersion      : "2.6.0",
             rxJava                  : "2.2.3",
             rxAndroid               : "2.1.0"
     ]
@@ -21,6 +24,9 @@ ext {
     supportDeps = [
             //--------  support  -------
             appcompatX: "androidx.appcompat:appcompat:$dependVersion.AppCompat",
+            lifeCycleX: "androidx.lifecycle:lifecycle-extensions:$dependVersion.lifeCycle",
+            ktx: "androidx.lifecycle:lifecycle-viewmodel-ktx:$dependVersion.ktx",
+            coroutine: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$dependVersion.coroutine"
     ]
     retrofit = [
             //------ retrofit和RxJava ---------
@@ -47,5 +53,6 @@ ext {
     eventbus = "org.greenrobot:eventbus:3.1.1"
     targetfun= "com.cysion:targetfun:1.1.0"
     appjoint= "io.github.prototypez:app-joint-core:1.5"
-    otherLibs = [glide,statusbar,logger,eventbus,targetfun,appjoint]
+    dialog = "com.cysion:WeDialog:1.0.5.x"
+    otherLibs = [glide,statusbar,logger,eventbus,targetfun,appjoint,dialog]
 }

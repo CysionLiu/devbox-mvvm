@@ -4,53 +4,46 @@ import android.graphics.Color
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cysion.ktbox.base.BaseFragment
+import com.cysion.ktbox.base.BaseModelFragment
 import com.cysion.ktbox.base.ITEM_CLICK
-import com.cysion.ktbox.net.ApiException
-import com.cysion.ktbox.net.ErrorStatus
+import com.cysion.ktbox.listener.IRefreshListener
 import com.cysion.other._setOnClickListener
 import com.cysion.other.dp2px
 import com.cysion.other.startActivity_ex
-import com.cysion.uibox.dialog.Alert
 import com.cysion.uibox.toast.toast
 import com.cysion.usercenter.R
 import com.cysion.usercenter.adapter.BlogAdapter
 import com.cysion.usercenter.adapter.HomeTopPageAdapter
 import com.cysion.usercenter.communicate.Resolver.mediaActivityApi
 import com.cysion.usercenter.constant.*
-import com.cysion.usercenter.entity.Blog
-import com.cysion.usercenter.entity.Carousel
 import com.cysion.usercenter.event.BlogEvent
 import com.cysion.usercenter.event.UserEvent
 import com.cysion.usercenter.helper.BlogHelper
 import com.cysion.usercenter.helper.UserCache
-import com.cysion.usercenter.presenter.SquarePresenter
 import com.cysion.usercenter.ui.activity.BlogDetailActivity
 import com.cysion.usercenter.ui.activity.BlogEditorActivity
 import com.cysion.usercenter.ui.activity.LoginActivity
-import com.cysion.usercenter.ui.iview.SquareView
-import com.scwang.smartrefresh.layout.constant.RefreshState
+import com.cysion.usercenter.viewmodels.SqureViewModel
+import com.orhanobut.logger.Logger
 import com.tmall.ultraviewpager.UltraViewPager
 import kotlinx.android.synthetic.main.fragment_square.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 
-class SquareFragment : BaseFragment(), SquareView {
+class SquareFragment : BaseModelFragment<SqureViewModel>() {
 
-
-    //绑定presenter
-    private val presenter by lazy {
-        SquarePresenter().apply {
-            attach(this@SquareFragment)
-        }
-    }
     private lateinit var topAdapter: HomeTopPageAdapter
     private lateinit var blogAdapter: BlogAdapter
-    private val mCarousels: MutableList<Carousel> = mutableListOf()
-    private val mBlogs: MutableList<Blog> = mutableListOf()
     private var curPage = 1
+    private val mCarousels by lazy {
+        viewModel.mLiveCarousel.value!!
+    }
+    private val mBlogs by lazy {
+        viewModel.mLiveBlogs.value!!
+    }
 
     override fun getLayoutId(): Int = R.layout.fragment_square
 
@@ -61,18 +54,40 @@ class SquareFragment : BaseFragment(), SquareView {
         initFab()
     }
 
+    override fun observeModel() {
+        viewModel.mLiveCarousel.observe(this, Observer {
+            Logger.d("flag--initViewPager: ")
+            ultraViewPager.refresh()
+        })
+        viewModel.mLiveBlogs.observe(this, Observer {
+            Logger.d("flag--initRecyclerView:133： ")
+            curPage++
+            val index = mBlogs.size
+            if (index <= 10) {
+                blogAdapter.notifyDataSetChanged()
+            } else {
+                blogAdapter.notifyItemRangeChanged(index-10, 10)
+            }
+            multiView.showContent()
+        })
+        viewModel.mLivePride.observe(this, Observer {
+            Logger.d("flag--initRecyclerView:144 ")
+            blogAdapter.notifyItemChanged(it)
+        })
+    }
+
     //    初始化刷新控件
     private fun initRefreshLayout() {
         smartLayout.setOnRefreshListener {
             curPage = 1
-            presenter.getCarousel()
-            presenter.getBlogs(curPage)
+            viewModel.getCarousel()
+            viewModel.getBlogs(curPage)
             smartLayout.setEnableLoadMore(true)
-            fl_load_state.visibility= View.GONE
+            fl_load_state.visibility = View.GONE
         }
         smartLayout.setOnLoadMoreListener {
-            fl_load_state.visibility= View.GONE
-            presenter.getBlogs(curPage)
+            fl_load_state.visibility = View.GONE
+            viewModel.getBlogs(curPage)
         }
     }
 
@@ -83,18 +98,17 @@ class SquareFragment : BaseFragment(), SquareView {
         ultraViewPager.adapter = topAdapter
         ultraViewPager.initIndicator()
         ultraViewPager.getIndicator()
-            .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
-            .setFocusColor(Color.RED)
-            .setNormalColor(Color.WHITE)
-            .setRadius(context.dp2px(3).toInt())
+                .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
+                .setFocusColor(Color.RED)
+                .setNormalColor(Color.WHITE)
+                .setRadius(context.dp2px(3).toInt())
         ultraViewPager.apply {
             indicator.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
-                .setMargin(0, 0, 0, context.dp2px(10).toInt())
-                .build()
+                    .setMargin(0, 0, 0, context.dp2px(10).toInt())
+                    .build()
             setInfiniteLoop(true)
             ultraViewPager.setAutoScroll(3000)
         }
-
         topAdapter.setItemClickListener {
             if (it.type.equals("news")) {
                 mediaActivityApi.startNewsActivity(context, it.title, it.link)
@@ -117,9 +131,9 @@ class SquareFragment : BaseFragment(), SquareView {
                 BlogDetailActivity.start(context, obj)
             } else if (flag == BlogAdapter.PRIDE) {
                 if (obj.isPrided == 1) {
-                    unPride(obj, position)
+                    viewModel.unPride(obj, position)
                 } else {
-                    toPride(obj, position)
+                    viewModel.pride(obj, position)
                 }
             }
         }
@@ -142,73 +156,10 @@ class SquareFragment : BaseFragment(), SquareView {
         smartLayout.autoRefresh()
     }
 
-    //得到轮播数据
-    override fun onGetCarousels(carousels: MutableList<Carousel>) {
-        mCarousels.clear()
-        mCarousels.addAll(carousels)
-        ultraViewPager.refresh()
-    }
-
-    //得到博客列表
-    override fun onGetBlogs(blogs: MutableList<Blog>) {
-        if (curPage == 1) {
-            mBlogs.clear()
-        }
-        curPage++
-        val index = mBlogs.size
-        mBlogs.addAll(blogs)
-        if (index == 0) {
-            blogAdapter.notifyDataSetChanged()
-        } else {
-            blogAdapter.notifyItemRangeChanged(index, 10)
-        }
-        multiView.showContent()
-    }
-
-    //点击点赞图标
-    private fun toPride(obj: Blog, position: Int) {
-        presenter.pride(obj, position)
-    }
-
-    override fun prideOk(index: Int) {
-        blogAdapter.notifyItemChanged(index)
-    }
-
-    //取消点赞
-    private fun unPride(obj: Blog, position: Int) {
-        presenter.unPride(obj, position)
-    }
-
-    override fun unprideOk(index: Int) {
-        blogAdapter.notifyItemChanged(index)
-    }
-
-    override fun loading() {
-        Alert.loading(context)
-    }
-
-    override fun stopLoad() {
-        if (smartLayout.state == RefreshState.Refreshing) {
-            smartLayout.finishRefresh()
-        } else if (smartLayout.state == RefreshState.Loading) {
-            smartLayout.finishLoadMore(100)
-        }
-        Alert.close()
-    }
-
-    override fun error(code: Int, msg: String) {
+    override fun onStateEventChanged(type: Int, msg: String) {
         toast(msg)
-    }
-
-    override fun onGetBlogError(e: ApiException) {
-        if (mBlogs.size == 0 && mCarousels.size == 0) {
-            multiView.showEmpty()
-            if (e.errorCode == ErrorStatus.NETWORK_ERROR) {
-                multiView.showNoNetwork()
-            }
-        }
         //已获得所有数据
-        if (e.errorCode == 400) {
+        if (type == 400) {
             fl_load_state.visibility = View.VISIBLE
             tvLoadFinish.visibility = View.VISIBLE
             tvLoadFail.visibility = View.GONE
@@ -220,8 +171,22 @@ class SquareFragment : BaseFragment(), SquareView {
         }
     }
 
-    override fun closeMvp() {
-        presenter.detach()
+    override fun getRefreshListenerOrNull() = object : IRefreshListener {
+        override fun onLoadMoreOk(msg: String?) {
+            smartLayout.finishLoadMore(200)
+        }
+
+        override fun onRefreshFail(msg: String?) {
+            smartLayout.finishRefresh(false)
+        }
+
+        override fun onRefreshOk(msg: String?) {
+            smartLayout.finishRefresh()
+        }
+
+        override fun onLoadMoreFail(msg: String?) {
+            smartLayout.finishLoadMore(200)
+        }
     }
 
     //接收BlogEvent事件
@@ -229,19 +194,19 @@ class SquareFragment : BaseFragment(), SquareView {
     fun receive(event: BlogEvent) {
         when (event.tag) {
             PRIDE_OK ->
-                BlogHelper.getBlog(event.msg, mBlogs)?.apply {
+                BlogHelper.getBlog(event.msg, viewModel.mLiveBlogs.value!!)?.apply {
                     isPrided = 1
                     prideCount++
                 }
             PRIDE_CANCEL ->
-                BlogHelper.getBlog(event.msg, mBlogs)?.apply {
+                BlogHelper.getBlog(event.msg, viewModel.mLiveBlogs.value!!)?.apply {
                     isPrided = 0
                     prideCount--
                 }
             COLLECT_OK ->
-                BlogHelper.getBlog(event.msg, mBlogs)?.isCollected = 1
+                BlogHelper.getBlog(event.msg, viewModel.mLiveBlogs.value!!)?.isCollected = 1
             COLLECT_CANCEL ->
-                BlogHelper.getBlog(event.msg, mBlogs)?.isCollected = 0
+                BlogHelper.getBlog(event.msg, viewModel.mLiveBlogs.value!!)?.isCollected = 0
             CREATE_BLOG, UPDATE_BLOG, COMMENT, LOGIN_IN, LOGIN_OUT ->
                 smartLayout.autoRefresh()
         }

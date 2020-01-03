@@ -1,53 +1,60 @@
 package com.cysion.usercenter.ui.activity
 
-import androidx.fragment.app.Fragment
-import com.cysion.ktbox.base.BaseActivity
+import android.os.Handler
+import com.cysion.ktbox.Box
 import com.cysion.ktbox.base.BaseFragmentAdapter
+import com.cysion.ktbox.base.BaseModelActivity
+import com.cysion.ktbox.listener.IRefreshListener
 import com.cysion.ktbox.utils.darkTextTheme
 import com.cysion.ktbox.utils.whiteTextTheme
-import com.cysion.other.color
 import com.cysion.targetfun._addOnPageChangeListener
 import com.cysion.uibox.toast.toast
 import com.cysion.usercenter.R
 import com.cysion.usercenter.helper.ListVals
-import com.cysion.usercenter.helper.UserCache
+import com.cysion.usercenter.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
-    private lateinit var mFragments: MutableList<Fragment>
-    private lateinit var mTitles: MutableList<String>
+class MainActivity : BaseModelActivity<MainViewModel>() {
+
     var lastClickTime = 0L
 
     override fun getLayoutId(): Int = R.layout.activity_main
 
+    override fun observeModel() {
+    }
+
+    override fun getRefreshListenerOrNull(): IRefreshListener? = null
+
+    override fun onStateEventChanged(type: Int, msg: String?) {
+    }
+
     override fun initView() {
-        darkTextTheme(color(R.color.white))
+        darkTextTheme(Box.color(R.color.white))
         vpContent.offscreenPageLimit = 4
     }
 
     override fun initData() {
         super.initData()
-        UserCache.fromCache()
-        mFragments = ListVals.getFragments()
-        mTitles = ListVals.getTitles()
-        vpContent.adapter = BaseFragmentAdapter(this.supportFragmentManager, mFragments, mTitles)
+        viewModel.syncUserInfo()
+        vpContent.adapter = BaseFragmentAdapter(this.supportFragmentManager, ListVals.getFragments(), ListVals.getTitles())
         tablayout.setupWithViewPager(vpContent)
         initTabs()
         vpContent._addOnPageChangeListener {
             _onPageSelected {
                 when (it) {
                     2 -> {
-                        whiteTextTheme(color(R.color.dark))
+                        whiteTextTheme(Box.color(R.color.dark))
                     }
                     3 -> {
-                        whiteTextTheme(color(R.color.colorAccent))
+                        whiteTextTheme(Box.color(R.color.colorAccent))
                     }
                     else -> {
-                        darkTextTheme(color(R.color.white))
+                        darkTextTheme(Box.color(R.color.white))
                     }
                 }
             }
         }
+
     }
 
     //初始化tab，设置图标和自定义布局，注意顺序和某些语句。
@@ -57,9 +64,6 @@ class MainActivity : BaseActivity() {
             tablayout.getTabAt(i)!!.setIcon(icons[i])
             tablayout.getTabAt(i)!!.setCustomView(R.layout.tabmain_item)
         }
-    }
-
-    override fun closeMvp() {
     }
 
     override fun onBackPressed() {

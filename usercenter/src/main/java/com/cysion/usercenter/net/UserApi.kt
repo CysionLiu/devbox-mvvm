@@ -7,6 +7,7 @@ import com.cysion.usercenter.helper.UserCache
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
+import retrofit2.Call
 import retrofit2.http.*
 
 object UserCaller : BaseCaller<UserApi>(UserUrls.HOST, UserApi::class.java) {
@@ -25,7 +26,7 @@ interface UserApi {
 
     //    顶部轮播
     @GET("toploopers")
-    fun getCarousel(): Observable<BaseResponse<MutableList<Carousel>>>
+    fun getCarousel(): Call<ApiResult<MutableList<Carousel>>>
 
     //注册
     @FormUrlEncoded
@@ -62,7 +63,7 @@ interface UserApi {
 
     //获取博客列表，时间顺序
     @GET("blog/list")
-    fun getBlogList(@Query("page") page: Int = 1): Observable<BaseResponse<MutableList<Blog>>>
+    fun getBlogList(@Query("page") page: Int = 1): Call<ApiResult<MutableList<Blog>>>
 
 
     //获取某个用户的博客
@@ -97,13 +98,13 @@ interface UserApi {
     //点赞博客
     @FormUrlEncoded
     @POST("blog/pride")
-    fun prideBlog(@Field("blogId") blogId: String): Observable<BaseResponse<Any?>>
+    fun prideBlog(@Field("blogId") blogId: String): Call<ApiResult<Any?>>
 
 
     //取消点赞博客
     @FormUrlEncoded
     @POST("blog/unpride")
-    fun unPrideBlog(@Field("blogId") blogId: String): Observable<BaseResponse<Any?>>
+    fun unPrideBlog(@Field("blogId") blogId: String): Call<ApiResult<Any?>>
 
     //收藏博客
     @FormUrlEncoded
