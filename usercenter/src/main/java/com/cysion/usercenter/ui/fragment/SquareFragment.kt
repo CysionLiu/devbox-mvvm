@@ -26,7 +26,6 @@ import com.cysion.usercenter.ui.activity.BlogDetailActivity
 import com.cysion.usercenter.ui.activity.BlogEditorActivity
 import com.cysion.usercenter.ui.activity.LoginActivity
 import com.cysion.usercenter.viewmodels.SqureViewModel
-import com.orhanobut.logger.Logger
 import com.tmall.ultraviewpager.UltraViewPager
 import kotlinx.android.synthetic.main.fragment_square.*
 import org.greenrobot.eventbus.Subscribe
@@ -56,11 +55,9 @@ class SquareFragment : BaseModelFragment<SqureViewModel>() {
 
     override fun observeModel() {
         viewModel.mLiveCarousel.observe(this, Observer {
-            Logger.d("flag--initViewPager: ")
             ultraViewPager.refresh()
         })
         viewModel.mLiveBlogs.observe(this, Observer {
-            Logger.d("flag--initRecyclerView:133： ")
             curPage++
             val index = mBlogs.size
             if (index <= 10) {
@@ -71,7 +68,6 @@ class SquareFragment : BaseModelFragment<SqureViewModel>() {
             multiView.showContent()
         })
         viewModel.mLivePride.observe(this, Observer {
-            Logger.d("flag--initRecyclerView:144 ")
             blogAdapter.notifyItemChanged(it)
         })
     }

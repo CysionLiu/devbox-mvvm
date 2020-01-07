@@ -1,60 +1,57 @@
 package com.cysion.usercenter.presenter
 
 import com.cysion.ktbox.base.BasePresenter
-import com.cysion.ktbox.net.ApiException
 import com.cysion.ktbox.net.BaseResponseRx
 import com.cysion.other.addTo
 import com.cysion.targetfun._subscribe
 import com.cysion.usercenter.entity.Blog
-import com.cysion.usercenter.net.UserCallBack
 import com.cysion.usercenter.net.UserCaller
-import com.cysion.usercenter.net.call
 import com.cysion.usercenter.ui.iview.BlogDetailView
-import okhttp3.Request
 
 class BlogDetailPresenter : BasePresenter<BlogDetailView>() {
 
 
     fun pride(blog: Blog) {
+
         checkViewAttached()
         attchedView?.loading()
-        UserCaller.api.prideBlog(blog.blogId)
-                .call(object : UserCallBack<Any?> {
-                    override fun onSuccess(request: Request, obj: Any?) {
-                        attchedView?.apply {
-                            attchedView?.stopLoad()
-                            blog.isPrided = 1
-                            blog.prideCount++
-                            prideOk(blog.blogId)
-                        }
-                    }
-
-                    override fun onError(request: Request, error: ApiException) {
-                        attchedView?.stopLoad()
-                        error(error)
-                    }
-                })
+//        UserCaller.api.prideBlog(blog.blogId)
+//                .call(object : UserCallBack<Any?> {
+//                    override fun onSuccess(request: Request, obj: Any?) {
+//                        attchedView?.apply {
+//                            attchedView?.stopLoad()
+//                            blog.isPrided = 1
+//                            blog.prideCount++
+//                            prideOk(blog.blogId)
+//                        }
+//                    }
+//
+//                    override fun onError(request: Request, postError: ApiException) {
+//                        attchedView?.stopLoad()
+//                        postError(postError)
+//                    }
+//                })
     }
 
     fun unPride(blog: Blog) {
         checkViewAttached()
         attchedView?.loading()
-        UserCaller.api.unPrideBlog(blog.blogId)
-                .call(object : UserCallBack<Any?> {
-                    override fun onSuccess(request: Request, obj: Any?) {
-                        attchedView?.apply {
-                            attchedView?.stopLoad()
-                            blog.isPrided = 0
-                            blog.prideCount--
-                            unprideOk(blog.blogId)
-                        }
-                    }
-
-                    override fun onError(request: Request, error: ApiException) {
-                        attchedView?.stopLoad()
-                        error(error)
-                    }
-                })
+//        UserCaller.api.unPrideBlog(blog.blogId)
+//                .call(object : UserCallBack<Any?> {
+//                    override fun onSuccess(request: Request, obj: Any?) {
+//                        attchedView?.apply {
+//                            attchedView?.stopLoad()
+//                            blog.isPrided = 0
+//                            blog.prideCount--
+//                            unprideOk(blog.blogId)
+//                        }
+//                    }
+//
+//                    override fun onError(request: Request, postError: ApiException) {
+//                        attchedView?.stopLoad()
+//                        postError(postError)
+//                    }
+//                })
     }
 
 

@@ -1,17 +1,14 @@
 package com.cysion.ktbox.base
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.cysion.ktbox.bean.StateEvent
-import retrofit2.Call
+import com.cysion.ktbox.net.ErrorHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
 
     private val state = MutableLiveData<StateEvent>()
-    private val calls:MutableList<Call<*>> = mutableListOf()
-
 
     internal fun observeState(lifecycleOwner: LifecycleOwner, observer: Observer<StateEvent>) {
         state.observe(lifecycleOwner, observer)
@@ -42,19 +39,41 @@ abstract class BaseViewModel : ViewModel() {
         postState(StateEvent.LOAD_MORE_FAIL, msg)
     }
 
-    protected fun startLoading(msg: String = "") {
+    fun startLoading(msg: String = "") {
         postState(StateEvent.LOADING, msg)
     }
 
-    protected fun stopLoading() {
+    fun stopLoading() {
         postState(StateEvent.LOADED, "")
     }
 
-    protected fun error(type:Int,msg:String){
+    /*发送错误信息，在Ui中的onStateEventChanged()方法接收*/
+    fun postError(type: Int, msg: String) {
         postState(type, msg)
     }
 
-    fun Call<*>.addTo(){
-        calls.add(this)
+    /*
+    * 处理retrofit网络请求，得到原始对象数据
+    * @blockUiSafe，同步代码块，所以挂起任务要求主线程安全*/
+    fun <T> launchRawData(showLoading: Boolean = false,
+                          onError: (code: Int, msg: String) -> Unit = { code, msg ->
+                              postError(code, msg)
+                          },
+                          blockUiSafe: suspend CoroutineScope.() -> T) {
+        if (showLoading) {
+            this.startLoading()
+        }
+        viewModelScope.launch {
+            try {
+                blockUiSafe()
+            } catch (e: java.lang.Exception) {
+                val handle = ErrorHandler.handle(e)
+                onError(handle.errorCode, handle.errorMsg)
+            } finally {
+                if (showLoading) {
+                    stopLoading()
+                }
+            }
+        }
     }
 }

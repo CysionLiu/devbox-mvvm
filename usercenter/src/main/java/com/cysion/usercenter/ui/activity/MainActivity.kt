@@ -54,6 +54,8 @@ class MainActivity : BaseModelActivity<MainViewModel>() {
                 }
             }
         }
+        Handler()
+                .postDelayed({finish()},200)
 
     }
 
