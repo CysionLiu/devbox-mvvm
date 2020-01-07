@@ -2,44 +2,22 @@ package com.cysion.usercenter.ui.activity
 
 import android.app.Activity
 import android.os.Bundle
-import com.cysion.ktbox.base.BaseActivity
+import androidx.lifecycle.Observer
+import com.cysion.ktbox.base.BaseModelActivity
 import com.cysion.ktbox.utils.whiteTextTheme
 import com.cysion.other.color
 import com.cysion.other.startActivity_ex
 import com.cysion.targetfun._addTextChangedListener
 import com.cysion.uibox.bar.TopBar
-import com.cysion.uibox.dialog.Alert
 import com.cysion.uibox.toast.toast
 import com.cysion.usercenter.R
 import com.cysion.usercenter.constant.*
 import com.cysion.usercenter.event.BlogEvent
-import com.cysion.usercenter.presenter.BlogEditorPresenter
-import com.cysion.usercenter.ui.iview.BlogEditorView
+import com.cysion.usercenter.viewmodels.BlogEditorViewModel
 import kotlinx.android.synthetic.main.activity_blog_editor.*
 import org.greenrobot.eventbus.EventBus
 
-class BlogEditorActivity : BaseActivity(), BlogEditorView {
-
-    /*
-    启动该activity
-    type=0，创建；1，编辑
-     */
-    companion object {
-        fun start(activity: Activity, title: String, content: String, type: Int = 0, blogId: String = "") {
-            val b = Bundle()
-            b.putString(BLOG_TITLE, title)
-            b.putString(BLOG_CONTENT, content)
-            b.putInt(BLOG_EDIT_TYPE, type)
-            b.putString(BLOG_ID, blogId)
-            activity.startActivity_ex<BlogEditorActivity>(BUNDLE_KEY, b)
-        }
-    }
-
-    private val presenter by lazy {
-        BlogEditorPresenter().apply {
-            attach(this@BlogEditorActivity)
-        }
-    }
+class BlogEditorActivity : BaseModelActivity<BlogEditorViewModel>(){
 
     private val extra by lazy {
         intent.getBundleExtra(BUNDLE_KEY)
@@ -65,7 +43,21 @@ class BlogEditorActivity : BaseActivity(), BlogEditorView {
         initTextWatcher()
         initTopBar()
         initEditor()
-
+    }
+    override fun observeModel() {
+        viewModel.mLiveCreateState.observe(this, Observer {
+            if(it){
+                toast("创建成功")
+                sendBusEvent(CREATE_BLOG, "")
+                finish()
+            }
+        })
+        viewModel.mLiveUpdateState.observe(this, Observer {
+            if(it){
+                toast("更新成功")
+                sendBusEvent(CREATE_BLOG, blogId)
+            }
+        })
     }
 
     private fun initTextWatcher() {
@@ -109,12 +101,12 @@ class BlogEditorActivity : BaseActivity(), BlogEditorView {
                     toast("请输入标题")
                 } else {
                     if (type == 0) {
-                        presenter.createBlog(
+                        viewModel.createBlog(
                             etTitle.text.toString().trim()
                             , etContent.text.toString().trim()
                         )
                     } else {
-                        presenter.updateBlog(
+                        viewModel.updateBlog(
                             etTitle.text.toString().trim()
                             , etContent.text.toString().trim(),
                             blogId
@@ -127,35 +119,29 @@ class BlogEditorActivity : BaseActivity(), BlogEditorView {
         }
     }
 
-    override fun createDone() {
-        toast("创建成功")
-        sendBusEvent(CREATE_BLOG, "")
-        finish()
-    }
+    override fun getRefreshListenerOrNull()=null
 
-    override fun updateDone() {
-        toast("更新成功")
-        sendBusEvent(CREATE_BLOG, blogId)
-    }
-
-    override fun loading() {
-        Alert.loading(self)
-    }
-
-    override fun stopLoad() {
-        Alert.close()
-    }
-
-    override fun error(code: Int, msg: String) {
+    override fun onStateEventChanged(type: Int, msg: String) {
         toast(msg)
-    }
-
-    override fun closeMvp() {
-        presenter.detach()
     }
 
     //发送eventbus事件，用于更新首页列表
     fun sendBusEvent(tag: Int, msg: String) {
         EventBus.getDefault().post(BlogEvent(tag, msg))
+    }
+
+    /*
+    启动该activity
+    type=0，创建；1，编辑
+     */
+    companion object {
+        fun start(activity: Activity, title: String, content: String, type: Int = 0, blogId: String = "") {
+            val b = Bundle()
+            b.putString(BLOG_TITLE, title)
+            b.putString(BLOG_CONTENT, content)
+            b.putInt(BLOG_EDIT_TYPE, type)
+            b.putString(BLOG_ID, blogId)
+            activity.startActivity_ex<BlogEditorActivity>(BUNDLE_KEY, b)
+        }
     }
 }

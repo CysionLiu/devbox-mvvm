@@ -1,13 +1,13 @@
 package com.cysion.usercenter.helper
 
-import android.app.Activity
-import android.widget.TextView
-import com.cysion.uibox.dialog.Alert
+import androidx.fragment.app.FragmentActivity
 import com.cysion.uibox.dialog.CANCEL
 import com.cysion.uibox.dialog.CONFIRM
 import com.cysion.uibox.dialog.OnTypeClickListener
 import com.cysion.usercenter.R
 import com.cysion.usercenter.entity.Blog
+import com.cysion.wedialog.WeDialog
+import kotlinx.android.synthetic.main.dialog_comment.view.*
 
 object BlogHelper {
 
@@ -23,19 +23,21 @@ object BlogHelper {
     }
 
     fun comment(
-        src: Activity,
+        src: FragmentActivity,
         clickListener: OnTypeClickListener?
     ) {
-        val view = Alert.setup(src, R.layout.dialog_comment, 0.8f, false, clickListener)
-        val editor = view.findViewById<TextView>(R.id.etComment)
-        view.findViewById<TextView>(R.id.tv_cancel).setOnClickListener {
-            Alert.close()
-            clickListener?.invoke(CANCEL, "")
-        }
-        view.findViewById<TextView>(R.id.tv_confirm).setOnClickListener {
-            Alert.close()
-            clickListener?.invoke(CONFIRM, editor.text.toString().trim())
-        }
+        WeDialog.custom(src)
+                .layout(R.layout.dialog_comment)
+                .setWidthRatio(0.8f)
+                .show { df, dialogView, bundle ->
+                    dialogView.tv_cancel.setOnClickListener {
+                        df.dismissAllowingStateLoss()
+                        clickListener?.invoke(CANCEL, "")
+                    }
+                    dialogView.tv_confirm.setOnClickListener {
+                        df.dismissAllowingStateLoss()
+                        clickListener?.invoke(CONFIRM, dialogView.etComment.text.toString().trim())
+                    }
+                }
     }
-
 }

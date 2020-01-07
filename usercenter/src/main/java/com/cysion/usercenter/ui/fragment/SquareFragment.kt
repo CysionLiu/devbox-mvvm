@@ -25,14 +25,14 @@ import com.cysion.usercenter.helper.UserCache
 import com.cysion.usercenter.ui.activity.BlogDetailActivity
 import com.cysion.usercenter.ui.activity.BlogEditorActivity
 import com.cysion.usercenter.ui.activity.LoginActivity
-import com.cysion.usercenter.viewmodels.SqureViewModel
+import com.cysion.usercenter.viewmodels.SquareViewModel
 import com.tmall.ultraviewpager.UltraViewPager
 import kotlinx.android.synthetic.main.fragment_square.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 
-class SquareFragment : BaseModelFragment<SqureViewModel>() {
+class SquareFragment : BaseModelFragment<SquareViewModel>() {
 
     private lateinit var topAdapter: HomeTopPageAdapter
     private lateinit var blogAdapter: BlogAdapter
@@ -53,17 +53,21 @@ class SquareFragment : BaseModelFragment<SqureViewModel>() {
         initFab()
     }
 
+    /*观察live data，获取目标数据*/
     override fun observeModel() {
         viewModel.mLiveCarousel.observe(this, Observer {
             ultraViewPager.refresh()
         })
         viewModel.mLiveBlogs.observe(this, Observer {
             curPage++
+            if (it.size > 0) {
+                smartLayout.setEnableLoadMore(true)
+            }
             val index = mBlogs.size
             if (index <= 10) {
                 blogAdapter.notifyDataSetChanged()
             } else {
-                blogAdapter.notifyItemRangeChanged(index-10, 10)
+                blogAdapter.notifyItemRangeChanged(index - 10, 10)
             }
             multiView.showContent()
         })
@@ -74,11 +78,11 @@ class SquareFragment : BaseModelFragment<SqureViewModel>() {
 
     //    初始化刷新控件
     private fun initRefreshLayout() {
+        smartLayout.setEnableLoadMore(false)
         smartLayout.setOnRefreshListener {
             curPage = 1
             viewModel.getCarousel()
             viewModel.getBlogs(curPage)
-            smartLayout.setEnableLoadMore(true)
             fl_load_state.visibility = View.GONE
         }
         smartLayout.setOnLoadMoreListener {

@@ -1,36 +1,29 @@
 package com.cysion.usercenter.ui.activity
 
-import android.os.Handler
 import com.cysion.ktbox.Box
 import com.cysion.ktbox.base.BaseFragmentAdapter
 import com.cysion.ktbox.base.BaseModelActivity
-import com.cysion.ktbox.listener.IRefreshListener
 import com.cysion.ktbox.utils.darkTextTheme
 import com.cysion.ktbox.utils.whiteTextTheme
 import com.cysion.targetfun._addOnPageChangeListener
 import com.cysion.uibox.toast.toast
 import com.cysion.usercenter.R
 import com.cysion.usercenter.helper.ListVals
-import com.cysion.usercenter.viewmodels.MainViewModel
+import com.cysion.usercenter.viewmodels.UserViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseModelActivity<MainViewModel>() {
+class MainActivity : BaseModelActivity<UserViewModel>() {
 
     var lastClickTime = 0L
 
     override fun getLayoutId(): Int = R.layout.activity_main
 
-    override fun observeModel() {
-    }
-
-    override fun getRefreshListenerOrNull(): IRefreshListener? = null
-
-    override fun onStateEventChanged(type: Int, msg: String?) {
-    }
-
     override fun initView() {
         darkTextTheme(Box.color(R.color.white))
         vpContent.offscreenPageLimit = 4
+    }
+
+    override fun observeModel() {
     }
 
     override fun initData() {
@@ -54,9 +47,11 @@ class MainActivity : BaseModelActivity<MainViewModel>() {
                 }
             }
         }
-        Handler()
-                .postDelayed({finish()},200)
+    }
 
+    override fun getRefreshListenerOrNull()= null
+
+    override fun onStateEventChanged(type: Int, msg: String) {
     }
 
     //初始化tab，设置图标和自定义布局，注意顺序和某些语句。

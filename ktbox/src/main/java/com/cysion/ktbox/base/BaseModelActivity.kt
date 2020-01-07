@@ -1,9 +1,9 @@
 package com.cysion.ktbox.base
 
-import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.cysion.ktbox.bean.StateEvent
@@ -19,7 +19,7 @@ abstract class BaseModelActivity<VM : BaseViewModel> : AppCompatActivity() {
     protected lateinit var viewModel: VM
     protected var mIRefreshListener: IRefreshListener? = null
     //避开与某些闭包内的this冲突
-    protected val self: Activity by lazy {
+    protected val self: FragmentActivity by lazy {
         this
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +35,7 @@ abstract class BaseModelActivity<VM : BaseViewModel> : AppCompatActivity() {
                 StateEvent.REFRESH_FAIL -> mIRefreshListener?.onRefreshFail(it.msg)
                 StateEvent.LOAD_MORE_OK -> mIRefreshListener?.onLoadMoreOk(it.msg)
                 StateEvent.LOAD_MORE_FAIL -> mIRefreshListener?.onLoadMoreFail(it.msg)
-                else -> onStateEventChanged(it.type, it.msg)
+                else -> onStateEventChanged(it.type, it.msg?:"")
             }
         })
         EventBus.getDefault().register(this)
@@ -83,5 +83,5 @@ abstract class BaseModelActivity<VM : BaseViewModel> : AppCompatActivity() {
 
     protected abstract fun getRefreshListenerOrNull(): IRefreshListener?
 
-    protected abstract fun onStateEventChanged(type: Int, msg: String?)
+    protected abstract fun onStateEventChanged(type: Int, msg: String)
 }

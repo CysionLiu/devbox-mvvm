@@ -23,10 +23,11 @@ fun <T> BaseViewModel.launchWithFilter(taskOfRetrofit: suspend CoroutineScope.()
                                            postError(code,msg)
                                        },
                                        showLoading: Boolean = false) {
-    if (showLoading) {
-        this.startLoading()
-    }
+
     viewModelScope.launch {
+        if (showLoading) {
+            startLoading()
+        }
         try {
             val ans = withContext(Dispatchers.IO) {
                 taskOfRetrofit()

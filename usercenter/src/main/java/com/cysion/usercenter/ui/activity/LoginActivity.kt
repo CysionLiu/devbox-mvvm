@@ -1,31 +1,30 @@
 package com.cysion.usercenter.ui.activity
 
-import com.cysion.ktbox.base.BaseActivity
+import androidx.lifecycle.Observer
+import com.cysion.ktbox.base.BaseModelActivity
 import com.cysion.ktbox.utils.whiteTextTheme
-import com.cysion.other._setOnClickListener
 import com.cysion.other.color
 import com.cysion.other.startActivity_ex
 import com.cysion.uibox.bar.TopBar
-import com.cysion.uibox.dialog.Alert
 import com.cysion.uibox.toast.toast
 import com.cysion.usercenter.R
 import com.cysion.usercenter.constant.LOGIN_IN
-import com.cysion.usercenter.entity.UserEntity
 import com.cysion.usercenter.event.UserEvent
-import com.cysion.usercenter.presenter.LoginPresenter
-import com.cysion.usercenter.ui.iview.LoginView
+import com.cysion.usercenter.viewmodels.UserViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.EventBus
 
-class LoginActivity : BaseActivity(), LoginView {
-
-    val presenter by lazy {
-        LoginPresenter().apply {
-            attach(this@LoginActivity)
-        }
-    }
+class LoginActivity : BaseModelActivity<UserViewModel>() {
 
     override fun getLayoutId(): Int = R.layout.activity_login
+
+    override fun observeModel() {
+        viewModel.mLiveUserInfo.observe(this, Observer {
+            toast("登录成功")
+            finish()
+            EventBus.getDefault().post(UserEvent(LOGIN_IN, ""))
+        })
+    }
 
     override fun initView() {
         whiteTextTheme(color(R.color.colorAccent))
@@ -37,41 +36,23 @@ class LoginActivity : BaseActivity(), LoginView {
                 }
             }
         }
-
         //简单校验下
         tvLogin.setOnClickListener {
             if (etUsername.text.toString().length <= 3 || etPwd.text.toString().length <= 3) {
                 toast("长度不符")
                 return@setOnClickListener
             }
-            presenter.login(etUsername.text.toString(), etPwd.text.toString())
+            viewModel.login(etUsername.text.toString(), etPwd.text.toString())
         }
-
-        tvRegister._setOnClickListener {
+        tvRegister.setOnClickListener {
             self.startActivity_ex<RegisterActivity>()
             finish()
         }
     }
 
-    override fun setUserInfo(u: UserEntity) {
-        toast("登录成功")
-        finish()
-        EventBus.getDefault().post(UserEvent(LOGIN_IN, ""))
-    }
+    override fun getRefreshListenerOrNull() = null
 
-    override fun loading() {
-        Alert.loading(self)
-    }
-
-    override fun stopLoad() {
-        Alert.close()
-    }
-
-    override fun error(code: Int, msg: String) {
+    override fun onStateEventChanged(type: Int, msg: String) {
         toast(msg)
-    }
-
-    override fun closeMvp() {
-        presenter.detach()
     }
 }

@@ -39,24 +39,24 @@ interface UserApi {
     //登录
     @FormUrlEncoded
     @POST("login")
-    fun login(
+    suspend fun login(
         @Field("username") username: String,
         @Field("password") password: String
-    ): Observable<BaseResponse<UserEntity>>
+    ): ApiResult<UserEntity>
 
 
     //更新用户信息
     @FormUrlEncoded
     @POST("updateuser")
-    fun updateUserInfo(
+    suspend fun updateUserInfo(
         @Field("nickname") nickname: String,
         @Field("desc") desc: String,
         @Field("avatar") avatar: String = ""
-    ): Observable<BaseResponse<UserEntity>>
+    ): ApiResult<UserEntity>
 
     //获取用户详情
     @POST("userdetail")
-    fun getUserInfo(): Observable<BaseResponse<UserEntity>>
+    suspend fun getUserInfo():ApiResult<UserEntity>
 
 //    以下，博客相关
 
@@ -71,27 +71,27 @@ interface UserApi {
 
     //获取某个博客详情
     @GET("blog/get/{blogId}")
-    fun getBlog(@Path("blogId") blogId: String): Observable<BaseResponse<Blog>>
+    suspend fun getBlog(@Path("blogId") blogId: String): ApiResult<Blog>
 
     //删除博客
     @FormUrlEncoded
     @POST("blog/del")
-    fun delBlog(@Field("blogId") blogId: String): Observable<BaseResponse<Any?>>
+    suspend fun delBlog(@Field("blogId") blogId: String): ApiResult<Any?>
 
 
     //创建博客
     @FormUrlEncoded
     @POST("blog/add")
-    fun createBlog(@Field("title") title: String, @Field("text") text: String): Observable<BaseResponse<Any?>>
+    suspend fun createBlog(@Field("title") title: String, @Field("text") text: String):ApiResult<Any?>
 
 
     //更新博客
     @FormUrlEncoded
     @POST("blog/update")
-    fun updateBlog(
+    suspend fun updateBlog(
         @Field("title") title: String, @Field("text") text: String
         , @Field("blogId") blogId: String
-    ): Observable<BaseResponse<Any?>>
+    ): ApiResult<Any?>
 
 
     //点赞博客
@@ -108,32 +108,32 @@ interface UserApi {
     //收藏博客
     @FormUrlEncoded
     @POST("blog/collect")
-    fun collectBlog(@Field("itemId") blogId: String): Observable<BaseResponse<Any?>>
+    suspend fun collectBlog(@Field("itemId") blogId: String): ApiResult<Any?>
 
 
     //取消收藏博客
     @FormUrlEncoded
     @POST("blog/uncollect")
-    fun unCollectBlog(@Field("itemId") blogId: String): Observable<BaseResponse<Any?>>
+    suspend fun unCollectBlog(@Field("itemId") blogId: String): ApiResult<Any?>
 
 
     //博客收藏列表
     @POST("blog/collections")
-    fun getCollectList(@Query("colType") colType: String = "0"): Observable<BaseResponse<MutableList<CollectEntity>>>
+    suspend fun getCollectList(@Query("colType") colType: String = "0"): ApiResult<MutableList<CollectEntity>>
 
 
     //评论博客
     @FormUrlEncoded
     @POST("blog/comment")
-    fun commentBlog(
+    suspend fun commentBlog(
         @Field("parentId") parentId: String,
         @Field("content") content: String
-    ): Observable<BaseResponse<Any?>>
+    ): ApiResult<Any?>
 
 
     //获取评论列表，时间顺序
     @GET("blog/comments/list")
-    fun getComments(@Query("parentId") parentId: String): Observable<BaseResponse<MutableList<CommentEntity>>>
+    suspend fun getComments(@Query("parentId") parentId: String): ApiResult<MutableList<CommentEntity>>
 
 
     //获得某个用户的详情

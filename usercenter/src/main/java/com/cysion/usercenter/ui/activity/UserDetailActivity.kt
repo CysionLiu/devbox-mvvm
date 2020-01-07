@@ -1,22 +1,20 @@
 package com.cysion.usercenter.ui.activity
 
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.cysion.ktbox.base.BaseActivity
-import com.cysion.ktbox.net.BaseResponseRx
-import com.cysion.ktbox.net.ErrorHandler
+import com.cysion.ktbox.base.BaseModelActivity
 import com.cysion.ktbox.utils.whiteTextTheme
 import com.cysion.other.color
-import com.cysion.targetfun._subscribe
 import com.cysion.uibox.bar.TopBar
-import com.cysion.uibox.dialog.Alert
 import com.cysion.uibox.toast.toast
 import com.cysion.usercenter.R
 import com.cysion.usercenter.helper.UserCache
-import com.cysion.usercenter.net.UserCaller
+import com.cysion.usercenter.viewmodels.UserViewModel
 import kotlinx.android.synthetic.main.activity_userdetail.*
 
-class UserDetailActivity : BaseActivity() {
+class UserDetailActivity : BaseModelActivity<UserViewModel>() {
+
     override fun getLayoutId(): Int = R.layout.activity_userdetail
 
     override fun initView() {
@@ -43,25 +41,19 @@ class UserDetailActivity : BaseActivity() {
                 if (pos == TopBar.Pos.LEFT) {
                     finish()
                 } else if (pos == TopBar.Pos.RIGHT) {
-                    Alert.loading(self)
-                    UserCaller.api.updateUserInfo(etNickname.text.toString(), etDesc.text.toString())
-                        .compose(BaseResponseRx.validateToMain())
-                        ._subscribe {
-                            _onNext {
-                                UserCache.save(it)
-                                toast("保存成功")
-                                Alert.close()
-                            }
-                            _onError {
-                                toast(ErrorHandler.handle(it).errorMsg)
-                                Alert.close()
-                            }
-                        }
+                    viewModel.updateUserInfo(etNickname.text.toString(), etDesc.text.toString())
                 }
             }
         }
     }
+    override fun observeModel() {
+        viewModel.mLiveUserInfo.observe(this, Observer {
+            toast("保存成功")
+        })
+    }
 
-    override fun closeMvp() {
+    override fun getRefreshListenerOrNull()=null
+
+    override fun onStateEventChanged(type: Int, msg: String) {
     }
 }

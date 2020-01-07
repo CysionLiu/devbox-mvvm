@@ -3,6 +3,7 @@ package com.cysion.ktbox.base
 import androidx.lifecycle.*
 import com.cysion.ktbox.bean.StateEvent
 import com.cysion.ktbox.net.ErrorHandler
+import com.orhanobut.logger.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -15,6 +16,7 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     protected fun postState(aType: Int, aMsg: String) {
+        Logger.d("flag--postState:type:$aType,msg:$aMsg ")
         val value = state.value ?: StateEvent(0, "")
         value.apply {
             type = aType
