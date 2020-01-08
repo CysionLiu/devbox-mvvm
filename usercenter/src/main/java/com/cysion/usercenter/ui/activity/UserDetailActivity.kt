@@ -52,8 +52,7 @@ class UserDetailActivity : BaseModelActivity<UserViewModel>() {
         })
     }
 
-    override fun getRefreshListenerOrNull()=null
-
     override fun onStateEventChanged(type: Int, msg: String) {
+        toast(msg)
     }
 }

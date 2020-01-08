@@ -44,11 +44,11 @@ abstract class BaseModelActivity<VM : BaseViewModel> : AppCompatActivity() {
         initData()
     }
 
-    fun startLoading(msg: String?) {
+    protected fun startLoading(msg: String?) {
         WeDialog.loading(this)
     }
 
-    fun stopLoading() {
+    protected fun stopLoading() {
         WeDialog.dismiss()
     }
 
@@ -63,7 +63,6 @@ abstract class BaseModelActivity<VM : BaseViewModel> : AppCompatActivity() {
         EventBus.getDefault().unregister(this)
     }
 
-    protected abstract fun getLayoutId(): Int
 
     @Suppress("UNCHECKED_CAST")
     protected open  fun createViewModel(): VM{
@@ -75,13 +74,16 @@ abstract class BaseModelActivity<VM : BaseViewModel> : AppCompatActivity() {
         }
         return viewModel
     }
+
+    protected abstract fun getLayoutId(): Int
+
     protected abstract fun initView()
 
     protected abstract fun observeModel()
 
     protected open fun initData(){}
 
-    protected abstract fun getRefreshListenerOrNull(): IRefreshListener?
+    protected open fun getRefreshListenerOrNull(): IRefreshListener?=null
 
     protected abstract fun onStateEventChanged(type: Int, msg: String)
 }

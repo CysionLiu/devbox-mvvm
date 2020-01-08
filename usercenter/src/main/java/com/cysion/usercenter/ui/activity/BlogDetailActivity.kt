@@ -10,11 +10,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.cysion.ktbox.base.BaseModelActivity
 import com.cysion.ktbox.utils.whiteTextTheme
-import com.cysion.other._setOnClickListener
+import com.cysion.other.clickWithLimit
 import com.cysion.other.color
-import com.cysion.other.startActivity_ex
+import com.cysion.other.gotoActivity
 import com.cysion.uibox.bar.TopBar
-import com.cysion.uibox.dialog.CONFIRM
 import com.cysion.uibox.toast.toast
 import com.cysion.usercenter.R
 import com.cysion.usercenter.adapter.CommentAdapter
@@ -47,7 +46,7 @@ class BlogDetailActivity : BaseModelActivity<BlogViewModel>() {
                 }
             }
         }
-        llAuthorArea._setOnClickListener {
+        llAuthorArea.setOnClickListener {
             PeopleInfoActivity.start(self, blog?.authorId!!)
         }
         initCommentView()
@@ -139,11 +138,10 @@ class BlogDetailActivity : BaseModelActivity<BlogViewModel>() {
                 llPride.visibility = View.GONE
             }
         }
-
     }
 
     private fun initEvent() {
-        llCollect._setOnClickListener {
+        llCollect.setOnClickListener {
             blog?.apply {
                 if (isCollected == 0) {
                     viewModel.collect(mBlogId)
@@ -153,7 +151,7 @@ class BlogDetailActivity : BaseModelActivity<BlogViewModel>() {
             }
 
         }
-        llPride._setOnClickListener {
+        llPride.clickWithLimit(100) {
             blog?.apply {
                 if (isPrided == 0) {
                     viewModel.pride(this)
@@ -163,16 +161,12 @@ class BlogDetailActivity : BaseModelActivity<BlogViewModel>() {
             }
 
         }
-        llComment._setOnClickListener {
-            BlogHelper.comment(self) { type: Int, msg: String ->
-                if (type == CONFIRM) {
-                    viewModel.comment(mBlogId, msg)
-                }
+        llComment.clickWithLimit {
+            BlogHelper.comment(self) { msg ->
+                viewModel.comment(mBlogId, msg)
             }
         }
     }
-
-    override fun getRefreshListenerOrNull() = null
 
     override fun onStateEventChanged(type: Int, msg: String) {
         toast(msg)
@@ -195,7 +189,7 @@ class BlogDetailActivity : BaseModelActivity<BlogViewModel>() {
             val b = Bundle()
             b.putString(BLOG_ID, blogId)
             b.putSerializable(BLOG, blog)
-            activity.startActivity_ex<BlogDetailActivity>(BUNDLE_KEY, b)
+            activity.gotoActivity<BlogDetailActivity>(BUNDLE_KEY, b)
         }
     }
 

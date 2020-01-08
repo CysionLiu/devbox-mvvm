@@ -1,9 +1,6 @@
 package com.cysion.usercenter.helper
 
 import androidx.fragment.app.FragmentActivity
-import com.cysion.uibox.dialog.CANCEL
-import com.cysion.uibox.dialog.CONFIRM
-import com.cysion.uibox.dialog.OnTypeClickListener
 import com.cysion.usercenter.R
 import com.cysion.usercenter.entity.Blog
 import com.cysion.wedialog.WeDialog
@@ -23,8 +20,7 @@ object BlogHelper {
     }
 
     fun comment(
-        src: FragmentActivity,
-        clickListener: OnTypeClickListener?
+        src: FragmentActivity,clickListener:(msg:String)->Unit
     ) {
         WeDialog.custom(src)
                 .layout(R.layout.dialog_comment)
@@ -32,11 +28,10 @@ object BlogHelper {
                 .show { df, dialogView, bundle ->
                     dialogView.tv_cancel.setOnClickListener {
                         df.dismissAllowingStateLoss()
-                        clickListener?.invoke(CANCEL, "")
                     }
                     dialogView.tv_confirm.setOnClickListener {
                         df.dismissAllowingStateLoss()
-                        clickListener?.invoke(CONFIRM, dialogView.etComment.text.toString().trim())
+                        clickListener(dialogView.etComment.text.toString().trim())
                     }
                 }
     }

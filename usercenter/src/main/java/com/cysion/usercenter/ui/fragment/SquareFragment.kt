@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cysion.ktbox.base.BaseModelFragment
 import com.cysion.ktbox.base.ITEM_CLICK
 import com.cysion.ktbox.listener.IRefreshListener
-import com.cysion.other._setOnClickListener
+import com.cysion.other.clickWithLimit
 import com.cysion.other.dp2px
-import com.cysion.other.startActivity_ex
+import com.cysion.other.gotoActivity
 import com.cysion.uibox.toast.toast
 import com.cysion.usercenter.R
 import com.cysion.usercenter.adapter.BlogAdapter
@@ -141,9 +141,9 @@ class SquareFragment : BaseModelFragment<SquareViewModel>() {
 
     //设置fab button点击
     private fun initFab() {
-        fabBtn._setOnClickListener {
+        fabBtn.clickWithLimit {
             if (TextUtils.isEmpty(UserCache.token)) {
-                context.startActivity_ex<LoginActivity>()
+                context.gotoActivity<LoginActivity>()
             } else {
                 BlogEditorActivity.start(context, "", "")
             }
@@ -157,18 +157,19 @@ class SquareFragment : BaseModelFragment<SquareViewModel>() {
     }
 
     override fun onStateEventChanged(type: Int, msg: String) {
-        toast(msg)
         //已获得所有数据
         if (type == 400) {
             fl_load_state.visibility = View.VISIBLE
             tvLoadFinish.visibility = View.VISIBLE
             tvLoadFail.visibility = View.GONE
             smartLayout.setEnableLoadMore(false)
+            return
         } else {
             fl_load_state.visibility = View.VISIBLE
             tvLoadFinish.visibility = View.GONE
             tvLoadFail.visibility = View.VISIBLE
         }
+        toast(msg)
     }
 
     override fun getRefreshListenerOrNull() = object : IRefreshListener {

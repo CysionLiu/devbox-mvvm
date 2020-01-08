@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.cysion.ktbox.base.BaseViewModel
 import com.cysion.usercenter.entity.Blog
 import com.cysion.usercenter.net.UserCaller
-import kotlinx.coroutines.delay
 
 class UserBlogViewModel:BaseViewModel() {
     val mLiveDelState: MutableLiveData<Boolean> = MutableLiveData()
@@ -14,7 +13,7 @@ class UserBlogViewModel:BaseViewModel() {
     fun getBlogs(page: Int = 1) {
         launchWithFilter(
                 taskOfRetrofit = {
-                    UserCaller.api.getBlogList(page)
+                    UserCaller.api.getUserBlogList(page)
                 },
                 onSuccess = {
                     mLiveBlogs.postValue(it)

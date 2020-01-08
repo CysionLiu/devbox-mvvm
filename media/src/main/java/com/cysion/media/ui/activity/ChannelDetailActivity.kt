@@ -1,7 +1,8 @@
 package com.cysion.media.ui.activity
 
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cysion.ktbox.base.BaseActivity
+import com.cysion.ktbox.base.BaseModelActivity
 import com.cysion.ktbox.net.ErrorStatus
 import com.cysion.ktbox.utils.whiteTextTheme
 import com.cysion.media.R
@@ -10,28 +11,21 @@ import com.cysion.media.constant.BUNDLE_KEY
 import com.cysion.media.constant.CHANNEL_NAME
 import com.cysion.media.constant.TITLE
 import com.cysion.media.entity.Song
-import com.cysion.media.presenter.SongPresenter
-import com.cysion.media.ui.iview.SongView
+import com.cysion.media.viewmodel.SongViewModel
 import com.cysion.other.color
 import com.cysion.uibox.bar.TopBar
 import com.cysion.uibox.toast.toast
 import kotlinx.android.synthetic.main.activity_channel_detail.*
 
-class ChannelDetailActivity : BaseActivity(), SongView {
-
-    private val presenter by lazy {
-        SongPresenter().apply {
-            attach(this@ChannelDetailActivity)
-        }
-    }
+class ChannelDetailActivity : BaseModelActivity<SongViewModel>() {
 
     private var songList: MutableList<Song> = mutableListOf()
 
     private val title: String by lazy {
-        intent.getBundleExtra(BUNDLE_KEY).getString(TITLE)?:""
+        intent.getBundleExtra(BUNDLE_KEY).getString(TITLE) ?: ""
     }
     private val channelName: String by lazy {
-        intent.getBundleExtra(BUNDLE_KEY).getString(CHANNEL_NAME)?:""
+        intent.getBundleExtra(BUNDLE_KEY).getString(CHANNEL_NAME) ?: ""
     }
 
     private val adapter by lazy {
@@ -55,33 +49,23 @@ class ChannelDetailActivity : BaseActivity(), SongView {
     }
 
     override fun initData() {
-        presenter.getSongs(channelName)
+        viewModel.getSongs(channelName)
     }
 
-    override fun setSongList(songs: MutableList<Song>) {
-        songList.addAll(songs)
-        adapter.notifyDataSetChanged()
+    override fun observeModel() {
+        viewModel.mLiveSongs.observe(this, Observer {
+            songList.addAll(it)
+            adapter.notifyDataSetChanged()
+            if (songList.size == 0) {
+                multiView.showEmpty()
+            }
+        })
+    }
+
+    override fun onStateEventChanged(type: Int, msg: String) {
         if (songList.size == 0) {
             multiView.showEmpty()
-        }
-    }
-
-    override fun closeMvp() {
-        presenter.detach()
-    }
-
-    override fun loading() {
-        multiView.showLoading()
-    }
-
-    override fun stopLoad() {
-        multiView.showContent()
-    }
-
-    override fun error(code: Int, msg: String) {
-        if (songList.size == 0) {
-            multiView.showEmpty()
-            if (code == ErrorStatus.NETWORK_ERROR) {
+            if (type == ErrorStatus.NETWORK_ERROR) {
                 multiView.showNoNetwork()
             }
         }

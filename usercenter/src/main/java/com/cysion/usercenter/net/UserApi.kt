@@ -1,12 +1,9 @@
 package com.cysion.usercenter.net
 
 import com.cysion.ktbox.net.BaseCaller
-import com.cysion.ktbox.net.BaseResponse
 import com.cysion.usercenter.entity.*
 import com.cysion.usercenter.helper.UserCache
-import io.reactivex.Observable
 import okhttp3.OkHttpClient
-import okhttp3.RequestBody
 import retrofit2.http.*
 
 object UserCaller : BaseCaller<UserApi>(UserUrls.HOST, UserApi::class.java) {
@@ -30,11 +27,11 @@ interface UserApi {
     //注册
     @FormUrlEncoded
     @POST("register")
-    fun register(
+    suspend fun register(
         @Field("username") username: String,
         @Field("password") password: String,
         @Field("password2") password2: String
-    ): Observable<BaseResponse<UserEntity>>
+    ): ApiResult<UserEntity>
 
     //登录
     @FormUrlEncoded
@@ -67,7 +64,7 @@ interface UserApi {
 
     //获取某个用户的博客
     @GET("blog/userlist")
-    fun getUserBlogList(@Query("page") page: Int): Observable<BaseResponse<MutableList<Blog>>>
+    suspend fun getUserBlogList(@Query("page") page: Int): ApiResult<MutableList<Blog>>
 
     //获取某个博客详情
     @GET("blog/get/{blogId}")
@@ -138,8 +135,8 @@ interface UserApi {
 
     //获得某个用户的详情
     @POST("userinfo")
-    fun getPeopleInfo(
-        @Body jsonBody: RequestBody
-    ): Observable<BaseResponse<DetailUserEntity>>
+    suspend fun getPeopleInfo(
+        @Body jsonBody: Map<String,String>
+    ): ApiResult<DetailUserEntity>
 
 }

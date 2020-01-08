@@ -4,7 +4,7 @@ import android.text.TextUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.cysion.ktbox.base.BaseModelFragment
-import com.cysion.other.startActivity_ex
+import com.cysion.other.gotoActivity
 import com.cysion.usercenter.R
 import com.cysion.usercenter.constant.LOGIN_OUT
 import com.cysion.usercenter.event.UserEvent
@@ -19,10 +19,7 @@ import org.greenrobot.eventbus.EventBus
 
 class UserFragment : BaseModelFragment<UserViewModel>() {
 
-
-
     override fun getLayoutId(): Int = R.layout.fragment_user_center
-
 
     override fun initView() {
         Glide.with(context).load(R.mipmap.place_holder)
@@ -36,16 +33,16 @@ class UserFragment : BaseModelFragment<UserViewModel>() {
         }
         rlCollect.setOnClickListener {
             if (TextUtils.isEmpty(UserCache.token)) {
-                context.startActivity_ex<LoginActivity>()
+                context.gotoActivity<LoginActivity>()
             } else {
-                context.startActivity_ex<CollectActivitiy>()
+                context.gotoActivity<CollectActivitiy>()
             }
         }
         rlBlog.setOnClickListener {
             if (TextUtils.isEmpty(UserCache.token)) {
-                context.startActivity_ex<LoginActivity>()
+                context.gotoActivity<LoginActivity>()
             } else {
-                context.startActivity_ex<UserBlogActivity>()
+                context.gotoActivity<UserBlogActivity>()
             }
         }
         tvLogout.setOnClickListener {
@@ -57,9 +54,9 @@ class UserFragment : BaseModelFragment<UserViewModel>() {
 
     private fun toLogin() {
         if (TextUtils.isEmpty(UserCache.userId)) {
-            context.startActivity_ex<LoginActivity>()
+            context.gotoActivity<LoginActivity>()
         } else {
-            context.startActivity_ex<UserDetailActivity>()
+            context.gotoActivity<UserDetailActivity>()
         }
     }
 

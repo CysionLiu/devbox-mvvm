@@ -6,8 +6,8 @@ import androidx.lifecycle.Observer
 import com.cysion.ktbox.base.BaseModelActivity
 import com.cysion.ktbox.utils.whiteTextTheme
 import com.cysion.other.color
-import com.cysion.other.startActivity_ex
-import com.cysion.targetfun._addTextChangedListener
+import com.cysion.other.gotoActivity
+import com.cysion.targetfun.withTextChangedListener
 import com.cysion.uibox.bar.TopBar
 import com.cysion.uibox.toast.toast
 import com.cysion.usercenter.R
@@ -61,8 +61,8 @@ class BlogEditorActivity : BaseModelActivity<BlogEditorViewModel>(){
     }
 
     private fun initTextWatcher() {
-        etTitle._addTextChangedListener {
-            _afterTextChanged {
+        etTitle.withTextChangedListener {
+            ifAfterTextChanged {
                 it?.apply {
                     if (length >= 139) {
                         toast("超过140字了")
@@ -70,8 +70,8 @@ class BlogEditorActivity : BaseModelActivity<BlogEditorViewModel>(){
                 }
             }
         }
-        etContent._addTextChangedListener {
-            _afterTextChanged {
+        etContent.withTextChangedListener {
+            ifAfterTextChanged {
                 it?.apply {
                     if (length >= 2000) {
                         toast("超过最大字数了")
@@ -119,7 +119,6 @@ class BlogEditorActivity : BaseModelActivity<BlogEditorViewModel>(){
         }
     }
 
-    override fun getRefreshListenerOrNull()=null
 
     override fun onStateEventChanged(type: Int, msg: String) {
         toast(msg)
@@ -141,7 +140,7 @@ class BlogEditorActivity : BaseModelActivity<BlogEditorViewModel>(){
             b.putString(BLOG_CONTENT, content)
             b.putInt(BLOG_EDIT_TYPE, type)
             b.putString(BLOG_ID, blogId)
-            activity.startActivity_ex<BlogEditorActivity>(BUNDLE_KEY, b)
+            activity.gotoActivity<BlogEditorActivity>(BUNDLE_KEY, b)
         }
     }
 }

@@ -9,7 +9,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.cysion.ktbox.base.BaseAdapter
 import com.cysion.ktbox.base.BaseViewHolder
 import com.cysion.ktbox.image.RoundTransform
-import com.cysion.other._setOnClickListener
+import com.cysion.other.clickWithLimit
 import com.cysion.usercenter.R
 import com.cysion.usercenter.adapter.BlogAdapter.Companion.COLLECT
 import com.cysion.usercenter.adapter.BlogAdapter.Companion.DEL
@@ -92,13 +92,13 @@ class InnerBlogHolder(itemView: View, val pagetype: Int) :
             itemView.tvContent.text = obj.text
             itemView.tvCreateTime.text = obj.createStamptime
 
-            itemView.llPride._setOnClickListener {
+            itemView.llPride.clickWithLimit {
                 mOnTypeClickListener?.invoke(obj, position, PRIDE)
             }
-            itemView.llEdit._setOnClickListener {
+            itemView.llEdit.clickWithLimit {
                 mOnTypeClickListener?.invoke(obj, position, EDIT)
             }
-            itemView.llDel._setOnClickListener {
+            itemView.llDel.clickWithLimit {
                 mOnTypeClickListener?.invoke(obj, position, DEL)
             }
         }
@@ -133,13 +133,13 @@ class InnerBlogHolderBig(itemView: View, val pagetype: Int) :
             itemView.tvContent.text = obj.text
             itemView.tvCreateTime.text = obj.createStamptime
 
-            itemView.llPride._setOnClickListener {
+            itemView.llPride.clickWithLimit {
                 mOnTypeClickListener?.invoke(obj, position, PRIDE)
             }
-            itemView.llEdit._setOnClickListener {
+            itemView.llEdit.clickWithLimit {
                 mOnTypeClickListener?.invoke(obj, position, EDIT)
             }
-            itemView.llDel._setOnClickListener {
+            itemView.llDel.clickWithLimit {
                 mOnTypeClickListener?.invoke(obj, position, DEL)
             }
 

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.cysion.ktbox.utils.logd
-import com.orhanobut.logger.Logger
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -78,9 +77,9 @@ abstract class BaseFragment : Fragment() {
         super.onHiddenChanged(hidden)
         //为方便调试找寻页面添加,add方式添加
         if (!hidden) {
-            Logger.d("可见--->" + javaClass.simpleName)
+            logd("可见--->" + javaClass.simpleName)
         } else {
-            Logger.d("不可见--->" + javaClass.simpleName)
+            logd("不可见--->" + javaClass.simpleName)
         }
     }
 

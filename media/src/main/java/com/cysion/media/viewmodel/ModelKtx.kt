@@ -1,9 +1,9 @@
-package com.cysion.usercenter.viewmodels
+package com.cysion.media.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.cysion.ktbox.base.BaseViewModel
 import com.cysion.ktbox.net.ErrorHandler
-import com.cysion.usercenter.entity.ApiResult
+import com.cysion.media.net.BaseResp
 import kotlinx.coroutines.*
 
 
@@ -14,7 +14,7 @@ import kotlinx.coroutines.*
  * @param showLoading 是否展示加载框
  * */
 
-fun <T> BaseViewModel.launchWithFilter(taskOfRetrofit: suspend CoroutineScope.() -> ApiResult<T>,
+fun <T> BaseViewModel.launchWithFilter(taskOfRetrofit: suspend CoroutineScope.() -> BaseResp<T>,
                                        onSuccess:suspend (data:T)->Unit,
                                        onError: (code: Int, msg: String) -> Unit = { code, msg ->
                                            postError(code,msg)
@@ -30,7 +30,7 @@ fun <T> BaseViewModel.launchWithFilter(taskOfRetrofit: suspend CoroutineScope.()
                 taskOfRetrofit()
             }
             if (ans.isSuccessful()) {
-                onSuccess(ans.data)
+                onSuccess(ans.result)
             } else {
                 onError(ans.code, ans.msg)
             }

@@ -1,29 +1,32 @@
 package com.cysion.usercenter
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.cysion.other.startActivity_ex
+import com.cysion.ktbox.utils.launchUI
 import com.cysion.usercenter.ui.activity.MainActivity
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class SplashActivity : AppCompatActivity() {
-    val scope = MainScope()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        scope.launch {
-            delay(500)
-            startActivity_ex<MainActivity>()
-            finish()
+        launchUI {
+            for(x in 1..5){
+                tvCountDown.text="跳过${5-x}s"
+                delay(1000)
+            }
+            jump()
+        }
+        tvCountDown.setOnClickListener {
+            jump()
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        scope.cancel()
+    private fun jump() {
+        startActivity(Intent(this,MainActivity::class.java))
+        finish()
     }
 }

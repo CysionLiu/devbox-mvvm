@@ -12,7 +12,6 @@ import com.cysion.ktbox.bean.StateEvent
 import com.cysion.ktbox.listener.IRefreshListener
 import com.cysion.ktbox.utils.logd
 import com.cysion.wedialog.WeDialog
-import com.orhanobut.logger.Logger
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -105,9 +104,9 @@ abstract class BaseModelFragment<VM : BaseViewModel>: Fragment() {
         super.onHiddenChanged(hidden)
         //为方便调试找寻页面添加,add方式添加
         if (!hidden) {
-            Logger.d("可见--->" + javaClass.simpleName)
+            logd("可见--->" + javaClass.simpleName)
         } else {
-            Logger.d("不可见--->" + javaClass.simpleName)
+            logd("不可见--->" + javaClass.simpleName)
         }
     }
 
@@ -132,6 +131,6 @@ abstract class BaseModelFragment<VM : BaseViewModel>: Fragment() {
 
     protected abstract fun onStateEventChanged(type: Int, msg: String)
 
-    protected abstract fun getRefreshListenerOrNull(): IRefreshListener?
+    protected open fun getRefreshListenerOrNull(): IRefreshListener?=null
 
 }

@@ -1,8 +1,11 @@
 package com.cysion.shell
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.os.Bundle
 import com.cysion.ktbox.Box
+import com.cysion.ktbox.utils.logd
 import com.scwang.smartrefresh.header.DeliveryHeader
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.*
@@ -34,5 +37,31 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         Box.init(this,true)
+        registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
+            override fun onActivityPaused(activity: Activity) {
+
+            }
+
+            override fun onActivityStarted(activity: Activity) {
+                logd("flag--MyApplication:onActivityStarted:${activity.localClassName}")
+            }
+
+            override fun onActivityDestroyed(activity: Activity) {
+            }
+
+            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+            }
+
+            override fun onActivityStopped(activity: Activity) {
+                logd("flag--MyApplication:onActivityStopped:${activity.localClassName}")
+            }
+
+            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+            }
+
+            override fun onActivityResumed(activity: Activity) {
+            }
+        })
+
     }
 }

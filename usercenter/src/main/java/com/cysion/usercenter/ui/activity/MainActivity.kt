@@ -3,16 +3,17 @@ package com.cysion.usercenter.ui.activity
 import com.cysion.ktbox.Box
 import com.cysion.ktbox.base.BaseFragmentAdapter
 import com.cysion.ktbox.base.BaseModelActivity
+import com.cysion.ktbox.base.NoViewModel
 import com.cysion.ktbox.utils.darkTextTheme
 import com.cysion.ktbox.utils.whiteTextTheme
-import com.cysion.targetfun._addOnPageChangeListener
+import com.cysion.targetfun.WithPageChangeListener
 import com.cysion.uibox.toast.toast
 import com.cysion.usercenter.R
 import com.cysion.usercenter.helper.ListVals
-import com.cysion.usercenter.viewmodels.UserViewModel
+import com.cysion.usercenter.helper.UserCache
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseModelActivity<UserViewModel>() {
+class MainActivity : BaseModelActivity<NoViewModel>() {
 
     var lastClickTime = 0L
 
@@ -28,12 +29,12 @@ class MainActivity : BaseModelActivity<UserViewModel>() {
 
     override fun initData() {
         super.initData()
-        viewModel.syncUserInfo()
+        UserCache.fromCache()
         vpContent.adapter = BaseFragmentAdapter(this.supportFragmentManager, ListVals.getFragments(), ListVals.getTitles())
         tablayout.setupWithViewPager(vpContent)
         initTabs()
-        vpContent._addOnPageChangeListener {
-            _onPageSelected {
+        vpContent.WithPageChangeListener{
+            ifSelected {
                 when (it) {
                     2 -> {
                         whiteTextTheme(Box.color(R.color.dark))
@@ -48,8 +49,6 @@ class MainActivity : BaseModelActivity<UserViewModel>() {
             }
         }
     }
-
-    override fun getRefreshListenerOrNull()= null
 
     override fun onStateEventChanged(type: Int, msg: String) {
     }

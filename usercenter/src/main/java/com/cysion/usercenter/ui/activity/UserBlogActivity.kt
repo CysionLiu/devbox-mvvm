@@ -94,8 +94,6 @@ class UserBlogActivity : BaseModelActivity<UserBlogViewModel>() {
         viewModel.getBlogs()
     }
 
-    override fun getRefreshListenerOrNull()=null
-
     override fun onStateEventChanged(type: Int, msg: String) {
         toast(msg)
         if (mBlogs.size == 0) {

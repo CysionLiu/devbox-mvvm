@@ -4,7 +4,7 @@ import androidx.lifecycle.Observer
 import com.cysion.ktbox.base.BaseModelActivity
 import com.cysion.ktbox.utils.whiteTextTheme
 import com.cysion.other.color
-import com.cysion.other.startActivity_ex
+import com.cysion.other.gotoActivity
 import com.cysion.uibox.bar.TopBar
 import com.cysion.uibox.toast.toast
 import com.cysion.usercenter.R
@@ -45,12 +45,10 @@ class LoginActivity : BaseModelActivity<UserViewModel>() {
             viewModel.login(etUsername.text.toString(), etPwd.text.toString())
         }
         tvRegister.setOnClickListener {
-            self.startActivity_ex<RegisterActivity>()
+            self.gotoActivity<RegisterActivity>()
             finish()
         }
     }
-
-    override fun getRefreshListenerOrNull() = null
 
     override fun onStateEventChanged(type: Int, msg: String) {
         toast(msg)

@@ -89,7 +89,6 @@ class CollectActivitiy : BaseModelActivity<CollectPageViewModel>() {
         viewModel.getBlogs()
     }
 
-    override fun getRefreshListenerOrNull() = null
 
     override fun onStateEventChanged(type: Int, msg: String) {
         toast(msg)
