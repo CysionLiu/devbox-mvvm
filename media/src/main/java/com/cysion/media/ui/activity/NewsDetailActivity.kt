@@ -2,7 +2,8 @@ package com.cysion.media.ui.activity
 
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.cysion.ktbox.base.BaseActivity
+import com.cysion.ktbox.base.BaseModelActivity
+import com.cysion.ktbox.base.NoViewModel
 import com.cysion.ktbox.utils.whiteTextTheme
 import com.cysion.media.R
 import com.cysion.media.constant.BUNDLE_KEY
@@ -12,7 +13,7 @@ import com.cysion.other.color
 import com.cysion.uibox.bar.TopBar
 import kotlinx.android.synthetic.main.activity_news_detail.*
 
-class NewsDetailActivity : BaseActivity() {
+class NewsDetailActivity : BaseModelActivity<NoViewModel>() {
 
     override fun getLayoutId(): Int = R.layout.activity_news_detail
 
@@ -48,8 +49,10 @@ class NewsDetailActivity : BaseActivity() {
         }
         webview.loadUrl(linkurl)
     }
+    override fun observeModel() {
 
-    override fun closeMvp() {
+    }
 
+    override fun onReceivedStateEvent(type: Int, msg: String) {
     }
 }

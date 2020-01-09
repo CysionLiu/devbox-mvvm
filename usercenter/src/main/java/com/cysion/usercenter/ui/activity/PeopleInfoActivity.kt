@@ -53,7 +53,7 @@ class PeopleInfoActivity : BaseModelActivity<UserViewModel>() {
         })
     }
 
-    override fun onStateEventChanged(type: Int, msg: String) {
+    override fun onReceivedStateEvent(type: Int, msg: String) {
         multiView.showError()
     }
     fun fillView() {

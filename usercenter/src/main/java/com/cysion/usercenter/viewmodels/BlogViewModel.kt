@@ -87,7 +87,8 @@ class BlogViewModel:BaseViewModel() {
                 },
                 {
                     mLiveCommentList.value = it
-                }
+                },
+                showLoading = true
         )
     }
 

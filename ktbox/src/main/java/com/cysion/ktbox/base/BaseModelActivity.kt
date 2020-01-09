@@ -35,7 +35,7 @@ abstract class BaseModelActivity<VM : BaseViewModel> : AppCompatActivity() {
                 StateEvent.REFRESH_FAIL -> mIRefreshListener?.onRefreshFail(it.msg)
                 StateEvent.LOAD_MORE_OK -> mIRefreshListener?.onLoadMoreOk(it.msg)
                 StateEvent.LOAD_MORE_FAIL -> mIRefreshListener?.onLoadMoreFail(it.msg)
-                else -> onStateEventChanged(it.type, it.msg?:"")
+                else -> onReceivedStateEvent(it.type, it.msg?:"")
             }
         })
         EventBus.getDefault().register(this)
@@ -83,7 +83,8 @@ abstract class BaseModelActivity<VM : BaseViewModel> : AppCompatActivity() {
 
     protected open fun initData(){}
 
+    /*页面如果有刷新或者上拉加载操作，则不能为null*/
     protected open fun getRefreshListenerOrNull(): IRefreshListener?=null
 
-    protected abstract fun onStateEventChanged(type: Int, msg: String)
+    protected abstract fun onReceivedStateEvent(type: Int, msg: String)
 }

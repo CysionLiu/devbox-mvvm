@@ -65,7 +65,7 @@ class MusicChannelFragment : BaseModelFragment<ChannelViewModel>(){
         }
     }
 
-    override fun onStateEventChanged(type: Int, msg: String) {
+    override fun onReceivedStateEvent(type: Int, msg: String) {
         toast(msg)
         if (mChannelList.size == 0) {
             multiView.showEmpty()

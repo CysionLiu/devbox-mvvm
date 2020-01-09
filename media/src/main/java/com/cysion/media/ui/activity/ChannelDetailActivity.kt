@@ -62,7 +62,7 @@ class ChannelDetailActivity : BaseModelActivity<SongViewModel>() {
         })
     }
 
-    override fun onStateEventChanged(type: Int, msg: String) {
+    override fun onReceivedStateEvent(type: Int, msg: String) {
         if (songList.size == 0) {
             multiView.showEmpty()
             if (type == ErrorStatus.NETWORK_ERROR) {

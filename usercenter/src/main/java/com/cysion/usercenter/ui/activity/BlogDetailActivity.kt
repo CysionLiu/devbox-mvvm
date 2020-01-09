@@ -168,7 +168,7 @@ class BlogDetailActivity : BaseModelActivity<BlogViewModel>() {
         }
     }
 
-    override fun onStateEventChanged(type: Int, msg: String) {
+    override fun onReceivedStateEvent(type: Int, msg: String) {
         toast(msg)
         if (commentList.size == 0) {
             multiView.showEmpty()

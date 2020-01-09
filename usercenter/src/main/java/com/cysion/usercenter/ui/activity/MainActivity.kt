@@ -50,7 +50,7 @@ class MainActivity : BaseModelActivity<NoViewModel>() {
         }
     }
 
-    override fun onStateEventChanged(type: Int, msg: String) {
+    override fun onReceivedStateEvent(type: Int, msg: String) {
     }
 
     //初始化tab，设置图标和自定义布局，注意顺序和某些语句。

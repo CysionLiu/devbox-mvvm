@@ -18,6 +18,7 @@ import com.cysion.usercenter.adapter.BlogAdapter
 import com.cysion.usercenter.adapter.HomeTopPageAdapter
 import com.cysion.usercenter.communicate.Resolver.mediaActivityApi
 import com.cysion.usercenter.constant.*
+import com.cysion.usercenter.entity.Carousel
 import com.cysion.usercenter.event.BlogEvent
 import com.cysion.usercenter.event.UserEvent
 import com.cysion.usercenter.helper.BlogHelper
@@ -38,7 +39,7 @@ class SquareFragment : BaseModelFragment<SquareViewModel>() {
     private lateinit var blogAdapter: BlogAdapter
     private var curPage = 1
     private val mCarousels by lazy {
-        viewModel.mLiveCarousel.value!!
+        mutableListOf<Carousel>()
     }
     private val mBlogs by lazy {
         viewModel.mLiveBlogs.value!!
@@ -53,9 +54,12 @@ class SquareFragment : BaseModelFragment<SquareViewModel>() {
         initFab()
     }
 
-    /*观察live data，获取目标数据*/
+    /*观察数据模型，获取目标数据*/
     override fun observeModel() {
+        /*观察轮播图数据，有新数据则更新UI*/
         viewModel.mLiveCarousel.observe(this, Observer {
+            mCarousels.clear()
+            mCarousels.addAll(it)
             ultraViewPager.refresh()
         })
         viewModel.mLiveBlogs.observe(this, Observer {
@@ -71,7 +75,8 @@ class SquareFragment : BaseModelFragment<SquareViewModel>() {
             }
             multiView.showContent()
         })
-        viewModel.mLivePride.observe(this, Observer {
+        /*观察点赞的位置，发生点赞状态变化时，根据发生位置进行UI操作*/
+        viewModel.mLivePridePosition.observe(this, Observer {
             blogAdapter.notifyItemChanged(it)
         })
     }
@@ -156,7 +161,7 @@ class SquareFragment : BaseModelFragment<SquareViewModel>() {
         smartLayout.autoRefresh()
     }
 
-    override fun onStateEventChanged(type: Int, msg: String) {
+    override fun onReceivedStateEvent(type: Int, msg: String) {
         //已获得所有数据
         if (type == 400) {
             fl_load_state.visibility = View.VISIBLE

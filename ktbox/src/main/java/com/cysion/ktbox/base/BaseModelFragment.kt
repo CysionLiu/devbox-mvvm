@@ -41,7 +41,7 @@ abstract class BaseModelFragment<VM : BaseViewModel>: Fragment() {
                 StateEvent.REFRESH_FAIL -> mIRefreshListener?.onRefreshFail(it.msg)
                 StateEvent.LOAD_MORE_OK -> mIRefreshListener?.onLoadMoreOk(it.msg)
                 StateEvent.LOAD_MORE_FAIL -> mIRefreshListener?.onLoadMoreFail(it.msg)
-                else -> onStateEventChanged(it.type, it.msg?:"")
+                else -> onReceivedStateEvent(it.type, it.msg?:"")
             }
         })
         return root
@@ -129,8 +129,9 @@ abstract class BaseModelFragment<VM : BaseViewModel>: Fragment() {
 
     protected abstract fun observeModel()
 
-    protected abstract fun onStateEventChanged(type: Int, msg: String)
+    protected abstract fun onReceivedStateEvent(type: Int, msg: String)
 
+    /*页面如果有刷新或者上拉加载操作，则不能为null*/
     protected open fun getRefreshListenerOrNull(): IRefreshListener?=null
 
 }

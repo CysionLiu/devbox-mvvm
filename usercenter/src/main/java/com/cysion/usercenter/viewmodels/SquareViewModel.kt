@@ -9,14 +9,12 @@ import com.cysion.usercenter.net.UserCaller
 class SquareViewModel : BaseViewModel() {
 
     val mLiveCarousel: MutableLiveData<MutableList<Carousel>> = MutableLiveData<MutableList<Carousel>>()
-            .apply {
-                value = mutableListOf()
-            }
+
     val mLiveBlogs: MutableLiveData<MutableList<Blog>> = MutableLiveData<MutableList<Blog>>()
             .apply {
                 value = mutableListOf()
             }
-    val mLivePride: MutableLiveData<Int> = MutableLiveData()
+    val mLivePridePosition: MutableLiveData<Int> = MutableLiveData()
 
     //获得顶部轮播
     fun getCarousel() {
@@ -25,8 +23,6 @@ class SquareViewModel : BaseViewModel() {
                     UserCaller.api.getCarousel()
                 },
                 onSuccess = {
-                    mLiveCarousel.value!!.clear()
-                    mLiveCarousel.value!!.addAll(it)
                     mLiveCarousel.postValue(mLiveCarousel.value)
                 }
         )
@@ -68,7 +64,7 @@ class SquareViewModel : BaseViewModel() {
                 onSuccess = {
                     blog.isPrided = 1
                     blog.prideCount++
-                    mLivePride.value = pos
+                    mLivePridePosition.value = pos
                 }
         )
     }
@@ -82,7 +78,7 @@ class SquareViewModel : BaseViewModel() {
                 {
                     blog.isPrided = 0
                     blog.prideCount--
-                    mLivePride.value = pos
+                    mLivePridePosition.value = pos
                 }
         )
     }

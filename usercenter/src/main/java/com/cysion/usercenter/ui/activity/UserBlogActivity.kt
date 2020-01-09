@@ -94,7 +94,7 @@ class UserBlogActivity : BaseModelActivity<UserBlogViewModel>() {
         viewModel.getBlogs()
     }
 
-    override fun onStateEventChanged(type: Int, msg: String) {
+    override fun onReceivedStateEvent(type: Int, msg: String) {
         toast(msg)
         if (mBlogs.size == 0) {
             multiView.showEmpty()

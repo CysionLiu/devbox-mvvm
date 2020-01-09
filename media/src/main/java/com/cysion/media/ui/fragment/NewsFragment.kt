@@ -51,7 +51,7 @@ class NewsFragment : BaseModelFragment<NewsViewModel>() {
         })
     }
 
-    override fun onStateEventChanged(type: Int, msg: String) {
+    override fun onReceivedStateEvent(type: Int, msg: String) {
         toast(msg)
         if (mdatalist.size == 0) {
             multiView.showEmpty()

@@ -50,7 +50,7 @@ class LoginActivity : BaseModelActivity<UserViewModel>() {
         }
     }
 
-    override fun onStateEventChanged(type: Int, msg: String) {
+    override fun onReceivedStateEvent(type: Int, msg: String) {
         toast(msg)
     }
 }

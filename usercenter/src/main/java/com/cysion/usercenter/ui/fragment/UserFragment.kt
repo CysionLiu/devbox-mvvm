@@ -85,7 +85,7 @@ class UserFragment : BaseModelFragment<UserViewModel>() {
     override fun observeModel() {
     }
 
-    override fun onStateEventChanged(type: Int, msg: String) {
+    override fun onReceivedStateEvent(type: Int, msg: String) {
     }
 
     override fun getRefreshListenerOrNull()=null
