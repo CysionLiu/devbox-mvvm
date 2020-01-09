@@ -5,7 +5,7 @@
 
 扫码下载可体验：
 
-![在这里插入图片描述](./app.png)
+![在这里插入图片描述](https://github.com/CysionLiu/devbox-mvvm/blob/master/app.png)
 
 
 对后端实现感兴趣的，可以看看：
