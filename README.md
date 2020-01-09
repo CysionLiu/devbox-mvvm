@@ -5,7 +5,7 @@
 
 扫码下载可体验,密码123：
 
-![在这里插入图片描述](https://www.pgyer.com/app/qrcode/IRA3?sign=&auSign=&code=)
+![在这里插入图片描述](https://cysion-box-1257966290.cos.ap-beijing.myqcloud.com/img/app/IRA3.png)
 
 
 对后端实现感兴趣的，可以看看：
