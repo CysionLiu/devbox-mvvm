@@ -3,9 +3,9 @@
 麻雀虽小，五脏俱全。本app也是如此。
 
 
-扫码下载可体验：
+扫码下载可体验,密码123：
 
-![在这里插入图片描述](https://github.com/CysionLiu/devbox-mvvm/blob/master/app.png)
+![在这里插入图片描述](https://www.pgyer.com/app/qrcode/IRA3?sign=&auSign=&code=)
 
 
 对后端实现感兴趣的，可以看看：
