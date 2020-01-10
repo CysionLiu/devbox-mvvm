@@ -4,6 +4,7 @@ import android.text.TextUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.cysion.ktbox.base.BaseModelFragment
+import com.cysion.other.clickWithLimit
 import com.cysion.other.gotoActivity
 import com.cysion.usercenter.R
 import com.cysion.usercenter.constant.LOGIN_OUT
@@ -14,6 +15,7 @@ import com.cysion.usercenter.ui.activity.LoginActivity
 import com.cysion.usercenter.ui.activity.UserBlogActivity
 import com.cysion.usercenter.ui.activity.UserDetailActivity
 import com.cysion.usercenter.viewmodels.UserViewModel
+import com.cysion.wedialog.WeDialog
 import kotlinx.android.synthetic.main.fragment_user_center.*
 import org.greenrobot.eventbus.EventBus
 
@@ -23,32 +25,37 @@ class UserFragment : BaseModelFragment<UserViewModel>() {
 
     override fun initView() {
         Glide.with(context).load(R.mipmap.place_holder)
-            .apply(RequestOptions.circleCropTransform())
-            .into(ivUserHead)
-        ivUserHead.setOnClickListener {
+                .apply(RequestOptions.circleCropTransform())
+                .into(ivUserHead)
+        ivUserHead.clickWithLimit {
             toLogin()
         }
-        rlInfo.setOnClickListener {
+        rlInfo.clickWithLimit {
             toLogin()
         }
-        rlCollect.setOnClickListener {
+        rlCollect.clickWithLimit {
             if (TextUtils.isEmpty(UserCache.token)) {
                 context.gotoActivity<LoginActivity>()
             } else {
                 context.gotoActivity<CollectActivitiy>()
             }
         }
-        rlBlog.setOnClickListener {
+        rlBlog.clickWithLimit {
             if (TextUtils.isEmpty(UserCache.token)) {
                 context.gotoActivity<LoginActivity>()
             } else {
                 context.gotoActivity<UserBlogActivity>()
             }
         }
-        tvLogout.setOnClickListener {
-            UserCache.clear()
-            updateUserInfo()
-            EventBus.getDefault().post(UserEvent(LOGIN_OUT, ""))
+        tvLogout.clickWithLimit {
+            WeDialog.normal(context)
+                    .setMsg("确定注销此次登录？")
+                    .show {
+                        it.dismissAllowingStateLoss()
+                        UserCache.clear()
+                        updateUserInfo()
+                        EventBus.getDefault().post(UserEvent(LOGIN_OUT, ""))
+                    }
         }
     }
 
@@ -77,8 +84,8 @@ class UserFragment : BaseModelFragment<UserViewModel>() {
 
     private fun updateUserInfo() {
         Glide.with(context).load(UserCache.userInfo?.avatar ?: R.mipmap.place_holder)
-            .apply(RequestOptions.circleCropTransform())
-            .into(ivUserHead)
+                .apply(RequestOptions.circleCropTransform())
+                .into(ivUserHead)
         tvNickname.text = UserCache.userInfo?.nickname ?: "未登录"
     }
 
@@ -88,5 +95,5 @@ class UserFragment : BaseModelFragment<UserViewModel>() {
     override fun onReceivedStateEvent(type: Int, msg: String) {
     }
 
-    override fun getRefreshListenerOrNull()=null
+    override fun getRefreshListenerOrNull() = null
 }

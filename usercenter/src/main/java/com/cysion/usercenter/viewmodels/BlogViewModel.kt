@@ -87,8 +87,7 @@ class BlogViewModel:BaseViewModel() {
                 },
                 {
                     mLiveCommentList.value = it
-                },
-                showLoading = true
+                }
         )
     }
 
@@ -100,8 +99,7 @@ class BlogViewModel:BaseViewModel() {
                 },
                 {
                     mLiveBlog.value = it
-                },
-                showLoading = true
+                }
         )
     }
 }

@@ -6,7 +6,7 @@ ext {
     android = [
             compileSdkVersion: 29,
             minSdkVersion    : 21,
-            targetSdkVersion : 28,
+            targetSdkVersion : 29,
             versionCode      : 1,
             versionName      : "1.0.0"
     ]
@@ -44,6 +44,6 @@ ext {
     eventbus = "org.greenrobot:eventbus:3.1.1"
     targetfun= "com.cysion:targetfun:1.2.0"
     appjoint= "io.github.prototypez:app-joint-core:1.5"
-    dialog = "com.cysion:WeDialog:1.0.5.x"
+    dialog = "com.cysion:WeDialog:1.2.0.x"
     otherLibs = [glide,statusbar,logger,eventbus,targetfun,appjoint,dialog]
 }

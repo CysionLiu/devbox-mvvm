@@ -4,7 +4,10 @@ import androidx.lifecycle.viewModelScope
 import com.cysion.ktbox.base.BaseViewModel
 import com.cysion.ktbox.net.ErrorHandler
 import com.cysion.usercenter.entity.ApiResult
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 /**
@@ -21,10 +24,10 @@ fun <T> BaseViewModel.launchWithFilter(taskOfRetrofit: suspend CoroutineScope.()
                                        },
                                        showLoading: Boolean = false) {
 
+    if (showLoading) {
+        startLoading()
+    }
     viewModelScope.launch {
-        if (showLoading) {
-            startLoading()
-        }
         try {
             val ans = withContext(Dispatchers.IO) {
                 taskOfRetrofit()
@@ -39,7 +42,6 @@ fun <T> BaseViewModel.launchWithFilter(taskOfRetrofit: suspend CoroutineScope.()
             onError(handle.errorCode, handle.errorMsg)
         } finally {
             if (showLoading) {
-                delay(60)
                 stopLoading()
             }
         }

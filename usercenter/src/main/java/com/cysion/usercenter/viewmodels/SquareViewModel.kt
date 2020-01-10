@@ -23,7 +23,7 @@ class SquareViewModel : BaseViewModel() {
                     UserCaller.api.getCarousel()
                 },
                 onSuccess = {
-                    mLiveCarousel.postValue(mLiveCarousel.value)
+                    mLiveCarousel.postValue(it)
                 }
         )
     }
