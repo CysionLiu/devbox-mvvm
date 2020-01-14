@@ -37,7 +37,7 @@ class UserDetailActivity : BaseModelActivity<UserViewModel>() {
             initElements(right = TopBar.ELEMENT.TEXT)
             setTitle("用户信息")
             setTexts("保存", TopBar.Pos.RIGHT)
-            setOnTopBarClickListener { obj, pos ->
+            setOnTopBarClickListener { _, pos ->
                 if (pos == TopBar.Pos.LEFT) {
                     finish()
                 } else if (pos == TopBar.Pos.RIGHT) {

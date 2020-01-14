@@ -30,7 +30,7 @@ class LoginActivity : BaseModelActivity<UserViewModel>() {
         whiteTextTheme(color(R.color.colorAccent))
         topbar.apply {
             setTitle("登录")
-            setOnTopBarClickListener { obj, pos ->
+            setOnTopBarClickListener { _, pos ->
                 if (pos == TopBar.Pos.LEFT) {
                     finish()
                 }

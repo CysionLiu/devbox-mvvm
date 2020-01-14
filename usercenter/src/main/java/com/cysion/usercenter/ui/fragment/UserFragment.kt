@@ -94,6 +94,4 @@ class UserFragment : BaseModelFragment<UserViewModel>() {
 
     override fun onReceivedStateEvent(type: Int, msg: String) {
     }
-
-    override fun getRefreshListenerOrNull() = null
 }

@@ -25,8 +25,8 @@ class SongInnerHolder(itemView: View) : BaseViewHolder<Song>(itemView) {
                 .apply(RequestOptions.placeholderOf(R.mipmap.place_holder))
                 .into(itemView.ivThumb)
             itemView.tvSongName.text = obj.title
-            if (obj.artist != null) {
-                itemView.tvAuthor.text = "作家: ${obj.artist}"
+            obj.artist?.let {
+                itemView.tvAuthor.text = itemView.resources.getString(R.string.str_media_artist,it)
             }
         }
     }

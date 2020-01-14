@@ -1,5 +1,6 @@
 package com.cysion.media.ui.activity
 
+import android.annotation.SuppressLint
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.cysion.ktbox.base.BaseModelActivity
@@ -18,17 +19,18 @@ class NewsDetailActivity : BaseModelActivity<NoViewModel>() {
     override fun getLayoutId(): Int = R.layout.activity_news_detail
 
     private val title: String by lazy {
-        intent.getBundleExtra(BUNDLE_KEY).getString(TITLE)?:""
+        intent.getBundleExtra(BUNDLE_KEY)?.getString(TITLE)?:""
     }
     private val linkurl: String by lazy {
-        intent.getBundleExtra(BUNDLE_KEY).getString(LINK)?:""
+        intent.getBundleExtra(BUNDLE_KEY)?.getString(LINK)?:""
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun initView() {
         whiteTextTheme(color(R.color.colorAccent))
         topbar.apply {
             setTitle(title)
-            setOnTopBarClickListener { obj, pos ->
+            setOnTopBarClickListener { _, pos ->
                 if (pos == TopBar.Pos.LEFT) {
                     finish()
                 }

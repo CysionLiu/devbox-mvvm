@@ -15,7 +15,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         launchUI {
             for(x in 1..5){
-                tvCountDown.text="跳过${5-x}s"
+                tvCountDown.text=getString(R.string.splash,5-x)
                 delay(1000)
             }
             jump()

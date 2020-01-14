@@ -12,7 +12,7 @@ class CollectPageViewModel:BaseViewModel() {
     val mLiveCancleState: MutableLiveData<Boolean> = MutableLiveData()
 
     //获得收藏列表
-    fun getBlogs(page: Int = 1) {
+    fun getBlogs() {
         launchWithFilter(
                 taskOfRetrofit = {
                     UserCaller.api.getCollectList()

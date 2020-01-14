@@ -24,7 +24,7 @@ class NewsAdapter(mEntities: MutableList<NewsInfoEntity>, mContext: Context) :
 class NewsInnerHolder(itemView: View) : BaseViewHolder<NewsInfoEntity>(itemView) {
 
     override fun fillData(obj: NewsInfoEntity, position: Int) {
-        itemView?.apply {
+        itemView.apply {
             tvTitle.text = obj.title
             tvTime.text = obj.passtime
             if (obj.image != null) {

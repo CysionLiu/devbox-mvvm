@@ -102,7 +102,7 @@ class SquareFragment : BaseModelFragment<SquareViewModel>() {
         topAdapter = HomeTopPageAdapter(context, mCarousels)
         ultraViewPager.adapter = topAdapter
         ultraViewPager.initIndicator()
-        ultraViewPager.getIndicator()
+        ultraViewPager.indicator
                 .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
                 .setFocusColor(Color.RED)
                 .setNormalColor(Color.WHITE)
@@ -115,12 +115,10 @@ class SquareFragment : BaseModelFragment<SquareViewModel>() {
             ultraViewPager.setAutoScroll(3000)
         }
         topAdapter.setItemClickListener {
-            if (it.type.equals("news")) {
-                mediaActivityApi.startNewsActivity(context, it.title, it.link)
-            } else if (it.type.equals("music")) {
-                mediaActivityApi.startSongsActivity(context, it.title, it.mediaId)
-            } else if (it.type.equals("blog")) {
-                BlogDetailActivity.start(context, null, it.mediaId)
+            when {
+                it.type == "news" -> mediaActivityApi.startNewsActivity(context, it.title, it.link)
+                it.type == "music" -> mediaActivityApi.startSongsActivity(context, it.title, it.mediaId)
+                it.type == "blog" -> BlogDetailActivity.start(context, null, it.mediaId)
             }
         }
     }

@@ -22,10 +22,10 @@ class ChannelDetailActivity : BaseModelActivity<SongViewModel>() {
     private var songList: MutableList<Song> = mutableListOf()
 
     private val title: String by lazy {
-        intent.getBundleExtra(BUNDLE_KEY).getString(TITLE) ?: ""
+        intent.getBundleExtra(BUNDLE_KEY)?.getString(TITLE) ?: ""
     }
     private val channelName: String by lazy {
-        intent.getBundleExtra(BUNDLE_KEY).getString(CHANNEL_NAME) ?: ""
+        intent.getBundleExtra(BUNDLE_KEY)?.getString(CHANNEL_NAME) ?: ""
     }
 
     private val adapter by lazy {
@@ -38,7 +38,7 @@ class ChannelDetailActivity : BaseModelActivity<SongViewModel>() {
         whiteTextTheme(color(R.color.colorAccent))
         topbar.apply {
             setTitle(title)
-            setOnTopBarClickListener { obj, pos ->
+            setOnTopBarClickListener { _, pos ->
                 if (pos == TopBar.Pos.LEFT) {
                     finish()
                 }

@@ -18,7 +18,7 @@ class RegisterActivity : BaseModelActivity<UserViewModel>() {
         whiteTextTheme(color(R.color.colorAccent))
         topbar.apply {
             setTitle("注册")
-            setOnTopBarClickListener { obj, pos ->
+            setOnTopBarClickListener { _, pos ->
                 if (pos == TopBar.Pos.LEFT) {
                     finish()
                 }
@@ -33,7 +33,7 @@ class RegisterActivity : BaseModelActivity<UserViewModel>() {
                 toast("长度不符")
                 return@setOnClickListener
             }
-            if (!etPwd.text.toString().equals(etConfirmPwd.text.toString())) {
+            if (etPwd.text.toString() != etConfirmPwd.text.toString()) {
                 toast("两次密码不一致")
                 return@setOnClickListener
             }

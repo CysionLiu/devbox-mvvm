@@ -20,7 +20,7 @@ import org.greenrobot.eventbus.EventBus
 class BlogEditorActivity : BaseModelActivity<BlogEditorViewModel>(){
 
     private val extra by lazy {
-        intent.getBundleExtra(BUNDLE_KEY)
+        intent.getBundleExtra(BUNDLE_KEY)?:Bundle()
     }
 
     private val title: String by lazy {
@@ -55,7 +55,7 @@ class BlogEditorActivity : BaseModelActivity<BlogEditorViewModel>(){
         viewModel.mLiveUpdateState.observe(this, Observer {
             if(it){
                 toast("更新成功")
-                sendBusEvent(CREATE_BLOG, blogId)
+                sendBusEvent(UPDATE_BLOG, blogId)
             }
         })
     }
@@ -93,11 +93,11 @@ class BlogEditorActivity : BaseModelActivity<BlogEditorViewModel>(){
             initElements(right = TopBar.ELEMENT.TEXT)
             setTitle("编辑")
             setTexts(if (type == 0) "发布" else "更新", TopBar.Pos.RIGHT)
-        }.setOnTopBarClickListener { obj, pos ->
+        }.setOnTopBarClickListener { _, pos ->
             if (pos == TopBar.Pos.LEFT) {
                 finish()
             } else if (pos == TopBar.Pos.RIGHT) {
-                if (etTitle.text.length < 1) {
+                if (etTitle.text.isEmpty()) {
                     toast("请输入标题")
                 } else {
                     if (type == 0) {
@@ -125,7 +125,7 @@ class BlogEditorActivity : BaseModelActivity<BlogEditorViewModel>(){
     }
 
     //发送eventbus事件，用于更新首页列表
-    fun sendBusEvent(tag: Int, msg: String) {
+    private fun sendBusEvent(tag: Int, msg: String) {
         EventBus.getDefault().post(BlogEvent(tag, msg))
     }
 

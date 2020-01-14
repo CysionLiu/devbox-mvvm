@@ -10,9 +10,8 @@ object BlogHelper {
 
     //根据id得到列表中的博客
     fun getBlog(blogid: String, datalist: MutableList<Blog>): Blog? {
-        var blog = null
         datalist.forEach {
-            if (it.blogId.equals(blogid)) {
+            if (it.blogId == blogid) {
                 return it
             }
         }
@@ -25,7 +24,7 @@ object BlogHelper {
         WeDialog.custom(src)
                 .layout(R.layout.dialog_comment)
                 .setWidthRatio(0.8f)
-                .show { df, dialogView, bundle ->
+                .show { df, dialogView, _ ->
                     dialogView.tv_cancel.setOnClickListener {
                         df.dismissAllowingStateLoss()
                     }

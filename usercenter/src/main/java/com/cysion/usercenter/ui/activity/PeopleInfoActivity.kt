@@ -42,7 +42,7 @@ class PeopleInfoActivity : BaseModelActivity<UserViewModel>() {
     override fun initData() {
         super.initData()
         val bundleExtra = intent.getBundleExtra(BUNDLE_KEY)
-        mUserId = bundleExtra.getString(USER_ID)?:""
+        mUserId = bundleExtra?.getString(USER_ID)?:""
         viewModel.getPeopleInfo(mapOf("userid" to mUserId))
     }
 
@@ -56,7 +56,7 @@ class PeopleInfoActivity : BaseModelActivity<UserViewModel>() {
     override fun onReceivedStateEvent(type: Int, msg: String) {
         multiView.showError()
     }
-    fun fillView() {
+    private fun fillView() {
         mPeopleInfo?.apply {
             tvNickname.text = nickname
             tvDesc.text = selfDesc

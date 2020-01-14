@@ -12,7 +12,7 @@ data class SongList(
 data class Song(
     val all_artist_id: String,
     val all_rate: String,
-    val artist: String,
+    val artist: String?,
     val artist_id: String,
     val charge: Int,
     val flow: Int,

@@ -8,9 +8,9 @@ import com.cysion.usercenter.net.UserCaller
 
 class SquareViewModel : BaseViewModel() {
 
-    val mLiveCarousel: MutableLiveData<MutableList<Carousel>> = MutableLiveData<MutableList<Carousel>>()
+    val mLiveCarousel: MutableLiveData<MutableList<Carousel>> = MutableLiveData()
 
-    val mLiveBlogs: MutableLiveData<MutableList<Blog>> = MutableLiveData<MutableList<Blog>>()
+    val mLiveBlogs= MutableLiveData<MutableList<Blog>>()
             .apply {
                 value = mutableListOf()
             }

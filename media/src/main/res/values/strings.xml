@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">media</string>
+    <string name="str_media_artist">作家:%s</string>
 </resources>

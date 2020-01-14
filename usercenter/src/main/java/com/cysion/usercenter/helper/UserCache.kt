@@ -8,7 +8,7 @@ import com.google.gson.Gson
 
 object UserCache {
 
-    const val USER_KEY = "user_key"
+    private const val USER_KEY = "user_key"
     var userId: String = ""
     var token: String = ""
     var userInfo: UserEntity? = null
@@ -35,7 +35,7 @@ object UserCache {
     //从缓存中加载
     fun fromCache() {
         val userinfo = ACache.get(Box.context).getAsString(USER_KEY)
-        var userInfo = Gson().fromjson<UserEntity>(userinfo)
+        val userInfo = Gson().fromjson<UserEntity>(userinfo)
         save(userInfo)
     }
 }

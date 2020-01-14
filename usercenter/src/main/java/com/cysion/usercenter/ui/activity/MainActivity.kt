@@ -56,7 +56,7 @@ class MainActivity : BaseModelActivity<NoViewModel>() {
     //初始化tab，设置图标和自定义布局，注意顺序和某些语句。
     private fun initTabs() {
         val icons = ListVals.getIcons()
-        for (i in 0 until tablayout.getTabCount()) {
+        for (i in 0 until tablayout.tabCount) {
             tablayout.getTabAt(i)!!.setIcon(icons[i])
             tablayout.getTabAt(i)!!.setCustomView(R.layout.tabmain_item)
         }

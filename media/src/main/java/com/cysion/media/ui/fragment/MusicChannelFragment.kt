@@ -32,12 +32,12 @@ class MusicChannelFragment : BaseModelFragment<ChannelViewModel>(){
     override fun initView() {
         rvChnList.layoutManager = GridLayoutManager(context, 2)
         rvChnList.adapter = adapter
-        adapter.setOnTypeClickListener { obj, position, flag ->
+        adapter.setOnTypeClickListener { obj, _, flag ->
             if (flag == ITEM_CLICK) {
                 val bundle = Bundle()
                 bundle.putString(TITLE, obj.name)
                 bundle.putString(CHANNEL_NAME, obj.ch_name)
-                context?.gotoActivity<ChannelDetailActivity>(BUNDLE_KEY, bundle)
+                context.gotoActivity<ChannelDetailActivity>(BUNDLE_KEY, bundle)
             }
         }
     }

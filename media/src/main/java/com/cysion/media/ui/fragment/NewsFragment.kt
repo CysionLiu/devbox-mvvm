@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_news.*
 class NewsFragment : BaseModelFragment<NewsViewModel>() {
 
     private var mdatalist: MutableList<NewsInfoEntity> = mutableListOf()
-    val adapter by lazy {
+    private val adapter by lazy {
         NewsAdapter(mdatalist, activity as Context)
     }
 
@@ -31,12 +31,12 @@ class NewsFragment : BaseModelFragment<NewsViewModel>() {
     override fun initView() {
         rvNewsList.layoutManager = LinearLayoutManager(activity)
         rvNewsList.adapter = adapter
-        adapter.setOnTypeClickListener { obj, position, flag ->
+        adapter.setOnTypeClickListener { obj, _, flag ->
             if (flag == ITEM_CLICK) {
                 val bundle = Bundle()
                 bundle.putString(TITLE, obj.title)
                 bundle.putString(LINK, obj.path)
-                context?.gotoActivity<NewsDetailActivity>(BUNDLE_KEY, bundle)
+                context.gotoActivity<NewsDetailActivity>(BUNDLE_KEY, bundle)
             }
         }
     }

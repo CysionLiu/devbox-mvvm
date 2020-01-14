@@ -31,7 +31,7 @@ class CollectActivitiy : BaseModelActivity<CollectPageViewModel>() {
         whiteTextTheme(color(R.color.colorAccent))
         topbar.apply {
             setTitle("我的收藏")
-            setOnTopBarClickListener { obj, pos ->
+            setOnTopBarClickListener { _, pos ->
                 if (pos == TopBar.Pos.LEFT) {
                     finish()
                 }
@@ -44,7 +44,7 @@ class CollectActivitiy : BaseModelActivity<CollectPageViewModel>() {
         rvBloglist.layoutManager = LinearLayoutManager(self)
         blogAdapter = BlogAdapter(mBlogs, self, BlogAdapter.COLLECT)
         rvBloglist.adapter = blogAdapter
-        blogAdapter.setOnTypeClickListener { obj, position, flag ->
+        blogAdapter.setOnTypeClickListener { obj, _, flag ->
             if (flag == ITEM_CLICK) {
                 BlogDetailActivity.start(self, null, obj.blogId)
             } else if (flag == BlogAdapter.DEL) {
@@ -65,9 +65,9 @@ class CollectActivitiy : BaseModelActivity<CollectPageViewModel>() {
                 initData()
             }
         })
-        viewModel.mLiveCollectList.observe(this, Observer {
+        viewModel.mLiveCollectList.observe(this, Observer {items->
             mBlogs.clear()
-            it.forEach {
+            items.forEach {
                 val tmp = Blog(
                         it.authorId, it.itemId, "", it.coverImg,
                         1, 0, "",

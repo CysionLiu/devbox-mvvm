@@ -102,11 +102,13 @@ class BlogDetailActivity : BaseModelActivity<BlogViewModel>() {
     override fun initData() {
         super.initData()
         val bundleExtra = intent.getBundleExtra(BUNDLE_KEY)
-        val tmp = bundleExtra.getSerializable(BLOG)
-        if (tmp != null) {
-            blog = tmp as Blog
+        bundleExtra?.run {
+            val tmp = bundleExtra.getSerializable(BLOG)
+            if (tmp != null) {
+                blog = tmp as Blog
+            }
+            mBlogId = bundleExtra.getString(BLOG_ID) ?: ""
         }
-        mBlogId = bundleExtra.getString(BLOG_ID) ?: ""
         //若传来空id，则blog必然不能为空
         if (TextUtils.isEmpty(mBlogId)) {
             mBlogId = blog?.blogId!!
@@ -130,7 +132,7 @@ class BlogDetailActivity : BaseModelActivity<BlogViewModel>() {
             Glide.with(self).load(icon)
                     .apply(RequestOptions.placeholderOf(R.mipmap.place_holder_big))
                     .into(ivIcon)
-            tvPride.text = "${prideCount}"
+            tvPride.text = "$prideCount"
             ivPride.isSelected = isPrided == 1
             ivCollect.isSelected = isCollected == 1
             tvCollect.text = if (isCollected == 1) "已收藏" else "收藏"
@@ -176,7 +178,7 @@ class BlogDetailActivity : BaseModelActivity<BlogViewModel>() {
     }
 
     //发送eventbus事件，用于更新首页列表
-    fun sendBusEvent(tag: Int, msg: String) {
+    private fun sendBusEvent(tag: Int, msg: String) {
         EventBus.getDefault().post(BlogEvent(tag, msg))
     }
 
