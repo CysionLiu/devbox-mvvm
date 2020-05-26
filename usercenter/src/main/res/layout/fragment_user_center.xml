@@ -8,7 +8,7 @@
 
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="240dp">
+            android:layout_height="280dp">
 
         <com.scwang.wave.MultiWaveHeader
                 android:id="@+id/waveHeader"
@@ -22,7 +22,7 @@
                 android:src="@mipmap/place_holder"
                 android:layout_width="80dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="60dp"
                 android:layout_height="80dp"/>
 
         <TextView

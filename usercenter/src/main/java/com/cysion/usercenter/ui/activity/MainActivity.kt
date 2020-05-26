@@ -5,7 +5,6 @@ import com.cysion.ktbox.base.BaseFragmentAdapter
 import com.cysion.ktbox.base.BaseModelActivity
 import com.cysion.ktbox.base.NoViewModel
 import com.cysion.ktbox.utils.darkTextTheme
-import com.cysion.ktbox.utils.whiteTextTheme
 import com.cysion.targetfun.WithPageChangeListener
 import com.cysion.uibox.toast.toast
 import com.cysion.usercenter.R
@@ -36,11 +35,11 @@ class MainActivity : BaseModelActivity<NoViewModel>() {
         vpContent.WithPageChangeListener{
             ifSelected {
                 when (it) {
-                    2 -> {
-                        whiteTextTheme(Box.color(R.color.dark))
+                    0 -> {
+//                        darkTextTheme(Box.color(R.color.white))
                     }
                     3 -> {
-                        whiteTextTheme(Box.color(R.color.colorAccent))
+//                        darkTextTheme(Box.color(R.color.white))
                     }
                     else -> {
                         darkTextTheme(Box.color(R.color.white))

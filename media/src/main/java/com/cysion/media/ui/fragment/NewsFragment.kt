@@ -17,6 +17,7 @@ import com.cysion.media.ui.activity.NewsDetailActivity
 import com.cysion.media.viewmodel.NewsViewModel
 import com.cysion.other.gotoActivity
 import com.cysion.uibox.toast.toast
+import com.jaeger.library.StatusBarUtil
 import kotlinx.android.synthetic.main.fragment_news.*
 
 class NewsFragment : BaseModelFragment<NewsViewModel>() {
@@ -29,6 +30,7 @@ class NewsFragment : BaseModelFragment<NewsViewModel>() {
     override fun getLayoutId(): Int = R.layout.fragment_news
 
     override fun initView() {
+        StatusBarUtil.setTranslucentForImageViewInFragment(activity,0,rvNewsList)
         rvNewsList.layoutManager = LinearLayoutManager(activity)
         rvNewsList.adapter = adapter
         adapter.setOnTypeClickListener { obj, _, flag ->

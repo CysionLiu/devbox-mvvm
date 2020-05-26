@@ -1,16 +1,20 @@
 package com.cysion.usercenter.ui.activity
 
+import android.content.Intent
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.cysion.ktbox.base.BaseModelActivity
+import com.cysion.ktbox.utils.useSingleMode
 import com.cysion.ktbox.utils.whiteTextTheme
+import com.cysion.other.clickWithLimit
 import com.cysion.other.color
 import com.cysion.uibox.bar.TopBar
 import com.cysion.uibox.toast.toast
 import com.cysion.usercenter.R
 import com.cysion.usercenter.helper.UserCache
 import com.cysion.usercenter.viewmodels.UserViewModel
+import com.lzy.imagepicker.ui.ImageGridActivity
 import kotlinx.android.synthetic.main.activity_userdetail.*
 
 class UserDetailActivity : BaseModelActivity<UserViewModel>() {
@@ -29,6 +33,10 @@ class UserDetailActivity : BaseModelActivity<UserViewModel>() {
         runOnUiThread {
             etNickname.setSelection(etNickname.text.length)
             etDesc.setSelection(if (etDesc.text.length > 1) etDesc.text.length else 0)
+        }
+        ivAvatar.clickWithLimit {
+            useSingleMode()
+            startActivityForResult(Intent(self, ImageGridActivity::class.java),100)
         }
     }
 

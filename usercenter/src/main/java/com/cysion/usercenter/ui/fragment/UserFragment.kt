@@ -16,6 +16,7 @@ import com.cysion.usercenter.ui.activity.UserBlogActivity
 import com.cysion.usercenter.ui.activity.UserDetailActivity
 import com.cysion.usercenter.viewmodels.UserViewModel
 import com.cysion.wedialog.WeDialog
+import com.jaeger.library.StatusBarUtil
 import kotlinx.android.synthetic.main.fragment_user_center.*
 import org.greenrobot.eventbus.EventBus
 
@@ -24,6 +25,7 @@ class UserFragment : BaseModelFragment<UserViewModel>() {
     override fun getLayoutId(): Int = R.layout.fragment_user_center
 
     override fun initView() {
+
         Glide.with(context).load(R.mipmap.place_holder)
                 .apply(RequestOptions.circleCropTransform())
                 .into(ivUserHead)
@@ -70,10 +72,14 @@ class UserFragment : BaseModelFragment<UserViewModel>() {
     override fun lazyLoad() {
         super.lazyLoad()
         viewModel.getUserInfo()
+        StatusBarUtil.setTranslucentForImageViewInFragment(activity,0,tvLogout)
+
     }
 
     override fun visibleAgain() {
         super.visibleAgain()
+        StatusBarUtil.setTranslucentForImageViewInFragment(activity,0,tvLogout)
+
         updateUserInfo()
     }
 

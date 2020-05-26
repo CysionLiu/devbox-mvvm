@@ -27,6 +27,7 @@ import com.cysion.usercenter.ui.activity.BlogDetailActivity
 import com.cysion.usercenter.ui.activity.BlogEditorActivity
 import com.cysion.usercenter.ui.activity.LoginActivity
 import com.cysion.usercenter.viewmodels.SquareViewModel
+import com.jaeger.library.StatusBarUtil
 import com.tmall.ultraviewpager.UltraViewPager
 import kotlinx.android.synthetic.main.fragment_square.*
 import org.greenrobot.eventbus.Subscribe
@@ -48,6 +49,7 @@ class SquareFragment : BaseModelFragment<SquareViewModel>() {
     override fun getLayoutId(): Int = R.layout.fragment_square
 
     override fun initView() {
+        StatusBarUtil.setTranslucentForImageViewInFragment(activity,0,fabBtn)
         initRefreshLayout()
         initViewPager()
         initRecyclerView()
@@ -81,6 +83,11 @@ class SquareFragment : BaseModelFragment<SquareViewModel>() {
         })
     }
 
+    override fun visibleAgain() {
+        super.visibleAgain()
+        StatusBarUtil.setTranslucentForImageViewInFragment(activity,0,fabBtn)
+
+    }
     //    初始化刷新控件
     private fun initRefreshLayout() {
         smartLayout.setEnableLoadMore(false)
